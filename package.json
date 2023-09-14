@@ -1,5 +1,15 @@
 {
-  "devDependencies": {
+  "name": "lrs-biblioteca",
+  "version": "1.0.0",
+  "description": "Site feito para um projeto integrador do SENAI, o principal objetivo é criar um sistema bibliotecário.",
+  "main": "index.js",
+  "dependencies": {
     "prettier": "^3.0.3"
-  }
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "MIT"
 }
