@@ -17,7 +17,7 @@ DEBUG = True
 
 CSRF_TRUSTED_ORIGINS = ['https://localhost:8000']
 
-ALLOWED_HOSTS = ['127.0.0.1', '.vercel.app']
+ALLOWED_HOSTS = []
 
 
 # Application definition
