@@ -1,7 +1,10 @@
 <body>
     {% if messages %}
         {% for message in messages %}
-            {{ message }}
+            <h3 style="color: blue;">{{ message }}</h3>
+            {% if form.errors %}
+             <h3 style="color: red;">{{ message }}</h3>
+            {% endif %}
         {% endfor %}
     {% endif %}
 
