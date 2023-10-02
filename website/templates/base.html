@@ -1,14 +1,19 @@
+{% load static %}
+
 <body>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title>LRS - Biblioteca</title>
+  
     {% if messages %}
         {% for message in messages %}
-            <h3 style="color: blue;">{{ message }}</h3>
             {% if form.errors %}
-             <h3 style="color: red;">{{ message }}</h3>
-            {% endif %}
+            {{message}}
+            {% else %}
+                {{message}}
+                {% endif %}
         {% endfor %}
     {% endif %}
 
-    <div style="color: orange;">
         {% block content %}
 
         {% endblock %}
