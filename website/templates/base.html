@@ -1,0 +1,21 @@
+{% load static %}
+
+<body>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title>LRS - Biblioteca</title>
+  
+    {% if messages %}
+        {% for message in messages %}
+            {% if form.errors %}
+            {{message}}
+            {% else %}
+                {{message}}
+                {% endif %}
+        {% endfor %}
+    {% endif %}
+
+        {% block content %}
+
+        {% endblock %}
+    </div>
+</body>

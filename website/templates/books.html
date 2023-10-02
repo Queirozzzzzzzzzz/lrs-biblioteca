@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    {%  for book in all_books %}
+        <ul>
+            <li>Título: {{book.title}}</li>
+            <li>Autor: {{book.author}}</li>
+            <li>Sinópse: {{book.synopsis}}</li>
+            <li>Data de lançamento: {{book.release_date}}</li>
+            <li>Disponibilidade: 
+                {% if book.is_available %}
+                    Disponível
+                {% else %}
+                    Indisponível
+                {% endif %}
+
+            </li>
+            <li>{% if book.front_cover %}
+                    <img src="{{book.front_cover.url}}" alt="Capa">
+                {% endif %}
+            </li>
+        </ul>
+        {% if user.is_staff %}
+            <a href="">Editar</a>
+        {% endif %}
+    {% endfor %}
+{% endblock %}

@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Cadastro</h1>
+    <div class="form-group">
+    <form method="POST" action="{% url 'booksignup' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Enviar</button>
+{% endblock %}
