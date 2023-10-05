@@ -25,6 +25,11 @@ def booksignup(request):
     form = BookRegistrationForm()
     return render(request, 'book-signup.html', {"form": form})
 
+@login_required(login_url='/membros/login')
 def books(request):
     all_books = Book.objects.all
     return render(request, "books.html", {"all_books":all_books})
+
+@login_required(login_url='/membros/login')
+def groupmembers(request):
+    return render(request, "group-members.html", {})

@@ -1,0 +1,163 @@
+
+
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
+    integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="{% static 'css/group-members.css' %}">
+</head>
+
+{% block content %}
+
+<body>
+  <a href="{% url 'home' %}">
+    <div class="back-home">
+      <img class="home" src="https://cdn-icons-png.flaticon.com/128/1946/1946488.png" width="60px" height="60px">
+    </div>
+  </a>
+  <img class="logo" src="./logo projeto.png" width="130px" height="130px">
+  <section>
+    <div class="container flow-content">
+      <h2 class="section-title">Equipe Out of Box</h2>
+      <ul role="list" class="grid">
+        <li>
+          <article class="card" data-visible="false">
+            <div class="card__front flow-content">
+              <img class="card__img mx-auto" src="./pjt1.jpeg" />
+              <div class="flow-content" data-spacing="sm">
+                <p class="card__name">Giovanna Ventura</p>
+                <p class="card__position">Graphic Designer</p>
+              </div>
+            </div>
+            <div class="card__back flow-content">
+              <p class="card__name">Giovanna Alves</p>
+              <q>Garota de 16 anos com cabelos médios lisos.</q>
+              <ul role="list" class="card__social flex-group">
+                <li>
+                  <a href="#">
+                    <i class="fa-brands fa-twitter "></i>
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <i class="fa-brands fa-linkedin "></i>
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <footer class="card__footer">
+              <button data-card-controller class="card__toggle">
+                <i class="fa-solid fa-plus card__toggle-icon"></i>
+              </button>
+            </footer>
+          </article>
+        </li>
+        <li>
+          <article class="card" data-visible="false">
+            <div class="card__front flow-content">
+              <img class="card__img mx-auto" src="desgraca ksksks/ptj4.jpeg" />
+              <div class="flow-content" data-spacing="sm">
+                <p class="card__name">Melyssa do Vale</p>
+                <p class="card__position">Graphic Designer</p>
+              </div>
+            </div>
+            <div class="card__back flow-content">
+              <p class="card__name">Melyssa Do Vale</p>
+              <q>Garota de 16 anos com cabelos médios ondulados.</q>
+              <ul role="list" class="card__social flex-group">
+                <li>
+                  <a href="#">
+                    <i class="fa-brands fa-twitter"></i>
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <i class="fa-brands fa-linkedin"></i>
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <footer class="card__footer">
+              <button data-card-controller class="card__toggle">
+                <i class="fa-solid fa-plus card__toggle-icon"></i>
+              </button>
+            </footer>
+          </article>
+        </li>
+        <li>
+          <article class="card" data-visible="false">
+            <div class="card__front flow-content">
+              <img class="card__img mx-auto" src="./pjt2.jpeg" />
+              <div class="flow-content" data-spacing="sm">
+                <p class="card__name">Antônio Monteiro</p>
+                <p class="card__position">Back-end Developer</p>
+              </div>
+            </div>
+            <div class="card__back flow-content">
+              <p class="card__name">Antônio Monteiro Mazzucca</p>
+              <q>Garoto de 16 anos com cabelos curtos lisos.</q>
+              <ul role="list" class="card__social flex-group">
+                <li>
+                  <a href="#">
+                    <i class="fa-brands fa-twitter"></i>
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <i class="fa-brands fa-linkedin "></i>
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <footer class="card__footer">
+              <button data-card-controller class="card__toggle">
+                <i class="fa-solid fa-plus card__toggle-icon"></i>
+              </button>
+            </footer>
+          </article>
+        </li>
+        <li>
+          <article class="card" data-visible="false">
+            <div class="card__front flow-content">
+              <img class="card__img mx-auto" src="./ptj3.jpeg" />
+              <div class="flow-content" data-spacing="sm">
+                <p class="card__name">Vinicius Queiroz</p>
+                <p class="card__position">Back-End Developer</p>
+              </div>
+            </div>
+            <div class="card__back flow-content">
+              <p class="card__name">Vinicius Queiroz</p>
+              <q>Garoto de 17 anos com cabelos curtos do tipo crespo.</q>
+              <ul role="list" class="card__social flex-group">
+                <li>
+                  <a href="#">
+                    <i class="fa-brands fa-twitter"></i>
+                  </a>
+                </li>
+                <li>
+                  <a href="#">
+                    <i class="fa-brands fa-linkedin "></i>
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <footer class="card__footer">
+              <button data-card-controller class="card__toggle">
+                <i class="fa-solid fa-plus card__toggle-icon"></i>
+              </button>
+            </footer>
+          </article>
+        </li>
+      </ul>
+    </div>
+  </section>
+  <script src="{% static 'js/group-members.js' %}"></script>
+</body>
+{% endblock %}
+
+</html>

@@ -2,13 +2,6 @@
 
 {% block content %}
 
-    <h2>Seja bem-vindo(a) {{user.username}}</h2>
-
-    {% if user.is_staff %}
-        <a href="{% url 'booksignup' %}">Cadastrar Livros</a>
-    {% endif %}
-
-    <a href="{% url 'books' %}">Livros</a>
-    <a href="{% url 'signout' %}">Sair</a>
+    <h2 style="margin-left: 5%;">Seja bem-vindo(a) {{user.username}}</h2>
 
 {% endblock %}

@@ -9,7 +9,7 @@
     {% if messages %}
         {% for message in messages %}
             {% if form.errors %}
-            {{message}}
+                {{message}}
             {% else %}
                 {{message}}
                 {% endif %}
@@ -50,7 +50,7 @@
                 </a>
             </li>
             <li class="item-menu">
-                <a href="membros.html">
+                <a href="{% url 'groupmembers' %}">
                     <span class="icon"><i class="bi bi-person-circle"></i></span>
                     <span class="txt-link">Sobre nós</span>
                 </a>
@@ -59,7 +59,7 @@
             <li class="item-menu">
                 <a href="{% url 'booksignup' %}">
                     <span class="icon"><i class="bi bi-book"></i></span>
-                    <span class="txt-link">Cadastrar Livros ai meu deus ta chovendo mt</span>
+                    <span class="txt-link">Cadastrar Livros</span>
                 </a>
             </li>
             {% endif %}

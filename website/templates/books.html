@@ -1,25 +1,28 @@
 {% extends 'base.html' %}
 
+{% load static %}
+
 {% block content %}
     <!--CABEÇALHO COM BARRA DE PESQUISA-->
 
     <ul class="cabecalho"> 
 
-        <li><img class="logo" src="./logo-senai.jpg" width="135px" height="50px"></button></li>
+        <li><img class="logo" src="{% static 'images/senai-logo-verde.png' %}" width="135px" height="50px" style="top: 0.5em;"></button></li>
         <meta charset="UTF-8">
         <div class="search-box">
-            <input type="text" class="search-text" placeholder="pesquisar livro..." id="browser">
+            <input type="text" class="search-text" placeholder="Pesquisar livro..." id="browser">
 
 
             <a class="search-btn">
                 <div class="back-loupe-white">
-                    <img class="loupe-white" src="./loupe-white.svg" alt="" width="25px" height="25px">
+                    <img class="loupe-white" src="{% static 'svg/search.svg' %}" alt="" width="25px" height="25px">
                 </div>
             </a>
 
         </div>
     </ul>
 
+        {% if user.is_staff %}
         <!-- PERFIL BIBLIOTECARIO(A) -->
         <div class="information">
 
@@ -30,6 +33,24 @@
     
             <button id="cadastro" class="cadastro">Cadastrar empréstimos</button>
     
+         </div>
+        {% endif %}
+
+    <!-- Modal -->
+    <div id="id_book-modal" class="book-modal">
+
+        <!-- Conteúdo do Modal -->
+        <div class="book-modal-content">
+        <span class="close">&times;</span>
+        <ul>
+            <li id="book-modal-title"></li>
+            <li id="book-modal-author"></li>
+            <li id="book-modal-synopsis"></li>
+            <li id="book-modal-release_date"></li>
+            <li id="book-modal-is_available"></li>
+        </ul>
+        </div>
+  
     </div>
 
     <!-- LIVROS -->
@@ -41,7 +62,7 @@
             {% for book in all_books %}
                 {% if book.is_available %}
                     <article class="card">
-                        <figure>
+                        <figure onclick="OpenBookModal('{{book.title}}', '{{book.author}}', '{{book.synopsis}}', '{{book.release_date}}', '{{book.is_available}}')">
                             {% if book.front_cover %}
                             <img src="{{book.front_cover.url}}" alt="Capa">
                             {% else %}
@@ -49,10 +70,9 @@
                             {% endif %}
                         </figure>
                     </article>
-                        {% else %}
-                        
                 {% endif %}
             {% endfor %}
         </section>
     </span>
+    <script src="{% static 'js/book.js' %}"></script>
 {% endblock %}

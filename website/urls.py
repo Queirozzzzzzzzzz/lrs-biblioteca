@@ -9,4 +9,5 @@ urlpatterns = [
     path('membros/', include('members.urls')),
     path('cadastro-livros', views.booksignup, name="booksignup"),
     path('livros/', views.books, name="books"),
+    path('equipe/', views.groupmembers, name="groupmembers"),
 ]
