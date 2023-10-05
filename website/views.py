@@ -1,8 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
 from .forms import BookRegistrationForm
 from .models import Book
+from django.contrib import messages
 
 #Funções
 
@@ -19,7 +20,7 @@ def booksignup(request):
         form = BookRegistrationForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
-            return render(request, 'book-signup.html', {})
+            return redirect('books')
     
     form = BookRegistrationForm()
     return render(request, 'book-signup.html', {"form": form})

@@ -1,27 +1,58 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    {%  for book in all_books %}
-        <ul>
-            <li>Título: {{book.title}}</li>
-            <li>Autor: {{book.author}}</li>
-            <li>Sinópse: {{book.synopsis}}</li>
-            <li>Data de lançamento: {{book.release_date}}</li>
-            <li>Disponibilidade: 
-                {% if book.is_available %}
-                    Disponível
-                {% else %}
-                    Indisponível
-                {% endif %}
+    <!--CABEÇALHO COM BARRA DE PESQUISA-->
 
-            </li>
-            <li>{% if book.front_cover %}
-                    <img src="{{book.front_cover.url}}" alt="Capa">
+    <ul class="cabecalho"> 
+
+        <li><img class="logo" src="./logo-senai.jpg" width="135px" height="50px"></button></li>
+        <meta charset="UTF-8">
+        <div class="search-box">
+            <input type="text" class="search-text" placeholder="pesquisar livro..." id="browser">
+
+
+            <a class="search-btn">
+                <div class="back-loupe-white">
+                    <img class="loupe-white" src="./loupe-white.svg" alt="" width="25px" height="25px">
+                </div>
+            </a>
+
+        </div>
+    </ul>
+
+        <!-- PERFIL BIBLIOTECARIO(A) -->
+        <div class="information">
+
+            <h3 class="title-profile">Bem-vindo(a)!</h3>
+    
+            <div class="circle"><img src="https://cdn-icons-png.flaticon.com/128/2310/2310277.png" class="profile"
+                    width="100px" height="100px"></div>
+    
+            <button id="cadastro" class="cadastro">Cadastrar empréstimos</button>
+    
+    </div>
+
+    <!-- LIVROS -->
+
+    <span class="background">
+
+        <section class="gallery">
+            <h3 class="secao">Livros disponíveis</h3>
+            {% for book in all_books %}
+                {% if book.is_available %}
+                    <article class="card">
+                        <figure>
+                            {% if book.front_cover %}
+                            <img src="{{book.front_cover.url}}" alt="Capa">
+                            {% else %}
+                            <img src="" alt="Capa padrão">
+                            {% endif %}
+                        </figure>
+                    </article>
+                        {% else %}
+                        
                 {% endif %}
-            </li>
-        </ul>
-        {% if user.is_staff %}
-            <a href="">Editar</a>
-        {% endif %}
-    {% endfor %}
+            {% endfor %}
+        </section>
+    </span>
 {% endblock %}

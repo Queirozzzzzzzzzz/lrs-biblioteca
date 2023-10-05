@@ -1,12 +1,20 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:300,400,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fira+Sans:ital@1&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@1,900&family=Roboto:ital,wght@1,700;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Gabarito:wght@500&family=Young+Serif&display=swap');
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
+
 body {
     font-family: 'Open Sans', sans-serif;
 }
+
+/* LOGIN */
+
 .container {
     display: flex;
     justify-content: center;
@@ -540,10 +548,445 @@ input:-webkit-autofill
 
 @media screen and (max-width: 1280px) {
     .content {
-        height: 75%;
+        height: 80%;
     }
+}
+
+/* Navbar */
+
+nav {
+    z-index: 15;
+}
+
+nav.menu-lateral{
+    width: 80px;
+    height: 100vh;
+    background-color: #7b9c69;
+    /* ajustar a posição dos icones */
+    padding: 60px 0 60px 1%;
+    box-shadow: 3px 0 0 #88aac7;
+
+    position: fixed;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+    transition: .5s;
+    z-index: 10;
+}
+
+nav.menu-lateral.expandir{
+    width: 300px;
+}
+
+.btn-expandir{
+    width: 100%;
+    padding-left: 10px;
+    padding-bottom: 100px;
+    position: absolute;
+    line-height: 20px 20px;
+    
+    
+
+}
+
+.btn-expandir > i{
+    color: rgb(255, 255, 255);
+    font-size: 30px;
+    cursor: pointer;
+    position: absolute;
+    top: -30px;
+    padding-bottom: 10%;
+}
+
+ul item-menu{
+    height: 100%;
+    list-style-type: none;
+    align-items: stretch;
+}
+
+ul li.item-menu{
+    transition: .2s;
+}
+
+ul li.ativo{
+    background-color: #88aac7;
+    border-bottom-left-radius: 10px;
+    border-top-left-radius: 10px;
+    padding-bottom: 3%;
+
+}
+
+ul li.item-menu:hover{
+    background: #88aac7;
+    padding: 2px;
+    cursor: pointer;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+}
+
+ul li.item-menu a{
+    color: #fff;
+    text-decoration: none;
+    font-size: 20px;
+    padding: 20px 2.5%;
+    display: flex;
+    margin-bottom: 15px;
+    line-height: 40px;
+}
+
+ul li.item-menu a .txt-link{
+    margin-left: 30px;
+    transition: .5s;
+    opacity: 0;
+}
+
+nav.menu-lateral.expandir .txt-link{
+    margin-left: 40px;
+    opacity: 1;
+}
+
+ul li.item-menu a .icon > i{
+    font-size: 30px;
+    margin-left: 10px;
+}
+
+/* Livros */
+:root {
+    background: #99c28b;
+    --background-card: #e0d5b3;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box; 
+     
+}
+
+.background {
+    /* background-color: var(--background); */
+    display: grid;
+    place-items: center;
+    height: 40vh;
+    padding-top: 50px;
+    
+}
+
+.secao{
+    position: absolute;
+    top: -26%;
+    left: -10%;
+    font-family: Young Serif;
+    color: rgb(55, 57, 86);
+    font-style: italic;
+    text-decoration: underline;
+    
+}
+
+.gallery {
+    display: flex;
+    left: calc(50% - 300px);
+    position: absolute;
+    left: 20%;
+}
+
+.card {
+    position: relative;
+    left: 0px;
+    width: 110px;
+    height: 160px;
+    background-color: var(--background-card);
+    border-radius: 8px;
+    transition: 1s ease-in-out;
+    overflow: hidden;
+    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.5);
+}
+
+.card:not(:first-child) {
+    margin-left: -45px;
+}
+
+.card:hover {
+    transform: translateY(-16px);
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.card:hover ~ .card {
+    left: 55px;
+}
+
+.card img {
+    height: 160px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.to-side{
+    z-index: 11;
+    position: absolute;
+    top: 33%;
+    right: -5%;
+    cursor: pointer;
 }
 
 
 
 
+
+/*  CABEÇALHO */
+
+.logo{
+    border-radius: 5px;
+    position: absolute;
+    right: 5%;
+    top: 2%;
+}
+.cabecalho{
+    font-family: "Chivo Mono", monospace;
+    display: flex;
+    gap: 78px;
+    padding: 34px;
+    background-color: bisque;
+}
+
+ul li{
+    list-style: none;
+}
+
+ul li a {
+    font-size: 20px;
+    font-weight: 550;
+    text-decoration: none;
+    color: rgb(147, 108, 63);
+    padding: 15px;
+    align-self: flex-start;
+}
+
+
+
+
+
+
+
+
+
+/* Barra de pesquisa */
+
+/* barra em geral */
+.search-box{
+    background: #fff;
+    height: 50px;
+    border-radius: 40px;
+    padding: 10px;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: right;
+    position: absolute;
+    right: 35%;
+    top: 10px;
+
+}
+
+/* texto (formatação) */
+.search-text{
+    background: none;
+    border: 0;
+    outline: 0;
+
+    font-size: 16px;
+    width: 0;
+
+    padding: 0;
+
+}
+
+/* tamanho da caixa de texto */
+.search-text{ 
+    width: 500px;
+    padding-left: 20px;
+}
+
+
+/* fundo verde da lupa */
+.back-loupe-white{
+    border-top-right-radius: 50px;
+    border-bottom-right-radius: 50px;
+    width: 43px;
+    height: 50px;
+    background: #94cc74;
+    position: absolute;
+    top: 0%;
+    right: -2%;
+
+    padding: 0%; 
+}
+
+/* espaçamento da lupa */
+.loupe-white{
+    margin: 10px 5px;
+    
+}
+
+/* Formulário */
+.centered-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    background-color: #e0d5b3;
+    padding: 1em;
+    border-radius: 1em;
+}
+
+.form {
+    flex: 1; 
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.form-group input, textarea {
+    border: none;
+    outline: none;
+    border-radius: 1em;
+    padding: 1em;
+    background-color: white;
+    margin: .3em;
+}
+
+#right-info {
+    max-width: 100%;
+    height: auto;
+    margin-left: 20px;
+}
+
+/* SINOPSE DOS LIVROS */
+.resumo-box {
+
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 35%;
+    height: 80%;
+    background: rgb(47, 48, 83);
+    z-index: 9;
+    
+
+    /* transparencia */
+    filter: alpha(opacity=50);
+    opacity: 0.8;
+    -moz-opacity: 0.8;
+    -webkit-opacity: 0.8;
+
+    border-radius: 25px;
+}
+
+/* .sinopse::first-letter{
+    ESTILIZAR A PRIMEIRA LETRA
+    font-size: 2rem;
+    float: left;
+    margin: 3px;
+    
+} */
+
+.star{
+    opacity: 1;
+    position: absolute;
+    left: 35%;
+}
+
+.avaliacao-box{
+    height: 50px;
+    width: 100px;
+    color: #fff;
+}
+
+.sinopse {
+    text-align: left;
+    color: #fff;
+    padding: 30px;
+}
+
+.título {
+    text-align: center;
+    color: #fff;
+    padding: 30px;
+}
+
+/* PERFIL BIBLIOTECARIO(A) */
+
+.information{
+    width: 25%;
+    height: 65%;
+    border-radius: 15px;
+
+    /* posição */
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+
+
+    background-color: #6f7fac;
+    z-index: 10;
+    
+}
+
+.title-profile{
+    padding-left: 20px;
+    padding-top: 20px;
+    color: #fff;
+}
+
+.profile{
+    position: absolute;
+    right: 18%;
+    top: 10%;
+}
+
+.cadastro{
+    position: absolute;
+    top: 75%;
+    right: 27%;
+
+    width: 150px;
+    height: 50px;
+
+    color: #fff;
+    padding: 8px 22px;
+    border-radius: 10px;
+    background: #323099;
+
+
+    cursor: pointer;
+    border: 0;
+    outline: 0;
+}
+
+
+.cadastro::before{
+    content: 'Bibliotecário(a)';
+    position: absolute;
+    top: -90px;
+    right: 12%;
+    font-size: large;
+
+}
+
+.circle{
+    background-color: #f8f3ec;
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+    position: absolute;
+    right: 30%;
+    top: 15%;
+}

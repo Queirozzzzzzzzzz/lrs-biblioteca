@@ -20,7 +20,6 @@
                     </li>
                     <li>
                         <input type="date" name="release_date" required="" id="id_release_date" placeholder="Data de lançamento">
-                        <label for="id_release_date">Data de Lançamento</label>
                     </li>
                     <li>
                         <input type="checkbox" name="is_available" id="id_is_available">
@@ -32,6 +31,7 @@
                 </ul>
             <button type="submit">Enviar</button>
         </form>               
+        <img id="right-info" class="innerdivs" src="{{ book.front_cover.url }}" alt="Capa padrão">
     </div>
 </div>
 </body>
