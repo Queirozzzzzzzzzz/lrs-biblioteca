@@ -1,5 +1,3 @@
-
-
 {% load static %}
 
 <!DOCTYPE html>
@@ -17,10 +15,10 @@
 <body>
   <a href="{% url 'home' %}">
     <div class="back-home">
-      <img class="home" src="https://cdn-icons-png.flaticon.com/128/1946/1946488.png" width="60px" height="60px">
+      <img class="home" src="https://cdn-icons-png.flaticon.com/128/1946/1946488.png" width="30px" height="30px">
     </div>
   </a>
-  <img class="logo" src="./logo projeto.png" width="130px" height="130px">
+  <img class="logo" src="{% static 'images/project-logo.png' %}" width="130px" height="130px">
   <section>
     <div class="container flow-content">
       <h2 class="section-title">Equipe Out of Box</h2>
@@ -28,7 +26,7 @@
         <li>
           <article class="card" data-visible="false">
             <div class="card__front flow-content">
-              <img class="card__img mx-auto" src="./pjt1.jpeg" />
+              <img class="card__img mx-auto" src="{% static 'images/foto1.jpeg' %}" />
               <div class="flow-content" data-spacing="sm">
                 <p class="card__name">Giovanna Ventura</p>
                 <p class="card__position">Graphic Designer</p>
@@ -36,7 +34,7 @@
             </div>
             <div class="card__back flow-content">
               <p class="card__name">Giovanna Alves</p>
-              <q>Garota de 16 anos com cabelos médios lisos.</q>
+              <q>Responável pelo design gráfico do site e experiência do.</q>
               <ul role="list" class="card__social flex-group">
                 <li>
                   <a href="#">
@@ -60,7 +58,7 @@
         <li>
           <article class="card" data-visible="false">
             <div class="card__front flow-content">
-              <img class="card__img mx-auto" src="desgraca ksksks/ptj4.jpeg" />
+              <img class="card__img mx-auto" src="{% static 'images/foto4.jpeg' %}" />
               <div class="flow-content" data-spacing="sm">
                 <p class="card__name">Melyssa do Vale</p>
                 <p class="card__position">Graphic Designer</p>
@@ -68,7 +66,7 @@
             </div>
             <div class="card__back flow-content">
               <p class="card__name">Melyssa Do Vale</p>
-              <q>Garota de 16 anos com cabelos médios ondulados.</q>
+              <q>Responsável pela documentação e da identidade da impresa.</q>
               <ul role="list" class="card__social flex-group">
                 <li>
                   <a href="#">
@@ -92,7 +90,7 @@
         <li>
           <article class="card" data-visible="false">
             <div class="card__front flow-content">
-              <img class="card__img mx-auto" src="./pjt2.jpeg" />
+              <img class="card__img mx-auto" src="{% static 'images/foto2.jpeg' %}" />
               <div class="flow-content" data-spacing="sm">
                 <p class="card__name">Antônio Monteiro</p>
                 <p class="card__position">Back-end Developer</p>
@@ -100,7 +98,7 @@
             </div>
             <div class="card__back flow-content">
               <p class="card__name">Antônio Monteiro Mazzucca</p>
-              <q>Garoto de 16 anos com cabelos curtos lisos.</q>
+              <q>Responsável pelo back-end.</q>
               <ul role="list" class="card__social flex-group">
                 <li>
                   <a href="#">
@@ -124,7 +122,7 @@
         <li>
           <article class="card" data-visible="false">
             <div class="card__front flow-content">
-              <img class="card__img mx-auto" src="./ptj3.jpeg" />
+              <img class="card__img mx-auto" src="{% static 'images/foto3.jpeg' %}" />
               <div class="flow-content" data-spacing="sm">
                 <p class="card__name">Vinicius Queiroz</p>
                 <p class="card__position">Back-End Developer</p>
@@ -132,7 +130,7 @@
             </div>
             <div class="card__back flow-content">
               <p class="card__name">Vinicius Queiroz</p>
-              <q>Garoto de 17 anos com cabelos curtos do tipo crespo.</q>
+              <q>Responsável pelo back-end.</q>
               <ul role="list" class="card__social flex-group">
                 <li>
                   <a href="#">
@@ -158,6 +156,7 @@
   </section>
   <script src="{% static 'js/group-members.js' %}"></script>
 </body>
+
 {% endblock %}
 
 </html>

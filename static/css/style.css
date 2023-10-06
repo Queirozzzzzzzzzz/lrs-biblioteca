@@ -231,13 +231,13 @@ input:-webkit-autofill {
   border-bottom-left-radius: 0;
   border-top-right-radius: 15px;
   border-bottom-right-radius: 15px;
-  animation: slidein 1.3s; /*MODIFIQUEI DE 3s PARA 1.3s*/
+  animation: slidein 1.3s; 
 
   z-index: 12;
 }
 
 .sign-up-js .content::before {
-  animation: slideout 1.3s; /*MODIFIQUEI DE 3s PARA 1.3s*/
+  animation: slideout 1.3s; 
 
   z-index: 12;
 }
@@ -259,13 +259,13 @@ input:-webkit-autofill {
 .sign-in-js .first-content .second-column {
   z-index: -1;
   position: relative;
-  animation: deslocamentoEsq 1.3s; /*MODIFIQUEI DE 3s PARA 1.3s*/
+  animation: deslocamentoEsq 1.3s; 
 }
 
 .sign-up-js .second-content .second-column {
   position: relative;
   z-index: -1;
-  animation: deslocamentoDir 1.3s; /*MODIFIQUEI DE 3s PARA 1.3s*/
+  animation: deslocamentoDir 1.3s; 
 }
 
 /*ANIMAÇÃOO CSS PARA O CONTEÚDO*/
@@ -280,13 +280,13 @@ input:-webkit-autofill {
   25% {
     left: -80px;
     opacity: 0.5;
-    /* z-index: 12; NÃO HÁ NECESSIDADE */
+
   }
 
   50% {
     left: -100px;
     opacity: 0.2;
-    /* z-index: 12; NÃO HÁ NECESSIDADE */
+
   }
 
   to {
@@ -421,13 +421,13 @@ input:-webkit-autofill {
     25% {
       top: -80px;
       opacity: 0.5;
-      /* z-index: 12; NÃO HÁ NECESSIDADE */
+      
     }
 
     50% {
       top: -100px;
       opacity: 0.2;
-      /* z-index: 12; NÃO HÁ NECESSIDADE */
+
     }
 
     to {
@@ -445,13 +445,12 @@ input:-webkit-autofill {
 
     25% {
       top: 80px;
-      /* z-index: 12;  NÃO HÁ NECESSIDADE*/
+
     }
 
     50% {
       top: 100px;
-      /* z-index: 12; NÃO HÁ NECESSIDADE*/
-      /* background-color: yellow;*/
+      
     }
 
     to {
@@ -544,7 +543,7 @@ nav.menu-lateral {
   height: 100vh;
   background-color: #7b9c69;
   /* ajustar a posição dos icones */
-  padding: 60px 0 60px 1%;
+  padding: 40px 0 40px 1%;
   box-shadow: 3px 0 0 #88aac7;
 
   position: fixed;
@@ -574,6 +573,10 @@ nav.menu-lateral.expandir {
   position: absolute;
   top: -30px;
   padding-bottom: 10%;
+}
+
+ul {
+  list-style-type: none;
 }
 
 ul item-menu {
@@ -607,7 +610,6 @@ ul li.item-menu a {
   font-size: 20px;
   padding: 20px 2.5%;
   display: flex;
-  margin-bottom: 15px;
   line-height: 40px;
 }
 
@@ -627,167 +629,7 @@ ul li.item-menu a .icon > i {
   margin-left: 10px;
 }
 
-/* Livros */
-:root {
-  background: #99c28b;
-  --background-card: #e0d5b3;
-}
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-.background {
-  /* background-color: var(--background); */
-  display: grid;
-  place-items: center;
-  height: 40vh;
-  padding-top: 50px;
-}
-
-.secao {
-  position: absolute;
-  top: -26%;
-  left: -10%;
-  font-family: Young Serif;
-  color: rgb(55, 57, 86);
-  font-style: italic;
-  text-decoration: underline;
-}
-
-.gallery {
-  display: flex;
-  left: calc(50% - 300px);
-  position: absolute;
-  left: 20%;
-}
-
-.card {
-  position: relative;
-  left: 0px;
-  width: 110px;
-  height: 160px;
-  background-color: var(--background-card);
-  border-radius: 8px;
-  transition: 1s ease-in-out;
-  overflow: hidden;
-  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.5);
-}
-
-.card:not(:first-child) {
-  margin-left: -45px;
-}
-
-.card:hover {
-  transform: translateY(-16px);
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.card:hover ~ .card {
-  left: 55px;
-}
-
-.card img {
-  height: 160px;
-  object-fit: cover;
-  border-radius: 4px;
-}
-
-.to-side {
-  z-index: 11;
-  position: absolute;
-  top: 33%;
-  right: -5%;
-  cursor: pointer;
-}
-
-/*  CABEÇALHO */
-
-.logo {
-  border-radius: 5px;
-  position: absolute;
-  right: 5%;
-  top: 2%;
-}
-.cabecalho {
-  font-family: "Chivo Mono", monospace;
-  display: flex;
-  gap: 78px;
-  padding: 34px;
-  background-color: bisque;
-}
-
-ul li {
-  list-style: none;
-}
-
-ul li a {
-  font-size: 20px;
-  font-weight: 550;
-  text-decoration: none;
-  color: rgb(147, 108, 63);
-  padding: 15px;
-  align-self: flex-start;
-}
-
-/* Barra de pesquisa */
-
-/* barra em geral */
-.search-box {
-  background: #fff;
-  height: 50px;
-  border-radius: 40px;
-  padding: 10px;
-
-  display: flex;
-  justify-content: space-between;
-  align-items: right;
-  position: absolute;
-  right: 35%;
-  top: 10px;
-}
-
-/* texto (formatação) */
-.search-text {
-  background: none;
-  border: 0;
-  outline: 0;
-
-  font-size: 16px;
-  width: 0;
-
-  padding: 0;
-}
-
-/* tamanho da caixa de texto */
-.search-text {
-  width: 500px;
-  padding-left: 20px;
-}
-
-/* fundo verde da lupa */
-.back-loupe-white {
-  border-top-right-radius: 50px;
-  border-bottom-right-radius: 50px;
-  width: 43px;
-  height: 50px;
-  background: #94cc74;
-  position: absolute;
-  top: 0%;
-  right: -2%;
-
-  padding: 0%;
-}
-
-/* espaçamento da lupa */
-.loupe-white {
-  margin: 10px 5px;
-}
-
-/* Formulário */
+/* FORMULÁRIO */
 .centered-container {
   display: flex;
   justify-content: center;
@@ -839,63 +681,249 @@ button {
   margin-left: 20px;
 }
 
-/* SINOPSE DOS LIVROS */
-.resumo-box {
+/* MODAL LIVROS */
+
+.book-modal {
+  display: none;
+  position: fixed;
+  z-index: 3;
+  left: 25%;
+  top: 0;
+  width: 50%;
+  height: 100%;
+  overflow: auto;
+  z-index: 15;
+}
+
+.book-modal-content {
+  background-color: #fefefe;
+  margin: 10% auto;
+  width: 100%;
+  height: 75%;
+  border-radius: 15em;
+}
+
+.book-modal-content .form-group{
+  height: 100%;
+  width: 100%;
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 40px;
+  font-weight: bold;
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 35%;
-  height: 80%;
-  background: rgb(47, 48, 83);
-  z-index: 9;
-
-  /* transparencia */
-  filter: alpha(opacity=50);
-  opacity: 0.8;
-  -moz-opacity: 0.8;
-  -webkit-opacity: 0.8;
-
-  border-radius: 25px;
+  top: 10%;
+  left: 95%;
 }
 
-/* .sinopse::first-letter{
-    ESTILIZAR A PRIMEIRA LETRA
-    font-size: 2rem;
-    float: left;
-    margin: 3px;
-    
-} */
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
 
-.star {
-  opacity: 1;
+:root {
+  background: #99c28b;
+  --background-card: #e0d5b3;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+
+@media screen and (max-width: 1920px) {
+  .information {
+      
+  }
+}
+
+@media screen and (max-width: 1920px) {
+  .circle {
+      right: 10%;
+  }
+}
+
+@media screen and (max-device-width: 1920px) {
+  .itens{
+      padding-bottom: 10%;
+  }
+}
+
+
+/* Livros */
+
+/* posicionamento na página */
+.background {
+  display: grid;
+  place-items: center;
+  height: 40vh;
+  padding-top: 20px;
+  
+}
+
+/* titulos das seções */
+.secao{
   position: absolute;
-  left: 35%;
+  top: -26%;
+  left: -10%;
+  font-family: Young Serif;
+  color: rgb(55, 57, 86);
+  font-style: italic;
+  text-decoration: underline;
+  
 }
 
-.avaliacao-box {
-  height: 50px;
-  width: 100px;
-  color: #fff;
+/* seção */
+.gallery {
+  display: flex;
+  position: relative;
+  right: 10%;
 }
 
-.sinopse {
-  text-align: left;
-  color: #fff;
-  padding: 30px;
+/* livro */
+.card {
+  position: relative;
+  left: 0px;
+
+  width: 110px;
+  height: 160px;
+
+  background-color: var(--background-card);
+  box-shadow: 0 5px 12px rgba(0, 0, 0, 0.5);
+  border-radius: 8px;
+
+  /* trancição de subida dos livros */
+  transition: 1s ease-in-out;
+  overflow: hidden;
 }
 
-.título {
-  text-align: center;
-  color: #fff;
-  padding: 30px;
+/* quando os livros não forem ativados */
+.card:not(:first-child) {
+  margin-left: -45px;
+}
+
+/* quando forem ativados */
+.card:hover {
+
+  /* faz o livro subir */
+  transform: translateY(-16px);
+
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* faz os outros livros se afastarem */
+.card:hover ~ .card {
+  left: 55px;
+}
+
+/* posicionamento da capa do livro */
+.card img {
+  height: 160px;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+/* botãozinho de passar pro lado */
+.to-side{
+  z-index: 11;
+  position: absolute;
+  top: 25%;
+  right: -5%;
+  cursor: pointer;
+}
+
+
+
+
+
+/*  CABEÇALHO */
+
+/* "senai" */
+.logo{
+  border-radius: 5px;
+  position: absolute;
+  right: 5%;
+  top: 1%;
+}
+
+
+.cabecalho{
+  display: flex;
+  gap: 78px;
+  padding: 34px;
+  background-color: bisque;
+}
+
+
+
+/* Barra de pesquisa */
+
+/* barra em geral */
+.search-box{
+  background: #fff;
+
+  height: 45px;
+  border-radius: 40px;
+  padding: 3px;
+
+  /* posicionamento do texto na caixa  */
+  display: flex;
+  
+  position: absolute;
+  right: 35%;
+  top: 10px;
+
+}
+
+/* barra de pesquisa e place-holder */
+.search-text{
+  /* tira a formatação pronta de html */
+  background: none;
+  border: 0;
+  outline: 0;
+
+  font-size: 16px;
+}
+
+/* tamanho da barra de pesquisa */
+.search-text{ 
+  width: 500px;
+  padding-left: 20px;
+}
+
+
+/* fundo verde da lupa */
+.back-loupe-white{
+  background: #94cc74;
+
+  width: 43px;
+
+  border-top-right-radius: 50px;
+  border-bottom-right-radius: 50px;
+  
+  position: absolute;
+  top: 0%;
+  right: -2%;
+
+}
+
+/* espaçamento da lupa no fundo verde */
+.loupe-white{
+  margin: 10px 5px;
+  
 }
 
 /* PERFIL BIBLIOTECARIO(A) */
 
-.information {
-  width: 20%;
-  height: 50%;
+.information{
+  width: 25%;
+  height: 65%;
   border-radius: 15px;
 
   /* posição */
@@ -904,25 +932,30 @@ button {
   top: 50%;
   transform: translateY(-50%);
 
+
   background-color: #6f7fac;
-  z-index: 2;
-  text-align: center;
+  z-index: 10;
+  
 }
 
-.title-profile {
+/* bem vindo */
+.title-profile{
   padding-left: 20px;
   padding-top: 20px;
   color: #fff;
 }
 
-.profile {
+/* icone */
+.profile{
   position: absolute;
   right: 18%;
   top: 10%;
 }
 
-.cadastro {
+/* button */
+.cadastro{
   position: absolute;
+  
   top: 75%;
   right: 27%;
 
@@ -934,20 +967,23 @@ button {
   border-radius: 10px;
   background: #323099;
 
+
   cursor: pointer;
   border: 0;
   outline: 0;
 }
 
-.cadastro::before {
-  content: "Bibliotecário(a)";
+
+.cadastro::before{
+  content: 'Bibliotecário(a)';
   position: absolute;
   top: -90px;
   right: 12%;
   font-size: large;
+
 }
 
-.circle {
+.circle{
   background-color: #f8f3ec;
   width: 130px;
   height: 130px;
@@ -955,38 +991,5 @@ button {
   position: absolute;
   right: 30%;
   top: 15%;
-}
-
-/* Modal Livros */
-
-.book-modal {
-  display: none;
-  position: fixed;
-  z-index: 3;
-  left: 25%;
-  top: 0;
-  width: 50%;
-  height: 100%;
-  overflow: auto;
-}
-
-.book-modal-content {
-  background-color: #fefefe;
-  margin: 10% auto;
-  width: 100%;
-  height: 75%;
-}
-
-.close {
-  color: #aaa;
-  float: right;
-  font-size: 28px;
-  font-weight: bold;
-}
-
-.close:hover,
-.close:focus {
-  color: black;
-  text-decoration: none;
-  cursor: pointer;
+  
 }
