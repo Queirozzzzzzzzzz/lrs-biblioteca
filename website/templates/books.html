@@ -3,81 +3,69 @@
 {% load static %}
 
 {% block content %}
-    <!--CABEÇALHO COM BARRA DE PESQUISA-->
 
-    <ul class="cabecalho"> 
+<!-- Filtro -->
 
-        <li><img class="logo" src="{% static 'images/senai-logo-verde.png' %}" width="135px" height="50px" style="top: 0.5em;"></button></li>
-        <meta charset="UTF-8">
-        <div class="search-box">
-            <input type="text" class="search-text" placeholder="Pesquisar livro..." id="browser">
+<form>
+    <label>Filtrar por:</label>
+    <div>
+        <input type="checkbox" id="filtro_todos" name="filtro" value="todos">
+        <label for="filtro_todos">Todos</label>
+    </div>
+    <div>
+        <input type="checkbox" id="filtro_em_breve" name="filtro" value="em_breve">
+        <label for="filtro_em_breve">Em Breve</label>
+    </div>
+    <div>
+        <input type="checkbox" id="filtro_disponiveis" name="filtro" value="disponiveis">
+        <label for="filtro_disponiveis">Disponíveis</label>
+    </div>
+    <div>
+        <input type="checkbox" id="filtro_indisponiveis" name="filtro" value="indisponiveis">
+        <label for="filtro_indisponiveis">Indisponíveis</label>
+    </div>
+    <div>
+        <input type="checkbox" id="filtro_lista_desejos" name="filtro" value="lista_desejos">
+        <label for="filtro_lista_desejos">Lista de Desejos</label>
+    </div>
+    <button>Filtrar</button>
+</form>
 
+<!-- LIVROS -->
 
-            <a class="search-btn">
-                <div class="back-loupe-white">
-                    <img class="loupe-white" src="{% static 'svg/search.svg' %}" alt="" width="25px" height="25px">
-                </div>
-            </a>
-
-        </div>
-    </ul>
-
-        {% if user.is_staff %}
-        <!-- PERFIL BIBLIOTECARIO(A) -->
-        <div class="information">
-
-            <h3 class="title-profile">Bem-vindo(a)!</h3>
-    
-            <div class="circle"><img src="https://cdn-icons-png.flaticon.com/128/2310/2310277.png" class="profile"
-                    width="100px" height="100px"></div>
-    
-            <button id="cadastro" class="cadastro">Cadastrar empréstimos</button>
-    
-         </div>
-        {% endif %}
+    <span class="background">
+        
+        <section class="gallery">
+            <h3 class="secao">Livros disponíveis</h3>
+            {% for book in all_books %}
+            {% if book.is_available %}
+            <article class="card">
+                <button  onclick="OpenBookModal('{{book.title}}', '{{book.author}}', '{{book.synopsis}}', '{{book.release_date}}', '{{book.is_available}}', '{{book.stock}}')">
+                    {% if book.front_cover %}
+                    <img src="{{book.front_cover.url}}" alt="Capa">
+                    {% else %}
+                    <img src="" alt="Capa padrão">
+                    {% endif %}
+                </button>
+            </article>
+            {% endif %}
+            {% endfor %}
+        </section>
+        
+    </span>
 
     <!-- Modal -->
-    <div id="id_book-modal" class="book-modal">
+    <div id="id_book-modal" class="book-modal" style="display: none;">
 
         <!-- Conteúdo do Modal -->
         <span class="close">&times;</span>
         <div id="id_book_modal_form" class="book-modal-content">
         </div>
-  
+        <button>Realizar empréstimo</button>
+        {% if user.is_staff %}
+            <button onclick="location.href='{% url 'bookedit' %}'">Editar</button>
+        {% endif %}
+
     </div>
-
-    <!-- LIVROS -->
-
-    <span class="background">
-
-        <section class="gallery">
-            <h3 class="secao">Livros disponíveis</h3>
-            {% for book in all_books %}
-                {% if book.is_available %}
-                    <article class="card">
-                        <figure onclick="OpenBookModal('{{book.title}}', '{{book.author}}', '{{book.synopsis}}', '{{book.release_date}}', '{{book.is_available}}')">
-                            {% if book.front_cover %}
-                            <img src="{{book.front_cover.url}}" alt="Capa">
-                            {% else %}
-                            <img src="" alt="Capa padrão">
-                            {% endif %}
-                        </figure>
-                    </article>
-                {% endif %}
-            {% endfor %}
-
-            <img class="to-side" src="https://cdn-icons-png.flaticon.com/128/7543/7543114.png" width="50px" height="50px">
-        </section>
-
-    </span>
-
-    <span class="background">
-
-        <section class="gallery">
-            <h3 class="secao">Em breve disponíveis</h3>
-            <img class="to-side" src="https://cdn-icons-png.flaticon.com/128/7543/7543114.png" width="50px" height="50px">
-        </section>
-    </span>
-    
     <script src="{% static 'js/book.js' %}"></script>
 {% endblock %}

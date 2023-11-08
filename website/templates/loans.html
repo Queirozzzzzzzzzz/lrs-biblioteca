@@ -1,0 +1,15 @@
+{% extends 'base.html' %} {% block content %}
+<body>
+  <!-- Lista de Capas dos Livros Solicitados -->
+  <div class="book-covers">
+    <a href="{% url 'loanslist' %}">
+      <div class="book-cover">
+        <img
+          src="https://covers.openlibrary.org/b/id/8576093-L.jpg"
+          alt="Capa"
+        />
+      </div>
+    </a>
+  </div>
+</body>
+{% endblock %}

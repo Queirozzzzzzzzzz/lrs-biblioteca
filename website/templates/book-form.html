@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<body>
+
+<div class="book-form">
+    <div class="form-group">
+        <img id="book-form-image" src="https://covers.openlibrary.org/b/id/805795-L.jpg">
+        <form method="POST" action="/cadastro-livros" enctype="multipart/form-data">
+            {% csrf_token %}
+                <h1>Novo Livro</h1>
+                <ul>
+                    <li>
+                        <input type="text" name="title" maxlength="255" required="" id="id_title" placeholder="Título">
+                    </li>
+                    <li>
+                        <input type="text" name="author" maxlength="80" required="" id="id_author" placeholder="Autor">
+                    </li>
+                    <li>
+                        <textarea name="synopsis" cols="40" rows="10" required="" id="id_synopsis" placeholder="Sinópse"></textarea>
+                    </li>
+                    <li>
+                        <label for="id_release_date"><strong>Data de Lançamento</strong></label>
+                        <input type="date" name="release_date" required="" id="id_release_date" placeholder="Data de lançamento">
+                    </li>
+                    <li>
+                        <label for="id_is_available"><strong>Disponível</strong></label>
+                        <input type="checkbox" name="is_available" id="id_is_available">
+                    </li>
+                    <li>
+                        <input type="file" name="front_cover" accept="image/*" id="id_front_cover" placeholder="Capa">
+                    </li>
+                </ul>
+            <button type="submit">Enviar</button>
+        </form>               
+    </div>
+</div>
+</body>
+{% endblock %}

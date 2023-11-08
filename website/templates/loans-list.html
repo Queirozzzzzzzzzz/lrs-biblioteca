@@ -1,0 +1,48 @@
+{% extends 'base.html' %} {% block content %}
+<body>
+  <h1>Livro blablabla</h1>
+
+  <!-- Lista de Empréstimos Solicitados -->
+  <div class="loan-requests">
+    Estoque: estoque aq
+    <h2>Empréstimos Solicitados</h2>
+    <ul>
+      <li>
+        Usuário 1
+        <label for="date1">Solicitado em:</label>
+        <input type="date" id="date1" readonly value="2023-05-15" />
+        <button class="accept-button" data-loan-id="1">Aceitar</button>
+        <button class="reject-button" data-loan-id="1">Negar</button>
+      </li>
+      <li>
+        Usuário 2
+        <label for="date2">Solicitado em:</label>
+        <input type="date" id="date2" readonly value="2023-09-28" />
+        <button class="accept-button" data-loan-id="2">Aceitar</button>
+        <button class="reject-button" data-loan-id="2">Negar</button>
+      </li>
+      <li>
+        Usuário 3
+        <label for="date3">Solicitado em:</label>
+        <input type="date" id="date3" readonly value="2023-10-05" />
+        <button class="accept-button" data-loan-id="3">Aceitar</button>
+        <button class="reject-button" data-loan-id="3">Negar</button>
+      </li>
+      <li>
+        Usuário 4
+        <label for="date4">Solicitado em:</label>
+        <input type="date" id="date4" readonly value="2023-11-12" />
+        <button class="accept-button" data-loan-id="4">Aceitar</button>
+        <button class="reject-button" data-loan-id="4">Negar</button>
+      </li>
+      <li>
+        Usuário 5
+        <label for="date5">Solicitado em:</label>
+        <input type="date" id="date5" readonly value="2023-12-03" />
+        <button class="accept-button" data-loan-id="5">Aceitar</button>
+        <button class="reject-button" data-loan-id="5">Negar</button>
+      </li>
+    </ul>
+  </div>
+</body>
+{% endblock %}

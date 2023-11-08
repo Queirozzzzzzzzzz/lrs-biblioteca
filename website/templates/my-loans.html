@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block content %}
+<body>
+  <h1>Página de Meus Empréstimos</h1>
+
+  <!-- Botão para Meus Comprovantes -->
+  <button id="openModal">Meus Comprovantes</button>
+
+  <!-- Seção de Livros -->
+  <h2>Empréstimos em Andamento</h2>
+  <div class="loaned-books">
+    <div class="loan">
+      <div class="book-cover"></div>
+      <img src="https://covers.openlibrary.org/b/id/8576093-L.jpg" alt="Capa do Livro" />
+      <div style="background-color: yellow">5 dias restantes</div>
+    </div>
+
+    <!-- Adicione mais livros em empréstimo aqui -->
+  </div>
+
+  <h2>Livros Devolvidos</h2>
+  <div class="loaned-books">
+    <!-- Adicione livros devolvidos aqui -->
+  </div>
+
+  <h2>Livros Atrasados</h2>
+  <div class="loaned-books">
+    <!-- Adicione livros atrasados aqui -->
+  </div>
+
+  <!-- Modal para Comprovantes -->
+  <div id="myModal" class="modal" style="display: none">
+    <div class="modal-content">
+      <span class="close" id="closeModal">&times;</span>
+      <div class="receipt">
+        <h2>Comprovante do Livro blablabla</h2>
+        <img src="https://covers.openlibrary.org/b/id/8576093-L.jpg" />
+        Emprestado para: Meu Nome Bacana aq
+      </div>
+      <div class="receipt">
+        <h2>Comprovante do Livro terecoteco</h2>
+        <img src="https://covers.openlibrary.org/b/id/10530438-L.jpg" />
+        Emprestado para: Meu Nome Bacana aq
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Abrir o modal ao clicar no botão "Meus Comprovantes"
+    document.getElementById("openModal").addEventListener("click", function () {
+      document.getElementById("myModal").style.display = "block";
+    });
+
+    // Fechar o modal ao clicar no "X"
+    document
+      .getElementById("closeModal")
+      .addEventListener("click", function () {
+        document.getElementById("myModal").style.display = "none";
+      });
+  </script>
+</body>
+{% endblock %}

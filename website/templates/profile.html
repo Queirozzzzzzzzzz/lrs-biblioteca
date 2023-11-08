@@ -1,0 +1,52 @@
+{% extends 'base.html' %} {% block content %}
+<body>
+  <h1>Perfil de Usuário</h1>
+
+  <!-- Informações do Usuário -->
+  <div class="user-info">
+    <img
+      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTca2Cs6dyoP3NvlwmpwRWPkkpZiSEP9utweeTx1sI&s"
+      alt="Foto de Usuário"
+    />
+    <p><strong>Nome:</strong> João Silva</p>
+    <p><strong>Email:</strong> joao@example.com</p>
+    <p><strong>Sala:</strong> Sala 123</p>
+    <p><strong>Data de Expiração da Conta:</strong> 2023-12-31</p>
+    <button id="editar-perfil">Editar Perfil</button>
+  </div>
+
+  <!-- Modal para Editar Perfil -->
+  <div id="editar-modal" class="modal" style="display: none">
+    <div class="modal-content">
+      <span class="close" id="closeModal">&times;</span>
+
+      <!-- Formulário para Editar Nome e Email (não funcional) -->
+      <form action="{% url 'profile' %}" method="post">
+        <label for="novo-icon">Novo Ícone:</label>
+        <input type="file" id="novo-icon" name="novo-icon" />
+
+        <label for="novo-email">Novo Email:</label>
+        <input type="email" id="novo-email" name="novo-email" />
+
+        <button>Salvar Alterações</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // Abrir o modal ao clicar no botão "Editar Perfil"
+    document
+      .getElementById("editar-perfil")
+      .addEventListener("click", function () {
+        document.getElementById("editar-modal").style.display = "block";
+      });
+
+    // Fechar o modal ao clicar no "X"
+    document
+      .getElementById("closeModal")
+      .addEventListener("click", function () {
+        document.getElementById("editar-modal").style.display = "none";
+      });
+  </script>
+</body>
+{% endblock %}
