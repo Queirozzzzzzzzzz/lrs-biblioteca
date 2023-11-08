@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 
 #Modelo do livro
 class Book(models.Model):
@@ -12,3 +13,12 @@ class Book(models.Model):
     #Nome do livro no banco de dados
     def __str__(self):
         return self.title
+    
+#Modelo do empréstimo
+class UserLoan(models.Model):
+    date = models.DateField()
+    book = models.ForeignKey(Book, on_delete=models.CASCADE) # Associa o campo book ao objeto do livro
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE) # Associa o campo user ao objeto do usuário
+
+    def __str__(self):
+        return self.user.username + " " + self.book.title

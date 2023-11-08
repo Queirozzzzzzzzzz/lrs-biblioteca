@@ -1,12 +1,13 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User
+from .models import User
 
 #Formulário de cadastro de usuário
 class SignUpForm(UserCreationForm):
-    email = forms.EmailField(widget=forms.TextInput(attrs={'class':'form'}))
+    full_name = forms.CharField(max_length=255, error_messages={'unique': 'Um usuário com este nome já existe.'})
+    email = forms.EmailField(max_length=255, error_messages={'unique': 'Um usuário com este nome já existe.'})
+    course = forms.CharField(max_length=50)
 
-    #Define os componentes
     class Meta:
         model = User
-        fields = ['username', 'email', 'password1', 'password2']
+        fields = ['full_name', 'email', 'course', 'password1', 'password2']

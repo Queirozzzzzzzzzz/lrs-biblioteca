@@ -1,132 +1,42 @@
 {% load static %}
 
+{% if messages %}
+        {% for message in messages %}
+            {% if form.errors %}
+                {{message}}
+            {% else %}
+                {{message}}
+                {% endif %}
+        {% endfor %}
+{% endif %}
+
 {% block content %}
 
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Login</title>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css"
-        integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <title>LRS - Biblioteca</title>
 
 </head>
 <body>
     <div class="container">
-        <div class="content first-content">
-            <div class="first-column">
-                <div class="containerimg">
-                    <img src="{% static 'images/senai-logo-verde.png' %}" width="90" height="75" />
-                </div>
-                <br>
-                <h2 class="title title-primary">Já é cadastrado?</h2>
-                <p class="description description-primary">Então vá para a página de login</p>
-                <button id="signin" class="btn btn-primary">Logar</button>
-            </div>    
-            <div class="second-column">
-                <h2 class="title title-second">Crie a sua conta aqui</h2>
-                <div class="social-media">
-                    <ul class="list-social-media">
-                        <a class="link-social-media" href="#">
-                            <li class="item-social-media">
-                                <i class="fa-brands fa-instagram"></i>        
-                            </li>
-                        </a>
-                        <a class="link-social-media" href="#">
-                            <li class="item-social-media">
-                                <i class="fa-brands fa-twitter"></i>
-                            </li>
-                        </a>
-                        <a class="link-social-media" href="#">
-                            <li class="item-social-media">
-                                <i class="fab fa-linkedin-in"></i>
-                            </li>
-                        </a>
-                    </ul>
-                </div><!-- social media -->
-                <p class="description description-second">Ultilize o seu nome, email e senha para se cadastrar:</p>
-                <form class="form" method="POST" action="{% url 'signup_signin' %}">
-                    {% csrf_token %}
-                    <label class="label-input" for="">
-                        <i class="far fa-user icon-modify"></i>
-                        <input type="text" name="username" class="form-control" maxlength="150" autofocus="" required="" id="id_username" placeholder="Nome">
-                    </label>
-                    
-                    <label class="label-input" for="">
-                        <i class="far fa-envelope icon-modify"></i>
-                        <input type="text" name="email" class="form-control" maxlength="320" required="" id="id_email" placeholder="Email">
-                    </label>
-                    
-                    <label class="label-input" for="">
-                        <i class="fas fa-lock icon-modify"></i>
-                        <input type="password" name="password1" autocomplete="new-password" required="" id="id_password1" placeholder="Senha">
-                    </label>
-
-                    <label class="label-input" for="">
-                        <i class="fas fa-lock icon-modify"></i>
-                        <input type="password" name="password2" autocomplete="new-password" required="" id="id_password2" placeholder="Confirme sua senha">
-                    </label>
-                    
-                    
-                    <button class="btn btn-second" name="signup">Cadastrar</button>        
-                </form>
-            </div><!-- second column -->
-        </div><!-- first content -->
-        <div class="content second-content">
-            <div class="first-column">
-                <h2 class="title title-primary">Não possui cadastro?</h2>
-                <p class="description description-primary">Então cadastre-se na página de cadastro</p>
-                <button id="signup" class="btn btn-primary">Cadastrar</button>
-            </div>
-            <div class="second-column">
-                <div class="containerimge">
-                    <img src="{% static 'images/senai-logo-verde.png' %}" width="90" height="75" />
-                </div>
-                <h2 class="title title-second">logue como um bibliotecario</h2>
-                <div class="social-media">
-                    <ul class="list-social-media">
-                        <a class="link-social-media" href="#">
-                            <li class="item-social-media">
-                                <i class="fa-brands fa-instagram"></i>
-                            </li>
-                        </a>
-                        <a class="link-social-media" href="#">
-                            <li class="item-social-media">
-                                <i class="fa-brands fa-twitter"></i>
-                            </li>
-                        </a>
-                        <a class="link-social-media" href="#">
-                            <li class="item-social-media">
-                                <i class="fab fa-linkedin-in"></i>
-                            </li>
-                        </a>
-                    </ul>
-                </div><!-- social media -->
-                <p class="description description-second">Ultilize o seu nome e senha para logar</p>
-                <form class="form" method="POST" action="{% url 'signup_signin' %}">
-                    {% csrf_token %}
-                    <label class="label-input" for="">
-                        <i class="far fa-user icon-modify"></i>
-                        <input type="text" id="signin-user" name="user_login" placeholder="Nome">
-                    </label>
-                
-                    <label class="label-input" for="">
-                        <i class="fas fa-lock icon-modify"></i>
-                        <input type="password" id="signin-password" name="password" value="{{passwd}}">
-                    </label>
-                
-                    <a class="password" href="#">Esqueceu a sua senha?</a>
-                    <button class="btn btn-second" name="signin">Logar</button>
-                </form>
-            </div><!-- second column -->
-        </div><!-- second-content -->
+        <form class="form" method="POST" action="{% url 'signin' %}">
+            {% csrf_token %}
+            <label class="label-input" for="">
+                <input type="email" id="signin-user" name="email" placeholder="Email">
+            </label>
+        
+            <label class="label-input" for="">
+                <input type="password" id="signin-password" name="password" value="{{password}}">
+            </label>
+        
+            <a class="password" href="#">Esqueceu a sua senha?</a>
+            <button>Logar</button>
+        </form>
     </div>
-    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
-    <script src="{% static 'js/app.js' %}"></script>
-    <script src="https://kit.fontawesome.com/b0bcaeef44.js" crossorigin="anonymous"></script>
 </body>
 </html>
     
