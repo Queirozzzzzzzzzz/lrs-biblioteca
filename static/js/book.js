@@ -6,7 +6,7 @@ var book_form = document.getElementById("id_book_modal_form")
 // Modal de Livro
 
 // Abrir modal
-function OpenBookModal(title, author, synopsis, release_date, is_available) {
+function OpenBookModal(title, author, synopsis, release_date, is_available, stock) {
   modal.style.display = "block";
   book_form.innerHTML = `
     <div class="form-group">
@@ -29,10 +29,13 @@ function OpenBookModal(title, author, synopsis, release_date, is_available) {
             <label for="id_is_available"><strong>Disponível</strong></label>
             <input type="checkbox" name="is_available" id="id_is_available" ${is_available ? 'checked' : ''} disabled>
           </li>
+          <li>
+            <label for="id_stock"><strong>Estoque:</strong> ${stock}</label>
+          </li>
         </ul>
       </form>
-    </div>
-  `;
+      </div>
+      `;
 }
 
 // Fechar modal
