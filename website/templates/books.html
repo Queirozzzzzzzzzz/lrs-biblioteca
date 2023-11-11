@@ -40,7 +40,7 @@
             {% for book in all_books %}
             {% if book.is_available %}
             <article class="card">
-                <button  onclick="OpenBookModal('{{book.title}}', '{{book.author}}', '{{book.synopsis}}', '{{book.release_date}}', '{{book.is_available}}', '{{book.stock}}')">
+                <button onclick="OpenBookModal('{{book.title|escapejs}}', '{{book.author|escapejs}}', '{{book.synopsis|escapejs}}', '{{book.release_date|escapejs}}', '{{book.is_available|escapejs}}', '{{book.stock|escapejs}}', '{{ book.id }}')">
                     {% if book.front_cover %}
                     <img src="{{book.front_cover.url}}" alt="Capa">
                     {% else %}
@@ -60,8 +60,15 @@
         <!-- Conteúdo do Modal -->
         <span class="close">&times;</span>
         <div id="id_book_modal_form" class="book-modal-content">
-        </div>
-        <button>Realizar empréstimo</button>
+        </div>          
+        <form action="{% url 'bookloan' %}" method="POST">
+            {% csrf_token %}
+            <input type="hidden" id="date_id" name="date" value="01/01/01">
+            <input type="hidden" id="user_id" name="user" value="{{ user.id }}">
+            <input type="hidden" id="book_id" name="book" value="">
+            <button type="submit">Realizar empréstimo</button>
+        </form> 
+        <button>+ Lista de Desejos</button>
         {% if user.is_staff %}
             <button onclick="location.href='{% url 'bookedit' %}'">Editar</button>
         {% endif %}

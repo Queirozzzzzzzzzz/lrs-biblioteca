@@ -6,8 +6,8 @@ var book_form = document.getElementById("id_book_modal_form")
 // Modal de Livro
 
 // Abrir modal
-function OpenBookModal(title, author, synopsis, release_date, is_available, stock) {
-  modal.style.display = "block";
+function OpenBookModal(title, author, synopsis, release_date, is_available, stock, id) {
+  modal.style.display = "block"; 
   book_form.innerHTML = `
     <div class="form-group">
       <form>
@@ -34,8 +34,10 @@ function OpenBookModal(title, author, synopsis, release_date, is_available, stoc
           </li>
         </ul>
       </form>
-      </div>
+      </div> 
       `;
+
+      document.getElementById('book_id').value = id;
 }
 
 // Fechar modal

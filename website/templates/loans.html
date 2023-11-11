@@ -2,14 +2,16 @@
 <body>
   <!-- Lista de Capas dos Livros Solicitados -->
   <div class="book-covers">
-    <a href="{% url 'loanslist' %}">
-      <div class="book-cover">
-        <img
-          src="https://covers.openlibrary.org/b/id/8576093-L.jpg"
-          alt="Capa"
-        />
-      </div>
-    </a>
+    {% for book in books %}
+      <a href="{% url 'loanslist' book.id %}">
+        <div class="book-cover">
+          <img
+            src="{{ book.front_cover.url }}"
+            alt="Capa"
+          />
+        </div>
+      </a>
+    {% endfor %}
   </div>
 </body>
 {% endblock %}
