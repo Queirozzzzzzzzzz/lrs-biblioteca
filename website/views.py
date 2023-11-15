@@ -12,10 +12,11 @@ from django.contrib.auth import get_user_model
 from django.contrib import messages
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
+from datetime import timedelta, date
 
 User = get_user_model()
 
-# Funções
+# Páginas
 
 # Página inicial
 @login_required(login_url='/membros/login')
@@ -25,22 +26,31 @@ def home(request):
 # Adicionar novo livro
 @staff_member_required
 def bookadd(request):
-   if request.method == "POST":
-       form = BookRegistrationForm(request.POST, request.FILES)
-       if form.is_valid():
-           book = form.save(commit=False)
-           if 'front_cover' in request.FILES:
-               book.front_cover = request.FILES['front_cover']
-           elif 'image_url' in request.POST and request.POST['image_url']:
-               image_file = download_image(request.POST['image_url'])
-               if image_file is not None:
-                  book.front_cover.save('cover.jpg', image_file)
-           else:
-               book.front_cover.save('default_cover_image.jpg', get_default_image())
-           book.save()
-           return redirect('bookadd')
-   form = BookRegistrationForm()
-   return render(request, 'book-signup.html', {"form": form})
+    if request.method == "POST":
+        form = BookRegistrationForm(request.POST, request.FILES)
+        if form.is_valid():
+            book = form.save(commit=False)
+            if 'front_cover' in request.FILES:
+                book.front_cover = request.FILES['front_cover']
+            elif 'image_url' in request.POST and request.POST['image_url']:
+                image_file = download_image(request.POST['image_url'])
+                if image_file is not None:
+                   book.front_cover.save('cover.jpg', image_file)
+            else:
+                book.front_cover.save('default_cover_image.jpg', get_default_image())
+
+            # Se  o estoque for menor ou igual a zero é automaticamente definido como indisponível
+            if book.stock <= 0 and book.state != "soon":
+                book.state = "unavailable"
+
+            book.save()
+            return redirect('bookadd')
+        else:
+            messages.error(request, ("Não foi possível cadastrar o livro."))
+            return redirect('bookadd')
+
+    form = BookRegistrationForm()
+    return render(request, 'book-signup.html', {"form": form})
 
 # Procura livro
 @staff_member_required
@@ -48,8 +58,9 @@ def booksearch(request):
    if request.method == "POST":
        book_title = request.POST['book_title']
        book_info = get_book_info(book_title)
-       form = BookRegistrationForm(initial={})
-       return render(request, 'book-signup.html', {'book_info': book_info})
+       form = BookRegistrationForm()
+       return render(request, 'book-signup.html', {'book_info': book_info, 'form':form})
+   
    form = BookRegistrationForm()
    return render(request, 'book-signup.html', {"form": form})
 
@@ -80,18 +91,26 @@ def bookloan(request):
                 messages.error(request, ("Livro já registrado em seus empréstimos"))
                 return redirect('books')
             else:
-                # Define valores do form
-                userloan = form.save(commit=False)
-                userloan.date = timezone.now()
-                userloan.book = book
-                userloan.user = user
-                book.loan_count += 1
+                # Checa se o livro está disponível
+                if book.state == "available":
+                    # Define valores do form
+                    userloan = form.save(commit=False)
+                    userloan.book = book
+                    userloan.user = user
+                    userloan.start_date = timezone.now()
+                    userloan.final_date = timezone.now()
 
-                userloan.save()
-            return redirect('myloans')
+                    # Adiciona número de empréstimos solicitados do livro
+                    book.loan_count += 1
+
+                    book.save()
+                    userloan.save()
+                    return redirect('myloans')
+                else:
+                    messages.error(request, ("Este livro não está disponível para empréstimos"))
+                    return redirect('books')
 
     return redirect('books')
-
 
 # Livros
 @login_required(login_url='/membros/login')
@@ -110,12 +129,28 @@ def loans(request):
     # Remove as duplicações dos livros
     books = list(set(books))
 
-    return render(request, "loans.html", {"books":books})
+    expired_loans_books = []
+
+    for loan in all_loans:
+     
+     # Checa se empréstimo está atrasado
+     if check_loan_date_status(loan.id) == False:
+        ## Adiciona empréstimo na lista de empréstimos expirados
+        if loan.book not in expired_loans_books:
+            expired_loans_books.append(loan.book)
+
+
+    return render(request, "loans.html", {"books":books, "expired_loans_books": expired_loans_books})
 
 # Meus Empréstimos
 @login_required(login_url='/membros/login')
 def myloans(request):
-    return render(request, "my-loans.html", {})
+    all_loans =  UserLoan.objects.filter(user_id=request.user.id)
+
+    for loan in all_loans:
+        loan.days_to_return = (loan.final_date - date.today()).days
+
+    return render(request, "my-loans.html", {"all_loans":all_loans})
 
 # Cadastro de usuário
 @staff_member_required
@@ -140,7 +175,7 @@ def loanslist(request, book_id):
     if book.stock > 0:
         
         # Ordena os empréstimos por data de solicitação
-        book_loans.order_by('date')
+        book_loans.order_by('start_date')
 
         # Aceitar ou negar empréstimo
         if request.method == "POST":
@@ -152,6 +187,11 @@ def loanslist(request, book_id):
             if accept is not None:
                 # Obtém o empréstimo
                 loan = UserLoan.objects.get(pk=accept)
+
+                # Define datas de inicio e devolução
+                loan_default_days = 30  # Quantidade de dias que cada empréstimo terá por padrão
+                loan.start_date = timezone.now()
+                loan.final_date = loan.start_date + timedelta(days=loan_default_days)
 
                 # Ativa empréstimo
                 loan.is_on = True
@@ -170,7 +210,16 @@ def loanslist(request, book_id):
             if reject is not None:
                 # Obtém o empréstimo
                 loan = UserLoan.objects.get(pk=reject)
+
+                # Envia um email de notificação
+                sendemail("Empréstimo Negado - Out Of Box Library", [loan.user.email], "email-reject-loan.html", context = {"user": loan.user, "book":book})
+
+                loan.delete()
     else:
+        # Automaticamente define o livro como indisponível
+        book.state = "unavailable"
+        book.save()
+
         # Obtém empréstimos para serem removidos
         remove_loans = UserLoan.objects.filter(book_id=book_id, is_on=False)
 
@@ -183,8 +232,21 @@ def loanslist(request, book_id):
 
     return render(request, "loans-list.html", {"book":book, "book_loans":book_loans})
 
+# Lista de Empréstimos Solicitados
+@staff_member_required
+def expiredloanslist(request, book_id):
+    # Obtém o livro
+    book = get_object_or_404(Book, id=book_id)
+
+    # Obtém os empréstimos
+    expired_loans = [loan for loan in book.loan.all() if check_loan_date_status(loan.id) == False and loan.is_on == True]
+
+    return render(request, "expired-loans-list.html", {"book":book, "expired_loans":expired_loans})
+
+# Funções
+
 # Enviar e-mail
-def sendemail(subject, recipient_list, email_template,context):
+def sendemail(subject, recipient_list, email_template, context):
     # Email de envio
     from_email = settings.EMAIL_HOST_USER
 
@@ -194,7 +256,7 @@ def sendemail(subject, recipient_list, email_template,context):
     # Envia o e-mail
     send_mail(subject, email_message, from_email, recipient_list, fail_silently=False)
 
-# Buscar informações do livro usando a API do Google Books
+# Busca informações do livro usando a API do Google Books
 def get_book_info(book_title):
     # Define a URL base da API do Google Books
     base_url = 'https://www.googleapis.com/books/v1/volumes'
@@ -202,6 +264,7 @@ def get_book_info(book_title):
     # Define os parâmetros da solicitação
     params = {
         'q': f'intitle:{book_title}',
+        'langRestrict': 'pt',
     }
 
     # Faz uma solicitação GET para a API do Google Books com os parâmetros definidos
@@ -223,6 +286,7 @@ def get_book_info(book_title):
                 'title': first_book.get('title', ''),  # Obtém o título do livro
                 'author': ', '.join(first_book.get('authors', [''])),  # Obtém os autores do livro
                 'description': first_book.get('description', ''),  # Obtém a descrição do livro
+                'genre': ', '.join(first_book.get('categories', [''])),  # Obtém o gênero do livro
                 'release_date': parse(first_book.get('publishedDate', '')).strftime('%Y-%m-%d') if 'publishedDate' in first_book else '',  # Obtém a data de publicação do livro
                 'image_url': image_links.get('thumbnail', ''),  # Obtém a URL da imagem em miniatura do livro
             }
@@ -252,3 +316,18 @@ def get_default_image():
         default_image = ContentFile(default_image_file.read())
 
     return default_image
+
+# Checa status da data de empréstimo
+def check_loan_date_status(loan_id):
+    loan = UserLoan.objects.get(id=loan_id)
+    current_date = timezone.now().date()
+
+    # Se data está indefinida retorna nulo
+    if loan.final_date is None:
+       return None
+
+    # Checa se o período  de entrega expirou
+    if loan.final_date < current_date:
+        return False
+    else:
+        return True

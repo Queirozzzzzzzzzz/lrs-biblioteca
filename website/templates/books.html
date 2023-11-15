@@ -6,49 +6,76 @@
 
 <!-- Filtro -->
 
-<form>
     <label>Filtrar por:</label>
     <div>
-        <input type="checkbox" id="filtro_todos" name="filtro" value="todos">
-        <label for="filtro_todos">Todos</label>
+        <input type="checkbox" id="id_filter_available" value="available">
+        <label for="id_filter_available">Disponíveis</label>
     </div>
     <div>
-        <input type="checkbox" id="filtro_em_breve" name="filtro" value="em_breve">
-        <label for="filtro_em_breve">Em Breve</label>
+        <input type="checkbox" id="id_filter_unavailable" value="unavailable">
+        <label for="id_filter_unavailable">Indisponíveis</label>
     </div>
     <div>
-        <input type="checkbox" id="filtro_disponiveis" name="filtro" value="disponiveis">
-        <label for="filtro_disponiveis">Disponíveis</label>
+        <input type="checkbox" id="filter_wish_list" value="wish_list">
+        <label for="filter_wish_list">Lista de Desejos</label>
     </div>
     <div>
-        <input type="checkbox" id="filtro_indisponiveis" name="filtro" value="indisponiveis">
-        <label for="filtro_indisponiveis">Indisponíveis</label>
+        <input type="checkbox" id="id_filter_soon" value="soon">
+        <label for="id_filter_soon">Em Breve</label>
     </div>
-    <div>
-        <input type="checkbox" id="filtro_lista_desejos" name="filtro" value="lista_desejos">
-        <label for="filtro_lista_desejos">Lista de Desejos</label>
-    </div>
-    <button>Filtrar</button>
-</form>
 
 <!-- LIVROS -->
 
     <span class="background">
         
-        <section class="gallery">
-            <h3 class="secao">Livros disponíveis</h3>
+        <section class="gallery" data-state="available" style="display: flex;">
+            <h3 class="secao">Disponíveis</h3>
             {% for book in all_books %}
-            {% if book.is_available %}
-            <article class="card">
-                <button onclick="OpenBookModal('{{book.title|escapejs}}', '{{book.author|escapejs}}', '{{book.synopsis|escapejs}}', '{{book.release_date|escapejs}}', '{{book.is_available|escapejs}}', '{{book.stock|escapejs}}', '{{ book.id }}')">
-                    {% if book.front_cover %}
-                    <img src="{{book.front_cover.url}}" alt="Capa">
-                    {% else %}
-                    <img src="" alt="Capa padrão">
-                    {% endif %}
-                </button>
-            </article>
-            {% endif %}
+                {% if book.state == "available" %}
+                    <article class="card" data-state="available">
+                        <button onclick="OpenBookModal('{{book.title|escapejs}}', '{{book.author|escapejs}}', '{{book.synopsis|escapejs}}', '{{book.genre|escapejs}}', '{{book.release_date}}', '{{book.get_state_display}}', '{{book.stock}}', '{{ book.id }}')">
+                            {% if book.front_cover %}
+                            <img src="{{book.front_cover.url}}" alt="Capa">
+                            {% else %}
+                            <img src="" alt="Capa padrão">
+                            {% endif %}
+                        </button>
+                    </article>
+                {% endif %}
+            {% endfor %}
+        </section>
+
+        <section class="gallery" data-state="unavailable" style="display: flex;">
+            <h3 class="secao">Indisponíveis</h3>
+            {% for book in all_books %}
+                {% if book.state == "unavailable" %}
+                    <article class="card" data-state="unavailable">
+                        <button onclick="OpenBookModal('{{book.title|escapejs}}', '{{book.author|escapejs}}', '{{book.synopsis|escapejs}}', '{{book.genre|escapejs}}', '{{book.release_date}}', '{{book.get_state_display}}', '{{book.stock}}', '{{ book.id }}')">
+                            {% if book.front_cover %}
+                            <img src="{{book.front_cover.url}}" alt="Capa">
+                            {% else %}
+                            <img src="" alt="Capa padrão">
+                            {% endif %}
+                        </button>
+                    </article>
+                {% endif %}
+            {% endfor %}
+        </section>
+
+        <section class="gallery" data-state="soon" style="display: flex;">
+            <h3 class="secao">Em Breve</h3>
+            {% for book in all_books %}
+                {% if book.state == "soon" %}
+                    <article class="card">
+                        <button onclick="OpenBookModal('{{book.title|escapejs}}', '{{book.author|escapejs}}', '{{book.synopsis|escapejs}}', '{{book.genre|escapejs}}', '{{book.release_date}}', '{{book.get_state_display}}', '{{book.stock}}', '{{ book.id }}')">
+                            {% if book.front_cover %}
+                            <img src="{{book.front_cover.url}}" alt="Capa">
+                            {% else %}
+                            <img src="" alt="Capa padrão">
+                            {% endif %}
+                        </button>
+                    </article>
+                {% endif %}
             {% endfor %}
         </section>
         
@@ -63,7 +90,6 @@
         </div>          
         <form action="{% url 'bookloan' %}" method="POST">
             {% csrf_token %}
-            <input type="hidden" id="date_id" name="date" value="01/01/01">
             <input type="hidden" id="user_id" name="user" value="{{ user.id }}">
             <input type="hidden" id="book_id" name="book" value="">
             <button type="submit">Realizar empréstimo</button>

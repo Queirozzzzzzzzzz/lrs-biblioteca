@@ -14,6 +14,7 @@ urlpatterns = [
     path('emprestimos/', views.loans, name="loans"),
     path('meus-emprestimos/', views.myloans, name="myloans"),
     path('perfil/', views.profile, name="profile"),
-    path('loanlist/<int:book_id>/', views.loanslist, name="loanslist"),
+    path('emprestimos/lista/<int:book_id>/', views.loanslist, name="loanslist"),
+    path('emprestimos/lista/expirados/<int:book_id>/', views.expiredloanslist, name="expiredloanslist"),
     path('livros/emprestimo', views.bookloan, name="bookloan")
 ]

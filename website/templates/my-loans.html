@@ -8,12 +8,22 @@
 
   <!-- Seção de Livros -->
   <h2>Empréstimos em Andamento</h2>
-  <div class="loaned-books">
-    <div class="loan">
-      <div class="book-cover"></div>
-      <img src="https://covers.openlibrary.org/b/id/8576093-L.jpg" alt="Capa do Livro" />
-      <div style="background-color: yellow">5 dias restantes</div>
-    </div>
+  {% for loan in all_loans %}
+  {% if loan.is_on %}
+    <div class="loaned-books">
+      <div class="loan">
+        <div class="book-cover"></div>
+        <img src="{{ loan.book.front_cover.url }}" alt="Capa do Livro" />
+        {% if loan.days_to_return > 7 %}
+            <div style="background-color: green">{{ loan.days_to_return }} dias para a devolução do livro.</div>
+        {% elif days_to_return > 3 %}
+            <div style="background-color: yellow">{{ loan.days_to_return }} dias para a devolução do livro.</div>
+        {% else %}
+            <div style="background-color: red">{{ loan.days_to_return }} dias para a devolução do livro.</div>
+        {% endif %}
+      </div>
+  {% endif %}
+{% endfor %}
 
     <!-- Adicione mais livros em empréstimo aqui -->
   </div>
@@ -33,14 +43,13 @@
     <div class="modal-content">
       <span class="close" id="closeModal">&times;</span>
       <div class="receipt">
-        <h2>Comprovante do Livro blablabla</h2>
-        <img src="https://covers.openlibrary.org/b/id/8576093-L.jpg" />
-        Emprestado para: Meu Nome Bacana aq
-      </div>
-      <div class="receipt">
-        <h2>Comprovante do Livro terecoteco</h2>
-        <img src="https://covers.openlibrary.org/b/id/10530438-L.jpg" />
-        Emprestado para: Meu Nome Bacana aq
+        {% for loan in all_loans %}
+          {% if loan.is_on and loan.days_to_return > 0 %}
+            <h2>Comprovante do Livro {{ loan.book.title }}</h2>
+            <img src="{{ loan.book.front_cover.url }}" />
+            <p>Emprestado para: {{ loan.user }}</p>
+          {% endif %}
+        {% endfor %}
       </div>
     </div>
   </div>

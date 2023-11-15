@@ -6,28 +6,30 @@ var book_form = document.getElementById("id_book_modal_form")
 // Modal de Livro
 
 // Abrir modal
-function OpenBookModal(title, author, synopsis, release_date, is_available, stock, id) {
+function OpenBookModal(title, author, synopsis, genre, release_date, state, stock, id) {
   modal.style.display = "block"; 
   book_form.innerHTML = `
     <div class="form-group">
       <form>
         <h1>Informações</h1>
         <ul>
-          <li>
-            <input type="text" name="title" maxlength="255" required="" id="id_title" value="${title}" readonly>
-          </li>
-          <li>
-            <input type="text" name="author" maxlength="80" required="" id="id_author" value="${author}" readonly>
-          </li>
-          <li>
-            <textarea name="synopsis" cols="40" rows="10" required="" id="id_synopsis" readonly>${synopsis}</textarea>
-          </li>
+        <li>
+            <label id="id_title"><strong>Título:</strong> ${title}</label>
+        </li>
+        <li>
+            <label id="id_author"><strong>Autor:</strong> ${author}</label>
+        </li>
+        <li>
+            <label id="id_synopsis"><strong>Sinópse:</strong> ${synopsis}</label>
+        </li>
+        <li>
+            <label id="id_genre"><strong>Gênero:</strong> ${genre}</label>
+        </li>    
           <li>
             <label for="id_release_date"><strong>Data de Lançamento:</strong> ${release_date}</label>
           </li>
           <li>
-            <label for="id_is_available"><strong>Disponível</strong></label>
-            <input type="checkbox" name="is_available" id="id_is_available" ${is_available ? 'checked' : ''} disabled>
+            <label for="id_state"><strong>Disponibilidade:</strong> ${state}</label>
           </li>
           <li>
             <label for="id_stock"><strong>Estoque:</strong> ${stock}</label>
@@ -49,4 +51,61 @@ window.onclick = function(event) {
   if (event.target == modal) {
     modal.style.display = "none";
   }
+}
+
+// Filtragem de Livros
+
+// Listener para as checkbox de filtragem
+document.querySelectorAll('input[type="checkbox"]').forEach(function(checkbox) {
+  checkbox.addEventListener('change', function() {
+      filterGalleries();
+  });
+});
+
+function filterGalleries() {
+  // Obtém as checkbox
+  var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+
+  // Obgtem as galerias
+  var galleries = document.querySelectorAll('.gallery');
+
+  // Verifica se alguma checkbox está marcada
+  var isAnyCheckboxChecked = Array.from(checkboxes).some(function(checkbox) {
+    return checkbox.checked;
+  });
+
+  // Se nenhuma checkbox está marcada, exibe todas as galerias
+  if (!isAnyCheckboxChecked) {
+    galleries.forEach(function(gallery) {
+      gallery.style.display = 'flex';
+    });
+    return;
+  }
+
+  // Loop através de todas as galerias
+  galleries.forEach(function(gallery) {
+    // Obtém o tipo da galeria
+    var galleryState = gallery.getAttribute('data-state');
+
+    // Verificar se a galeria corresponde a algum dos filtros selecionados
+    var matchesAnyFilter = Array.from(checkboxes).some(function(checkbox) {
+      // Verifica se a checkbox está marcada e seu estado corresponde ao valor da checkbox
+      if (checkbox.checked && checkbox.value === galleryState) {
+        return true;
+      }
+      // Se não estiver marcada, ignora
+      else {
+        return false;
+      }
+    });
+
+    // Se a galeria corresponde a algum dos filtros selecionados, exibir
+    if (matchesAnyFilter) {
+      gallery.style.display = 'flex';
+    }
+    // Se não, esconder
+    else {
+      gallery.style.display = 'none';
+    }
+  });
 }

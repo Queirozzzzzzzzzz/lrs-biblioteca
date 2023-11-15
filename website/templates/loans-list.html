@@ -14,7 +14,7 @@
           <li>
             {{ loan.user }}
             <label for="date1">Solicitado em:</label>
-            <input type="date" id="date1" readonly value="{{ loan.date|date:'Y-m-d' }}" />
+            <input type="date" id="date1" readonly value="{{ loan.start_date|date:'Y-m-d' }}" />
             <button class="accept-button" data-loan-id="1" name="accept" value="{{loan.id}}">Aceitar</button>
             <button class="reject-button" data-loan-id="1" name="reject" value="{{loan.id}}">Negar</button>
           </li>

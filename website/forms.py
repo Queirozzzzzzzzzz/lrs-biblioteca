@@ -6,12 +6,12 @@ from .models import Book, UserLoan
 class BookRegistrationForm(ModelForm):
     class Meta:
         model = Book
-        fields = ('title', 'author', 'synopsis', 'release_date', 'is_available', 'stock','front_cover')
+        fields = ('title', 'author', 'synopsis', 'genre', 'release_date', 'state', 'stock', 'front_cover')
 
 
 # Formulário de empréstimo
 class UserLoanForm(forms.ModelForm):
     class Meta:
         model = UserLoan
-        fields = ['date', 'book', 'user']
+        fields = ['book', 'user']
 

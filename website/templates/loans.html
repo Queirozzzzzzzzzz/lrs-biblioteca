@@ -1,9 +1,24 @@
 {% extends 'base.html' %} {% block content %}
 <body>
   <!-- Lista de Capas dos Livros Solicitados -->
+  <h2>Empréstimos Solicitados</h2>
   <div class="book-covers">
     {% for book in books %}
       <a href="{% url 'loanslist' book.id %}">
+        <div class="book-cover">
+          <img
+            src="{{ book.front_cover.url }}"
+            alt="Capa"
+          />
+        </div>
+      </a>
+    {% endfor %}
+  </div>
+
+  <h2>Empréstimos Atrasados</h2>
+  <div class="book-covers">
+    {% for book in expired_loans_books %}
+      <a href="{% url 'expiredloanslist' book.id %}">
         <div class="book-cover">
           <img
             src="{{ book.front_cover.url }}"
