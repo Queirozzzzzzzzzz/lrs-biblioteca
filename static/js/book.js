@@ -6,7 +6,7 @@ var book_form = document.getElementById("id_book_modal_form")
 // Modal de Livro
 
 // Abrir modal
-function OpenBookModal(title, author, synopsis, genre, release_date, state, stock, id) {
+function OpenBookModal(title, author, synopsis, genre, publisher, release_date, status, stock, id) {
   modal.style.display = "block"; 
   book_form.innerHTML = `
     <div class="form-group">
@@ -25,21 +25,25 @@ function OpenBookModal(title, author, synopsis, genre, release_date, state, stoc
         <li>
             <label id="id_genre"><strong>Gênero:</strong> ${genre}</label>
         </li>    
-          <li>
+        <li>
+            <label id="id_publisher"><strong>Editora:</strong> ${publisher}</label>
+        </li>    
+        <li>
             <label for="id_release_date"><strong>Data de Lançamento:</strong> ${release_date}</label>
-          </li>
-          <li>
-            <label for="id_state"><strong>Disponibilidade:</strong> ${state}</label>
-          </li>
-          <li>
+        </li>
+        <li>
+            <label for="id_status"><strong>Disponibilidade:</strong> ${status}</label>
+        </li>
+        <li>
             <label for="id_stock"><strong>Estoque:</strong> ${stock}</label>
-          </li>
+        </li>
         </ul>
       </form>
       </div> 
       `;
 
       document.getElementById('book_id').value = id;
+      document.getElementById('edit_book_id').value = id;
 }
 
 // Fechar modal
@@ -85,12 +89,12 @@ function filterGalleries() {
   // Loop através de todas as galerias
   galleries.forEach(function(gallery) {
     // Obtém o tipo da galeria
-    var galleryState = gallery.getAttribute('data-state');
+    var galleryStatus = gallery.getAttribute('data-status');
 
     // Verificar se a galeria corresponde a algum dos filtros selecionados
     var matchesAnyFilter = Array.from(checkboxes).some(function(checkbox) {
       // Verifica se a checkbox está marcada e seu estado corresponde ao valor da checkbox
-      if (checkbox.checked && checkbox.value === galleryState) {
+      if (checkbox.checked && checkbox.value === galleryStatus) {
         return true;
       }
       // Se não estiver marcada, ignora

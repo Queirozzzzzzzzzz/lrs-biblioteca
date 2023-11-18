@@ -1,6 +1,6 @@
 {% extends 'base.html' %} {% block content %}
 <body>
-  <!-- Lista de Capas dos Livros Solicitados -->
+  <!-- Lista dos Livros Solicitados -->
   <h2>Empréstimos Solicitados</h2>
   <div class="book-covers">
     {% for book in books %}
@@ -15,7 +15,7 @@
     {% endfor %}
   </div>
 
-  <!-- Lista de Capas dos Livros com Empréstimos Atrasados -->
+  <!-- Lista dos Livros com Empréstimos Atrasados -->
   <h2>Empréstimos Atrasados</h2>
   <div class="book-covers">
     {% for book in expired_loans_books %}
@@ -30,7 +30,7 @@
     {% endfor %}
   </div>
 
-  <!-- Lista de Capas dos Livros com Empréstimos Ativos -->
+  <!-- Lista dos Livros com Empréstimos Ativos -->
   <h2>Empréstimos Ativos</h2>
   <div class="book-covers">
     {% for book in activated_books %}

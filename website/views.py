@@ -13,11 +13,11 @@ from django.contrib import messages
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from datetime import timedelta, date
-from weasyprint import HTML
 from django.template.loader import get_template
 from django.http import FileResponse
 from io import BytesIO
 from django.http import HttpResponseForbidden
+from xhtml2pdf import pisa
 
 User = get_user_model()
 
@@ -45,8 +45,8 @@ def bookadd(request):
                 book.front_cover.save('default_cover_image.jpg', get_default_image())
 
             # Se  o estoque for menor ou igual a zero é automaticamente definido como indisponível
-            if book.stock <= 0 and book.state != "soon":
-                book.state = "unavailable"
+            if book.stock <= 0 and book.status != "soon":
+                book.status = "unavailable"
 
             book.save()
             return redirect('bookadd')
@@ -55,14 +55,14 @@ def bookadd(request):
             return redirect('bookadd')
 
     form = BookRegistrationForm()
-    return render(request, 'book-signup.html', {"form": form})
+    return render(request, 'book-signup.html', {"form":form})
 
 # Procura livro
 @staff_member_required
 def booksearch(request):
    if request.method == "POST":
-       book_title = request.POST['book_title']
-       book_info = get_book_info(book_title)
+       isbn = request.POST['isbn']
+       book_info = get_book_info(isbn)
        form = BookRegistrationForm()
        return render(request, 'book-signup.html', {'book_info': book_info, 'form':form})
    
@@ -72,8 +72,39 @@ def booksearch(request):
 # Edição de livros
 @staff_member_required
 def bookedit(request):
-    form = BookRegistrationForm()
-    return render(request, 'book-edit.html', {"form": form})
+    if request.method == "POST":
+
+        # Abre página de edição com informações do livro
+        if 'open' in request.POST:
+            book_id = request.POST.get('edit_book_id')
+            book = Book.objects.get(pk=book_id)
+            form = BookRegistrationForm()
+
+            return render(request, 'book-edit.html', {'form':form, 'book': book})
+
+        # Modifica e salva as informações do livro
+        if 'edit' in request.POST:
+            book_id = request.POST.get('edit_book_id')
+            book = Book.objects.get(pk=book_id)
+            form = BookRegistrationForm(request.POST, request.FILES, instance=book)
+
+            if form.is_valid():
+                if 'front_cover' in request.FILES:
+                    book.front_cover = request.FILES['front_cover']
+
+                # Se  o estoque for menor ou igual a zero é automaticamente definido como indisponível
+                if book.stock <= 0 and book.status != "soon":
+                    book.status = "unavailable"
+
+                # Se tiver estoque e o livro estiver indisponível habilita-o como disponível
+                if book.stock > 0 and book.status == "unavailable":
+                    book.status = "available"
+
+
+                form.save()
+                return redirect('books')
+
+    return redirect('books')
 
 # Empréstimo de livros
 @login_required(login_url='membros/login')
@@ -97,7 +128,7 @@ def bookloan(request):
                 return redirect('books')
             else:
                 # Checa se o livro está disponível
-                if book.state == "available":
+                if book.status == "available":
                     # Define valores do form
                     userloan = form.save(commit=False)
                     userloan.book = book
@@ -225,7 +256,7 @@ def loanslist(request, book_id):
                 loan.delete()
     else:
         # Automaticamente define o livro como indisponível
-        book.state = "unavailable"
+        book.status = "unavailable"
         book.save()
 
         # Obtém empréstimos para serem removidos
@@ -261,12 +292,13 @@ def activeloanslist(request, book_id):
     book = get_object_or_404(Book, id=book_id)
 
     # Obtém os empréstimos
-    activated_loans = [loan for loan in book.loan.all() if check_loan_date_status(loan.id) and loan.is_on == True]
+    activated_loans = [loan for loan in book.loan.all() if loan.is_on == True]
+    expired_loans = [loan for loan in activated_loans if check_loan_date_status(loan.id) == False and loan.is_on]
 
     for loan in activated_loans:
         loan.days_to_return = (loan.final_date - date.today()).days
 
-    return render(request, "active-loans-list.html", {"book":book, "activated_loans":activated_loans})
+    return render(request, "active-loans-list.html", {"book":book, "activated_loans":activated_loans, "expired_loans":expired_loans})
 
 # Finalizar empréstimo
 @staff_member_required
@@ -294,14 +326,13 @@ def sendemail(subject, recipient_list, email_template, context,):
     send_mail(subject, email_message, from_email, recipient_list, fail_silently=False)
 
 # Busca informações do livro usando a API do Google Books
-def get_book_info(book_title):
+def get_book_info(isbn):
     # Define a URL base da API do Google Books
     base_url = 'https://www.googleapis.com/books/v1/volumes'
 
     # Define os parâmetros da solicitação
     params = {
-        'q': f'intitle:{book_title}',
-        'langRestrict': 'pt',
+        'q': f'isbn:{isbn}',
     }
 
     # Faz uma solicitação GET para a API do Google Books com os parâmetros definidos
@@ -324,9 +355,12 @@ def get_book_info(book_title):
                 'author': ', '.join(first_book.get('authors', [''])),  # Obtém os autores do livro
                 'description': first_book.get('description', ''),  # Obtém a descrição do livro
                 'genre': ', '.join(first_book.get('categories', [''])),  # Obtém o gênero do livro
+                'publisher': first_book.get('publisher', ''),  # Obtém a editora do livro
                 'release_date': parse(first_book.get('publishedDate', '')).strftime('%Y-%m-%d') if 'publishedDate' in first_book else '',  # Obtém a data de publicação do livro
                 'image_url': image_links.get('thumbnail', ''),  # Obtém a URL da imagem em miniatura do livro
             }
+
+            book_info['genre'] = book_info['genre'].lower()
             
             return book_info
     
@@ -371,22 +405,19 @@ def check_loan_date_status(loan_id):
 
 # Gera arquivo PDF para comprovantes
 def receiptpdfgeneration(loan_id):
-  loan = UserLoan.objects.get(pk=loan_id)
+    loan = UserLoan.objects.get(pk=loan_id)
 
-  # Obtém template HTML
-  html_template = get_template('book-loan-receipt.html')
+    # Get HTML template
+    html_template = get_template('book-loan-receipt.html')
 
-  # Passa o onteúdo para o html
-  html_content = html_template.render({"loan":loan})
+    # Pass content to the html
+    html_content = html_template.render({"loan":loan})
 
-  # Converte para PDF
-  pdf_file = HTML(string=html_content).write_pdf()
-
-  # Manda para página
-  pdf_io = BytesIO()
-  pdf_io.write(pdf_file)
-  pdf_io.seek(0)
-  return pdf_io
+    # Convert to PDF
+    pdf_io = BytesIO()
+    pisa.CreatePDF(html_content, pdf_io)
+    pdf_io.seek(0)
+    return pdf_io
 
 # Carrega visualização do PDF
 def receiptpdfview(request, loan_id):
@@ -404,4 +435,3 @@ def receiptpdfview(request, loan_id):
             return HttpResponseForbidden('Você não tem permissão para acessar esse comprovante.')
     else:
         return HttpResponseForbidden('O comprovante não existe ou ainda está sendo gerado. Recomendamos recarregar a página.')
-

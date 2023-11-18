@@ -28,12 +28,12 @@
 
     <span class="background">
         
-        <section class="gallery" data-state="available" style="display: flex;">
+        <section class="gallery" data-status="available" style="display: flex;">
             <h3 class="secao">Disponíveis</h3>
             {% for book in all_books %}
-                {% if book.state == "available" %}
-                    <article class="card" data-state="available">
-                        <button onclick="OpenBookModal('{{book.title|escapejs}}', '{{book.author|escapejs}}', '{{book.synopsis|escapejs}}', '{{book.genre|escapejs}}', '{{book.release_date}}', '{{book.get_state_display}}', '{{book.stock}}', '{{ book.id }}')">
+                {% if book.status == "available" %}
+                    <article class="card" data-status="available">
+                        <button onclick="OpenBookModal('{{book.title|escapejs}}', '{{book.author|escapejs}}', '{{book.synopsis|escapejs}}', '{{book.get_genre_display|escapejs}}', '{{book.publisher|escapejs}}', '{{book.release_date}}', '{{book.status_display}}', '{{book.stock}}', '{{ book.id }}')">
                             {% if book.front_cover %}
                             <img src="{{book.front_cover.url}}" alt="Capa">
                             {% else %}
@@ -45,12 +45,12 @@
             {% endfor %}
         </section>
 
-        <section class="gallery" data-state="unavailable" style="display: flex;">
+        <section class="gallery" data-status="unavailable" style="display: flex;">
             <h3 class="secao">Indisponíveis</h3>
             {% for book in all_books %}
-                {% if book.state == "unavailable" %}
-                    <article class="card" data-state="unavailable">
-                        <button onclick="OpenBookModal('{{book.title|escapejs}}', '{{book.author|escapejs}}', '{{book.synopsis|escapejs}}', '{{book.genre|escapejs}}', '{{book.release_date}}', '{{book.get_state_display}}', '{{book.stock}}', '{{ book.id }}')">
+                {% if book.status == "unavailable" %}
+                    <article class="card" data-status="unavailable">
+                        <button onclick="OpenBookModal('{{book.title|escapejs}}', '{{book.author|escapejs}}', '{{book.synopsis|escapejs}}', '{{book.get_genre_display|escapejs}}', '{{book.publisher|escapejs}}', '{{book.release_date}}', '{{book.status_display}}', '{{book.stock}}', '{{ book.id }}')">
                             {% if book.front_cover %}
                             <img src="{{book.front_cover.url}}" alt="Capa">
                             {% else %}
@@ -62,12 +62,12 @@
             {% endfor %}
         </section>
 
-        <section class="gallery" data-state="soon" style="display: flex;">
+        <section class="gallery" data-status="soon" style="display: flex;">
             <h3 class="secao">Em Breve</h3>
             {% for book in all_books %}
-                {% if book.state == "soon" %}
+                {% if book.status == "soon" %}
                     <article class="card">
-                        <button onclick="OpenBookModal('{{book.title|escapejs}}', '{{book.author|escapejs}}', '{{book.synopsis|escapejs}}', '{{book.genre|escapejs}}', '{{book.release_date}}', '{{book.get_state_display}}', '{{book.stock}}', '{{ book.id }}')">
+                        <button onclick="OpenBookModal('{{book.title|escapejs}}', '{{book.author|escapejs}}', '{{book.synopsis|escapejs}}', '{{book.get_genre_display|escapejs}}', '{{book.publisher|escapejs}}', '{{book.release_date}}', '{{book.status_display}}', '{{book.stock}}', '{{ book.id }}')">
                             {% if book.front_cover %}
                             <img src="{{book.front_cover.url}}" alt="Capa">
                             {% else %}
@@ -96,7 +96,11 @@
         </form> 
         <button>+ Lista de Desejos</button>
         {% if user.is_staff %}
-            <button onclick="location.href='{% url 'bookedit' %}'">Editar</button>
+            <form action="{% url 'bookedit' %}" method="POST">
+                {% csrf_token %}
+                <input type="hidden" id="edit_book_id" name="edit_book_id" value="">
+                <button type="submit" name="open">Editar</button>
+            </form>
         {% endif %}
 
     </div>

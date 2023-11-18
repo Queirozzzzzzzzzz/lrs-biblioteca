@@ -1,1 +1,111 @@
-{% extends 'book-form.html' %}
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<body>
+      
+    <!-- Formulário de adição de livro -->
+    <div class="book-form"> 
+        <div class="form-group">
+            <img id="book-form-image" src="{% if book.front_cover %}{{ book.front_cover.url }}{% else %}{% static 'images/default_front_cover.png' %}{% endif %}" alt="Capa">  <!-- Imagem da capa do livro -->
+            <form method="POST" action="{% url 'bookedit' %}" enctype="multipart/form-data">
+                {% csrf_token %}
+                <h1>Novo Livro</h1>
+                <ul>
+                    <li>
+                        <input type="text" name="title" maxlength="255" required="" id="id_title" placeholder="Título" value="{{ book.title }}">  <!-- título -->
+                    </li>
+                    <li>
+                        <input type="text" name="author" maxlength="80" required="" id="id_author" placeholder="Autor" value="{{ book.author }}">  <!-- autor -->
+                    </li>
+                    <li>
+                        <textarea name="synopsis" cols="40" rows="10" required="" id="id_synopsis" placeholder="Sinópse">{{ book.synopsis }}</textarea>  <!-- sinópse -->
+                    </li>
+                    <li>
+                        <select name="genre" id="id_genre" required="">
+                            {% for value, display in form.fields.genre.choices %}
+                                <option value="{{ value }}" {% if value == book.genre %}selected{% endif %}>{{ display }}</option>
+                            {% endfor %}
+                        </select>  <!-- gênero -->
+                    </li>
+                    <li>
+                        <input type="text" name="publisher" maxlength="255" id="id_publisher" placeholder="Publisher" value="{{ book.publisher }}"> <!-- editora -->
+                    </li>
+                    <li>
+                        <label for="id_release_date"><strong>Data de Lançamento</strong></label>
+                        <input type="date" name="release_date" required="" id="id_release_date" placeholder="Data de lançamento" value="{{ book.release_date|date:'Y-m-d' }}">  <!-- data de lançamento -->
+                    </li>
+                    <li>
+                        <label for="id_status"><strong>Disponibilidade</strong></label>
+                        <select name="status" id="id_status" required="">
+                            {% for value, display in form.fields.status.choices %}
+                                <option value="{{ value }}" {% if value == book.status %}selected{% endif %}>{{ display }}</option>
+                            {% endfor %}
+                        </select>
+                    </li>                                     
+                    <li>
+                        <label for="id_stock"><strong>Estoque</strong></label> 
+                        <input type="number" name="stock" required="" id="id_stock"  value="{{ book.stock }}">  <!-- estoque -->
+                    </li>
+                    <li>
+                        <select name="origin" id="id_origin" required="">
+                            {% for value, display in form.fields.origin.choices %}
+                                <option value="{{ value }}" {% if value == book.origin %}selected{% endif %}>{{ display }}</option>
+                            {% endfor %}
+                        </select> <!-- origem -->
+                    </li>
+                    <li>
+                        <textarea name="comment" cols="40" rows="10" id="id_comment" placeholder="Comentário">{{ book.comment }}</textarea> <!-- comentário -->
+                    </li>
+                    <li>
+                        <input type="url" name="image_url" id="id_image_url" placeholder="Image URL" value="{{ book_info.image_url }}">  <!-- URL da capa -->
+                    </li>
+                    <li id="file-input-field">
+                        <label for="id_front_cover"><strong>Capa</strong></label> 
+                        <input type="file" name="front_cover" id="id_front_cover" placeholder="Capa">  <!-- arquivo da capa -->
+                    </li>
+                    <button type="button" id="reset_front_cover">Redefinir Capa</button>  <!-- redefinir a capa -->
+                </ul>
+                <input type="hidden" name="form_action" value="add_new_book">
+                <input type="hidden" id="edit_book_id" name="edit_book_id" value="{{ book.id }}">
+                <button type="submit" name="edit">Enviar</button>
+            </form>      
+        </div>
+    </div>
+    <script>
+        window.onload = function() { 
+            var urlInput = document.getElementById('id_image_url');  // elemento da URL da imagem
+            var fileInput = document.getElementById('id_front_cover');  // elemento do arquivo da capa do livro
+            var imgElement = document.getElementById('book-form-image');  // elemento da imagem da capa do livro
+            var resetButton = document.getElementById('reset_front_cover');  // botão de redefinição da capa do livro
+
+            // Esconde o campo de entrada da URL da imagem
+            urlInput.style.display = 'none';
+
+            // Limpa o campo de entrada da URL da imagem quando um arquivo é selecionado
+            fileInput.addEventListener('change', function() {
+                urlInput.value = '';
+
+                // Atualiza o elemento <img>
+                var file = this.files[0];
+                var reader = new FileReader();
+                reader.onloadend = function() {
+                    imgElement.src = reader.result;
+                }
+                if (file) {
+                    reader.readAsDataURL(file);
+                } else {
+                    imgElement.src = "";
+                }
+            });
+
+            // Redefine a imagem quando o botão de reset é clicado
+            resetButton.addEventListener('click', function() {
+                imgElement.src = "{% static 'images/default_front_cover.png' %}";
+            });
+        }
+    </script>
+</body>
+{% endblock %}

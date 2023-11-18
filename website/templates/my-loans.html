@@ -10,6 +10,21 @@
   <button id="openModal">Meus Comprovantes</button>
 
   <!-- Seção de Livros -->
+
+  <!-- Empréstimos Solicitados -->
+  <h2>Empréstimos Solicitados</h2>
+  {% for loan in all_loans %}
+  {% if loan.is_on == False %}
+    <div class="loaned-books">
+      <div class="loan">
+        <div class="book-cover"></div>
+        <img src="{{ loan.book.front_cover.url }}" alt="Capa do Livro" />
+      </div>
+  {% endif %}
+  {% endfor %}
+  </div>
+
+  <!-- Empréstimos em Andamento -->
   <h2>Empréstimos em Andamento</h2>
   {% for loan in all_loans %}
   {% if loan.is_on %}
@@ -28,19 +43,19 @@
         {% endif %}
       </div>
   {% endif %}
-{% endfor %}
-
-    <!-- Adicione mais livros em empréstimo aqui -->
+  {% endfor %}
   </div>
 
+  <!-- Empréstimos Devolvidos -->
   <h2>Livros Devolvidos</h2>
   <div class="loaned-books">
-    <!-- Adicione livros devolvidos aqui -->
+
   </div>
 
+  <!-- Empréstimos Atrasados -->
   <h2>Livros Atrasados</h2>
   <div class="loaned-books">
-    <!-- Adicione livros atrasados aqui -->
+
   </div>
 
   <!-- Modal para Comprovantes -->

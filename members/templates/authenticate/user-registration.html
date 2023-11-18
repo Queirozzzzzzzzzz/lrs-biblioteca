@@ -2,37 +2,54 @@
 {% load static %}
 
 {% block content %}
-<body>
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  </head>
+  <body>
     <form class="form" method="POST" action="{% url 'userregister' %}">
-        {% csrf_token %}
-    
-        <label class="label-input" for="full_name">
-            Nome completo
-            <input type="text" name="full_name" maxlength="255" autofocus required id="id_full_name" value="{{ full_name }}">
-        </label>
-    
-        <label class="label-input" for="email">
-            Email
-            <input type="text" name="email" class="form" maxlength="320" required id="id_email" value="{{ email }}">
-        </label>
-    
-        <label class="label-input" for="course">
-            Curso
-            <input type="text" name="course" maxlength="50" required id="id_course" value="{{ course }}">
-        </label>
-    
-        <label class="label-input" for="password1">
-            Senha
-            <input type="password" name="password1" autocomplete="new-password" required id="id_password1" value="{{ password }}">
-        </label>
-    
-        <label class="label-input" for="password2">
-            Confirme a Senha
-            <input type="password" name="password2" autocomplete="new-password" required id="id_password2" value="{{ password }}">
-        </label>
-    
-        <button>Cadastrar</button>
-    </form>    
+      {% csrf_token %}
+
+      <label class="label-input" for="full_name">
+        Nome completo
+        <input type="text" name="full_name" maxlength="255" autofocus required id="id_full_name" value="{{ full_name }}">
+      </label>
+
+      <label class="label-input" for="email">
+        Email
+        <input type="text" name="email" class="form" maxlength="320" required id="id_email" value="{{ email }}">
+      </label>
+
+      <label class="label-input" for="phone_number">
+        Telefone
+        <input type="tel" name="phone_number" pattern="\+\d{2} \d{2} \d{5}-\d{4}" class="form" id="id_phone_number" placeholder="+XX XX XXXXX-XXXX" required>
+      </label>
+
+      <label class="label-input" for="course">
+        Curso
+        <input type="text" name="course" maxlength="50" required id="id_course" value="{{ course }}">
+      </label>
+
+      <label class="label-input" for="password1">
+        Senha
+        <input type="password" name="password1" autocomplete="new-password" required id="id_password1" value="{{ password }}">
+      </label>
+
+      <label class="label-input" for="password2">
+        Confirme a Senha
+        <input type="password" name="password2" autocomplete="new-password" required id="id_password2" value="{{ password }}">
+      </label>
+
+      <button>Cadastrar</button>
+    </form>
+
     <script src="{% static 'js/user_registration.js' %}"></script>
-</body>
+    <script>
+      var $input = $("#id_phone_number");
+      $input.on("keyup", function(event) {
+        var input = $(this).val();
+        var formatted = input.replace(/(\d{2})(\d{2})(\d{5})(\d{4})/, "+$1 $2 $3-$4");
+        $(this).val(formatted);
+      });
+    </script>
+  </body>
 {% endblock %}
