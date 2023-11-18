@@ -13,6 +13,11 @@ from django.contrib import messages
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from datetime import timedelta, date
+from weasyprint import HTML
+from django.template.loader import get_template
+from django.http import FileResponse
+from io import BytesIO
+from django.http import HttpResponseForbidden
 
 User = get_user_model()
 
@@ -126,21 +131,24 @@ def loans(request):
     # Obtém os livros dos empréstimos com o campo "is_on" desativado
     books = [loan.book for loan in all_loans if loan.is_on is not True]
 
+    # Obtém os livros dos empréstimos com o campo "is_on" ativado
+    activated_books = [loan.book for loan in all_loans if loan.is_on]
+
     # Remove as duplicações dos livros
     books = list(set(books))
+    activated_books = list(set(activated_books))
 
     expired_loans_books = []
-
+    
     for loan in all_loans:
-     
      # Checa se empréstimo está atrasado
-     if check_loan_date_status(loan.id) == False:
+     if check_loan_date_status(loan.id) == False and loan.is_on:
         ## Adiciona empréstimo na lista de empréstimos expirados
         if loan.book not in expired_loans_books:
             expired_loans_books.append(loan.book)
 
 
-    return render(request, "loans.html", {"books":books, "expired_loans_books": expired_loans_books})
+    return render(request, "loans.html", {"books":books, "expired_loans_books": expired_loans_books, "activated_books":activated_books})
 
 # Meus Empréstimos
 @login_required(login_url='/membros/login')
@@ -232,7 +240,7 @@ def loanslist(request, book_id):
 
     return render(request, "loans-list.html", {"book":book, "book_loans":book_loans})
 
-# Lista de Empréstimos Solicitados
+# Lista de Empréstimos Expirados
 @staff_member_required
 def expiredloanslist(request, book_id):
     # Obtém o livro
@@ -241,12 +249,41 @@ def expiredloanslist(request, book_id):
     # Obtém os empréstimos
     expired_loans = [loan for loan in book.loan.all() if check_loan_date_status(loan.id) == False and loan.is_on == True]
 
+    for loan in expired_loans:
+        loan.days_to_return = (loan.final_date - date.today()).days
+
     return render(request, "expired-loans-list.html", {"book":book, "expired_loans":expired_loans})
+
+# Lista de Empréstimos Ativos
+@staff_member_required
+def activeloanslist(request, book_id):
+    # Obtém o livro
+    book = get_object_or_404(Book, id=book_id)
+
+    # Obtém os empréstimos
+    activated_loans = [loan for loan in book.loan.all() if check_loan_date_status(loan.id) and loan.is_on == True]
+
+    for loan in activated_loans:
+        loan.days_to_return = (loan.final_date - date.today()).days
+
+    return render(request, "active-loans-list.html", {"book":book, "activated_loans":activated_loans})
+
+# Finalizar empréstimo
+@staff_member_required
+def endloan(request, loan_id):
+    loan = UserLoan.objects.get(pk=loan_id)
+
+    # Adiciona o empréstimo no histórico
+
+    # Deleta o empréstimo
+    #loan.delete()
+
+    return redirect('loans')
 
 # Funções
 
 # Enviar e-mail
-def sendemail(subject, recipient_list, email_template, context):
+def sendemail(subject, recipient_list, email_template, context,):
     # Email de envio
     from_email = settings.EMAIL_HOST_USER
 
@@ -331,3 +368,40 @@ def check_loan_date_status(loan_id):
         return False
     else:
         return True
+
+# Gera arquivo PDF para comprovantes
+def receiptpdfgeneration(loan_id):
+  loan = UserLoan.objects.get(pk=loan_id)
+
+  # Obtém template HTML
+  html_template = get_template('book-loan-receipt.html')
+
+  # Passa o onteúdo para o html
+  html_content = html_template.render({"loan":loan})
+
+  # Converte para PDF
+  pdf_file = HTML(string=html_content).write_pdf()
+
+  # Manda para página
+  pdf_io = BytesIO()
+  pdf_io.write(pdf_file)
+  pdf_io.seek(0)
+  return pdf_io
+
+# Carrega visualização do PDF
+def receiptpdfview(request, loan_id):
+    loan = UserLoan.objects.get(pk=loan_id)
+
+    # Checa se empréstimo está aceito
+    if loan.is_on:
+
+        # Apenas carrega o comprovante se for do próprio usuário ou se for um membro da staff
+        if request.user == loan.user or request.user.is_staff:
+            pdf_io = receiptpdfgeneration(loan_id)
+            filename = loan.book.title + "_comprovante.pdf"
+            return FileResponse(pdf_io, content_type='application/pdf', filename=filename)
+        else:
+            return HttpResponseForbidden('Você não tem permissão para acessar esse comprovante.')
+    else:
+        return HttpResponseForbidden('O comprovante não existe ou ainda está sendo gerado. Recomendamos recarregar a página.')
+

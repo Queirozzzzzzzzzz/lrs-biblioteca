@@ -16,5 +16,8 @@ urlpatterns = [
     path('perfil/', views.profile, name="profile"),
     path('emprestimos/lista/<int:book_id>/', views.loanslist, name="loanslist"),
     path('emprestimos/lista/expirados/<int:book_id>/', views.expiredloanslist, name="expiredloanslist"),
-    path('livros/emprestimo', views.bookloan, name="bookloan")
+    path('emprestimos/lista/ativos/<int:book_id>/', views.activeloanslist, name="activeloanslist"),
+    path('livros/emprestimo', views.bookloan, name="bookloan"),
+    path('pdf/<int:loan_id>/', views.receiptpdfview, name='receiptpdfview'),
+    path('encerrar-emprestimo/<int:loan_id>', views.endloan, name="endloan")
 ]

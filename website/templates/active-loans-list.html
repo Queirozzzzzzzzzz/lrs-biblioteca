@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% load templatetags %}
+
+{% block content %}
+<body>
+ <h1>{{ book.title }}</h1>
+
+ <!-- Lista de Empréstimos Expirados -->
+ <div class="expired-loans">
+   <h2>Empréstimos Ativos</h2>
+   <ul>
+     {% for loan in activated_loans %}
+        <form action="{% url 'endloan' loan.id %}" method="POST">
+        {% csrf_token %}
+        <li>
+            {{ loan.user }}
+            <label for="date1">Solicitado em:</label>
+            <input type="date" id="date1" readonly value="{{ loan.start_date|date:'Y-m-d' }}" />
+            <label for="date2">Data de Expiração:</label>
+            <input type="date" id="date2" readonly value="{{ loan.final_date|date:'Y-m-d' }}" />
+            <label for="remaining_days">Dias restantes</label>
+            <input id="remaining_days" type="number" value="{{ loan.days_to_return|abs }}" readonly>
+            <button>Encerrar Empréstimo</button>
+        </li>
+        </form>       
+     {% endfor %}
+   </ul>
+ </div>
+</body>
+{% endblock %}
