@@ -48,13 +48,14 @@ class UserManager(BaseUserManager):
 
 # Modelo de Usuário
 class User(AbstractBaseUser, PermissionsMixin):
-    full_name = models.CharField(max_length=255, unique=True, error_messages={'unique': 'Um usuário com este nome já existe.'})
+    full_name = models.CharField(max_length=255, error_messages={'unique': 'Um usuário com este nome já existe.'})
     email = models.EmailField(max_length=255, unique=True, error_messages={'unique': 'Um usuário com este e-mail já existe.'})
-    phone_number = PhoneNumberField(null=False, blank=False, unique=True)
-    course = models.CharField(max_length=50)
+    phone_number = PhoneNumberField(null=True, blank=True)
+    course = models.CharField(max_length=50, null=True, blank=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     is_librarian = models.BooleanField(default=False)
+    profile_image = models.ImageField(null=True, blank=True, upload_to="static/images/")
 
     # Define o gerenciador personalizado
     objects = UserManager()

@@ -1,52 +1,52 @@
-{% extends 'base.html' %} {% block content %}
-<body>
-  <h1>Perfil de Usuário</h1>
+{% extends 'base.html' %}
 
-  <!-- Informações do Usuário -->
-  <div class="user-info">
-    <img
-      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTca2Cs6dyoP3NvlwmpwRWPkkpZiSEP9utweeTx1sI&s"
-      alt="Foto de Usuário"
-    />
-    <p><strong>Nome:</strong> João Silva</p>
-    <p><strong>Email:</strong> joao@example.com</p>
-    <p><strong>Sala:</strong> Sala 123</p>
-    <p><strong>Data de Expiração da Conta:</strong> 2023-12-31</p>
-    <button id="editar-perfil">Editar Perfil</button>
-  </div>
+{% block content %}
+  <body>
+    <h1>Perfil de Usuário</h1>
 
-  <!-- Modal para Editar Perfil -->
-  <div id="editar-modal" class="modal" style="display: none">
-    <div class="modal-content">
-      <span class="close" id="closeModal">&times;</span>
-
-      <!-- Formulário para Editar Nome e Email (não funcional) -->
-      <form action="{% url 'profile' %}" method="post">
-        <label for="novo-icon">Novo Ícone:</label>
-        <input type="file" id="novo-icon" name="novo-icon" />
-
-        <label for="novo-email">Novo Email:</label>
-        <input type="email" id="novo-email" name="novo-email" />
-
-        <button>Salvar Alterações</button>
-      </form>
+    <!-- Informações do Usuário -->
+    <div class="user-info">
+      {% if user.profile_image %}
+        <img src="{{ user.profile_image.url }}" alt="Foto de Usuário"/>
+      {% else %}
+        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTca2Cs6dyoP3NvlwmpwRWPkkpZiSEP9utweeTx1sI&s" alt="Foto de Usuário"/>
+      {% endif %}
+      <p><strong>Nome:</strong> {{ user.full_name }}</p>
+      <p><strong>Email:</strong> {{ user.email }}</p>
+      <p><strong>Telefone:</strong> {{ user.phone_number }}</p>
+      <p><strong>Curso:</strong> {{ user.course }}</p>
+      <button id="editar-perfil">Editar Perfil</button>
     </div>
-  </div>
 
-  <script>
-    // Abrir o modal ao clicar no botão "Editar Perfil"
-    document
-      .getElementById("editar-perfil")
-      .addEventListener("click", function () {
+    <!-- Modal para Editar Perfil -->
+    <div id="editar-modal" class="modal" style="display: none">
+      <div class="modal-content">
+        <span class="close" id="closeModal">&times;</span>
+
+        <!-- Formulário para Editar Nome e Email (não funcional) -->
+        <form action="{% url 'updateprofile' %}" method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+          <label for="icon">Ícone:</label>
+          <input type="file" id="id_icon" name="icon" value="{{ user.profile_image }}"/>
+
+          <label for="email">Telefone:</label>
+          <input type="tel" id="id_phone_number" name="phone_number" value="{{ user.phone_number }}"/>
+
+          <button>Salvar Alterações</button>
+        </form>
+      </div>
+    </div>
+
+    <script>
+      // Abrir o modal ao clicar no botão "Editar Perfil"
+      document.getElementById("editar-perfil").addEventListener("click", function () {
         document.getElementById("editar-modal").style.display = "block";
       });
 
-    // Fechar o modal ao clicar no "X"
-    document
-      .getElementById("closeModal")
-      .addEventListener("click", function () {
+      // Fechar o modal ao clicar no "X"
+      document.getElementById("closeModal").addEventListener("click", function () {
         document.getElementById("editar-modal").style.display = "none";
       });
-  </script>
-</body>
+    </script>
+  </body>
 {% endblock %}

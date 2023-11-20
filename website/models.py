@@ -94,6 +94,7 @@ class UserLoan(models.Model):
     is_on = models.BooleanField(default=False)
     start_date = models.DateField()
     final_date = models.DateField()
+    renews = models.IntegerField(default=1)
 
     def __str__(self):
         return self.user.full_name + " " + self.book.title
@@ -102,7 +103,6 @@ class UserLoan(models.Model):
 class HistoryUserLoan(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name="history_loan") # Associa o campo book ao objeto do livro
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE) # Associa o campo user ao objeto do usuário
-    is_on = models.BooleanField(default=False)
     start_date = models.DateField()
     final_date = models.DateField()
 

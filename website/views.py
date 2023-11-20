@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
-from .forms import BookRegistrationForm, UserLoanForm
+from .forms import BookRegistrationForm, UserLoanForm, UserEditForm
 from .models import Book, UserLoan, HistoryUserLoan, UserWishList
 import requests
 from dateutil.parser import parse
@@ -18,6 +18,7 @@ from django.http import FileResponse
 from io import BytesIO
 from django.http import HttpResponseForbidden
 from xhtml2pdf import pisa
+from members.models import User
 
 User = get_user_model()
 
@@ -200,11 +201,12 @@ def loans(request):
 @login_required(login_url='/membros/login')
 def myloans(request):
     all_loans =  UserLoan.objects.filter(user_id=request.user.id)
+    all_history_loans =  HistoryUserLoan.objects.filter(user_id=request.user.id)
 
     for loan in all_loans:
         loan.days_to_return = (loan.final_date - date.today()).days
 
-    return render(request, "my-loans.html", {"all_loans":all_loans})
+    return render(request, "my-loans.html", {"all_loans":all_loans, "all_history_loans":all_history_loans})
 
 # Cadastro de usuário
 @staff_member_required
@@ -321,13 +323,53 @@ def endloan(request, loan_id):
     loan = UserLoan.objects.get(pk=loan_id)
 
     # Adiciona o empréstimo no histórico
+    historyloan = HistoryUserLoan()
+
+    historyloan.user = loan.user
+    historyloan.book = loan.book
+    historyloan.start_date = loan.start_date
+    historyloan.final_date = timezone.now()
+
+    historyloan.save()
+
+    # Automaticamente aumente o estoque do livro
+    loan.book.stock += 1
+    if loan.book.status == "unavailable":
+        loan.book.status = "available"
+
+    loan.book.save()
 
     # Deleta o empréstimo
-    #loan.delete()
+    loan.delete()
 
     return redirect('loans')
 
+# Renova empréstimo
+@login_required(login_url='/membros/login')
+def bookrenew(request, loan_id):
+    loan = UserLoan.objects.get(pk=loan_id)
+    
+    if loan.renews > 0 or request.user.is_staff:
+        # Diminui a quantidade de renovações apenas caso seja maior que 0
+        if loan.renews > 0:
+            loan.renews-=1
+
+        # Adiciona os dias extras para a data de devolução
+        renew_loan_default_days = 15
+        loan.final_date += timedelta(days=renew_loan_default_days)
+
+        loan.save()
+
+    else:
+        messages.error(request, "A renovação foi negada.")
+
+    if request.user.is_staff:
+        return redirect('loans')
+
+    return redirect('myloans')
+
 # Adiciona livro para lista de desejos
+@login_required(login_url='/membros/login')
 def wishlistadd(request):
     book = get_object_or_404(Book, pk=request.POST.get('wishlist_book_id'))
 
@@ -336,6 +378,23 @@ def wishlistadd(request):
         wishlist.books.add(book)
    
     return redirect('books')
+
+# Atualiza informações do perfil
+@login_required(login_url='/membros/login')
+def updateprofile(request):
+    if request.method == 'POST':
+        form = UserEditForm(request.POST, request.FILES, instance=request.user)
+        if form.is_valid():
+            if 'icon' in request.FILES:
+                request.user.profile_image = request.FILES['icon']
+
+            request.user.phone_number = request.POST['phone_number']
+
+            request.user.save()
+
+            return redirect('profile')
+        
+    return render(request, 'profile.html', {})
 
 # Funções
 
@@ -430,7 +489,16 @@ def check_loan_date_status(loan_id):
         return True
 
 # Gera arquivo PDF para comprovantes
-def receiptpdfgeneration(loan_id):
+def pdfgenerate(html_content):
+
+    # Convert to PDF
+    pdf_io = BytesIO()
+    pisa.CreatePDF(html_content, pdf_io, page_size='A5')
+    pdf_io.seek(0)
+    return pdf_io
+
+# Gera comprovante de empréstimo
+def receiptpdfgenerate(loan_id):
     loan = UserLoan.objects.get(pk=loan_id)
 
     # Get HTML template
@@ -439,11 +507,19 @@ def receiptpdfgeneration(loan_id):
     # Pass content to the html
     html_content = html_template.render({"loan":loan})
 
-    # Convert to PDF
-    pdf_io = BytesIO()
-    pisa.CreatePDF(html_content, pdf_io)
-    pdf_io.seek(0)
-    return pdf_io
+    return (pdfgenerate(html_content))
+
+# Gera receita de empréstimo
+def historyreceiptpdfgenerate(history_loan_id):
+    loan = HistoryUserLoan.objects.get(pk=history_loan_id)
+
+    # Get HTML template
+    html_template = get_template('closed-book-loan-receipt.html')
+
+    # Pass content to the html
+    html_content = html_template.render({"loan":loan})
+
+    return (pdfgenerate(html_content))
 
 # Carrega visualização do PDF
 def receiptpdfview(request, loan_id):
@@ -454,10 +530,22 @@ def receiptpdfview(request, loan_id):
 
         # Apenas carrega o comprovante se for do próprio usuário ou se for um membro da staff
         if request.user == loan.user or request.user.is_staff:
-            pdf_io = receiptpdfgeneration(loan_id)
+            pdf_io = receiptpdfgenerate(loan_id)
             filename = loan.book.title + "_comprovante.pdf"
             return FileResponse(pdf_io, content_type='application/pdf', filename=filename)
         else:
             return HttpResponseForbidden('Você não tem permissão para acessar esse comprovante.')
     else:
         return HttpResponseForbidden('O comprovante não existe ou ainda está sendo gerado. Recomendamos recarregar a página.')
+
+# Carrega visualização do PDF
+def historyreceiptpdfview(request, history_loan_id):
+    loan = HistoryUserLoan.objects.get(pk=history_loan_id)
+
+    # Apenas carrega o comprovante se for do próprio usuário ou se for um membro da staff
+    if request.user == loan.user or request.user.is_staff:
+        pdf_io = historyreceiptpdfgenerate(history_loan_id)
+        filename = loan.book.title + "_comprovante.pdf"
+        return FileResponse(pdf_io, content_type='application/pdf', filename=filename)
+    else:
+        return HttpResponseForbidden('Você não tem permissão para acessar esse comprovante.')

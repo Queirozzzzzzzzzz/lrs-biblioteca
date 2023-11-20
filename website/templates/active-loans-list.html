@@ -24,10 +24,14 @@
             {% else %}
             <label for="remaining_days">Dias restantes</label>
             <input id="remaining_days" type="number" value="{{ loan.days_to_return }}" readonly>
-            <button>Encerrar Empréstimo</button>
             {% endif %}
+            <button>Encerrar Empréstimo</button>
         </li>
-        </form>       
+        </form>    
+        <form action="{% url 'bookrenew' loan.id %}" method="POST">
+          {% csrf_token %}
+          <button type="submit">Renovar Empréstimo</button>
+        </form>    
      {% endfor %}
    </ul>
  </div>

@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout, get_user_model
 from django.contrib import messages
-from .forms import SignUpForm
+from .forms import UserForm
 from django.core.mail import send_mail
 from django.conf import settings
 from django.template.loader import render_to_string
+from django.core.files.base import ContentFile
 
 User = get_user_model()
 
@@ -37,66 +38,72 @@ def signin(request):
 
 # Cadastro de usuário
 def userregister(request):
-   form = SignUpForm()
+    form = UserForm()
 
-   # Se a requisição for POST
-   if request.method == "POST":
-       form = SignUpForm(request.POST)
+    # Se a requisição for POST
+    if request.method == "POST":
+        form = UserForm(request.POST)
 
-       # Se o formulário for válido
-       if form.is_valid():
-           # Salva o formulário do usuário
-           user = form.save()
+        # Se o formulário for válido
+        if form.is_valid():
+            # Salva o formulário do usuário
+            user = form.save()
 
-           # Pega as informações do usuário
-           full_name = form.cleaned_data['full_name']
-           email = form.cleaned_data['email']
-           password = form.cleaned_data['password1']
-           course = form.cleaned_data['course']
+            # Define a foto de perfil padrão
+            user.profile_image.save('default_cover_image.jpg', get_default_image())
 
-           # Salva o usuário
-           user.save()
+            # Salva o usuário
+            user.save()
 
-           # Define os dados para o e-mail
-           subject = "Cadastro Realizado - Out Of Box Library"
-           from_email = settings.EMAIL_HOST_USER
-           recipient_list = [email]
+            # Define os dados para o e-mail
+            subject = "Cadastro Realizado - Out Of Box Library"
+            from_email = settings.EMAIL_HOST_USER
+            recipient_list = [user.email]
 
-           # Prepara os dados para preencher o modelo
-           context = {
-               "full_name": full_name,
-               "email": email,
-               "course": course,
-               "password": password,
-           }
+            # Prepara os dados para preencher o modelo
+            context = {
+                "full_name": user.full_name,
+                "email": user.email,
+                "password": user.password,
+            }
 
-           # Renderiza o conteúdo HTML do e-mail
-           email_message = render_to_string("email-user-register-template.html", context)
+            # Renderiza o conteúdo HTML do e-mail
+            email_message = render_to_string("email-user-register-template.html", context)
 
-           #Envia o e-mail
-           send_mail(subject, email_message, from_email, recipient_list, fail_silently=False)
+            # Envia o e-mail
+            send_mail(subject, email_message, from_email, recipient_list, fail_silently=False)
 
-           messages.success(request, ("Registrado com sucesso!"))
-           return redirect('userregister')
-       
-       # Se o formulário não for válido, exibe as mensagens de erro e recarrega a página
-       else:
-           for error in form.errors:
-               messages.success(request, form.errors[error])
+            messages.success(request, ("Registrado com sucesso!"))
+            return redirect('userregister')
+        
+        # Se o formulário não for válido, exibe as mensagens de erro e recarrega a página
+        else:
+            for error in form.errors:
+                messages.error(request, form.errors[error])
 
-           full_name = form.cleaned_data['full_name']
-           email = form.cleaned_data['email']
-           course = form.cleaned_data['course']
+            full_name = form.cleaned_data['full_name']
+            email = form.cleaned_data['email']
 
-           return render(request, 'authenticate/user-registration.html', {
-               'full_name': full_name,
-               'email': email,
-               'course': course,
-           })
-   return render(request, 'authenticate/user-registration.html', {})
+            return render(request, 'authenticate/user-registration.html', {
+                'full_name': full_name,
+                'email': email,
+            })
+
+    return render(request, 'authenticate/user-registration.html', {})
 
 # Desloga da conta
 def signout(request):
     logout(request)
     messages.success(request, ("Você saiu de sua conta"))
     return redirect('home')
+
+# Obtem a foto de perfil padrão
+def get_default_image():
+    # Url da imagem
+    default_image_path = settings.STATICFILES_DIRS[0] + '/images/default_profile_image.png'
+
+    # Salva o conteúdo da imagem
+    with open(default_image_path, 'rb') as default_image_file:
+        default_image = ContentFile(default_image_file.read())
+
+    return default_image

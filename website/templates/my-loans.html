@@ -13,15 +13,15 @@
 
   <!-- Empréstimos Solicitados -->
   <h2>Empréstimos Solicitados</h2>
-  {% for loan in all_loans %}
-  {% if loan.is_on == False %}
-    <div class="loaned-books">
-      <div class="loan">
-        <div class="book-cover"></div>
-        <img src="{{ loan.book.front_cover.url }}" alt="Capa do Livro" />
-      </div>
-  {% endif %}
-  {% endfor %}
+    {% for loan in all_loans %}
+    {% if loan.is_on == False %}
+      <div class="loaned-books">
+        <div class="loan">
+          <div class="book-cover"></div>
+          <img src="{{ loan.book.front_cover.url }}" alt="Capa do Livro" />
+        </div>
+    {% endif %}
+    {% endfor %}
   </div>
 
   <!-- Empréstimos em Andamento -->
@@ -41,6 +41,10 @@
           {% else %}
               <div style="background-color: red">A devolução do livro está atrasada em {{ loan.days_to_return|abs }} dias.</div>
           {% endif %}
+          <form action="{% url 'bookrenew' loan.id %}" method="POST">
+            {% csrf_token %}
+            <button type="submit">Renovar Empréstimo</button>
+          </form> 
         </div>
     {% endif %}
     {% endfor %}
@@ -49,7 +53,14 @@
   <!-- Empréstimos Devolvidos -->
   <h2>Livros Devolvidos</h2>
   <div class="loaned-books">
-
+    {% for loan in all_history_loans %}
+      <div class="loaned-books">
+        <div class="loan">
+          <div class="book-cover"></div>
+          <img src="{{ loan.book.front_cover.url }}" alt="Capa do Livro" />
+          <button onclick="window.open('{% url 'historyreceiptpdfview' loan.id %}')">Receita</button>
+        </div>
+    {% endfor %}
   </div>
 
   <!-- Modal para Comprovantes -->
