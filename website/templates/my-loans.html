@@ -26,34 +26,28 @@
 
   <!-- Empréstimos em Andamento -->
   <h2>Empréstimos em Andamento</h2>
-  {% for loan in all_loans %}
-  {% if loan.is_on %}
-    <div class="loaned-books">
-      <div class="loan">
-        <div class="book-cover"></div>
-        <img src="{{ loan.book.front_cover.url }}" alt="Capa do Livro" />
-        {% if loan.days_to_return > 7 %}
-            <div style="background-color: green">{{ loan.days_to_return }} dias para a devolução do livro.</div>
-        {% elif loan.days_to_return > 3 %}
-            <div style="background-color: yellow">{{ loan.days_to_return }} dias para a devolução do livro.</div>
-        {% elif loan.days_to_return > 0 %}
-            <div style="background-color: red">{{ loan.days_to_return }} dias para a devolução do livro.</div>
-        {% else %}
-            <div style="background-color: red">A devolução do livro está atrasada em {{ loan.days_to_return|abs }} dias.</div>
-        {% endif %}
-      </div>
-  {% endif %}
-  {% endfor %}
+    {% for loan in all_loans %}
+    {% if loan.is_on %}
+      <div class="loaned-books">
+        <div class="loan">
+          <div class="book-cover"></div>
+          <img src="{{ loan.book.front_cover.url }}" alt="Capa do Livro" />
+          {% if loan.days_to_return > 7 %}
+              <div style="background-color: green">{{ loan.days_to_return }} dias para a devolução do livro.</div>
+          {% elif loan.days_to_return > 3 %}
+              <div style="background-color: yellow">{{ loan.days_to_return }} dias para a devolução do livro.</div>
+          {% elif loan.days_to_return > 0 %}
+              <div style="background-color: red">{{ loan.days_to_return }} dias para a devolução do livro.</div>
+          {% else %}
+              <div style="background-color: red">A devolução do livro está atrasada em {{ loan.days_to_return|abs }} dias.</div>
+          {% endif %}
+        </div>
+    {% endif %}
+    {% endfor %}
   </div>
 
   <!-- Empréstimos Devolvidos -->
   <h2>Livros Devolvidos</h2>
-  <div class="loaned-books">
-
-  </div>
-
-  <!-- Empréstimos Atrasados -->
-  <h2>Livros Atrasados</h2>
   <div class="loaned-books">
 
   </div>

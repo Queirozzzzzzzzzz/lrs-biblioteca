@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
 from .forms import BookRegistrationForm, UserLoanForm
-from .models import Book, UserLoan
+from .models import Book, UserLoan, HistoryUserLoan, UserWishList
 import requests
 from dateutil.parser import parse
 from django.core.files.base import ContentFile
@@ -149,6 +149,11 @@ def bookloan(request):
                     for librarian in librarians:
                         sendemail("Empréstimo Solicitado - Out Of Box Library", [librarian.email], "email-request-loan.html", context = {"user": user, "book":book})
 
+                    # Retira o livro da lista de desejos caso ele estivesse lá
+                    wishlist = UserWishList.objects.get(user=request.user)
+                    if book in wishlist.books.all():
+                        wishlist.books.remove(book)
+
                     return redirect('myloans')
                 else:
                     messages.error(request, ("Este livro não está disponível para empréstimos"))
@@ -160,7 +165,9 @@ def bookloan(request):
 @login_required(login_url='/membros/login')
 def books(request):
     all_books = Book.objects.all
-    return render(request, "books.html", {"all_books":all_books})
+    wishlist, created = UserWishList.objects.get_or_create(user=request.user)
+
+    return render(request, "books.html", {"all_books":all_books, "wishlist":wishlist})
 
 # Livros com empréstimos
 @login_required(login_url='/membros/login')
@@ -319,6 +326,16 @@ def endloan(request, loan_id):
     #loan.delete()
 
     return redirect('loans')
+
+# Adiciona livro para lista de desejos
+def wishlistadd(request):
+    book = get_object_or_404(Book, pk=request.POST.get('wishlist_book_id'))
+
+    if book:
+        wishlist, created = UserWishList.objects.get_or_create(user=request.user)
+        wishlist.books.add(book)
+   
+    return redirect('books')
 
 # Funções
 

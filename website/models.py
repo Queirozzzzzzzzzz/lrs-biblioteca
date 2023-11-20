@@ -2,7 +2,7 @@ from django.db import models
 from django.conf import settings
 from django.db.models.functions import Now
 
-#Modelo do livro
+# Modelo do livro
 class Book(models.Model):
     added_date = models.DateField(auto_now_add=True)
     title = models.CharField(max_length=255)
@@ -87,7 +87,7 @@ class Book(models.Model):
     def __str__(self):
         return self.title
     
-#Modelo do empréstimo
+# Modelo do empréstimo
 class UserLoan(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name="loan") # Associa o campo book ao objeto do livro
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE) # Associa o campo user ao objeto do usuário
@@ -98,7 +98,7 @@ class UserLoan(models.Model):
     def __str__(self):
         return self.user.full_name + " " + self.book.title
 
-#Modelo do empréstimo para histórico
+# Modelo do empréstimo para histórico
 class HistoryUserLoan(models.Model):
     book = models.ForeignKey(Book, on_delete=models.CASCADE, related_name="history_loan") # Associa o campo book ao objeto do livro
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE) # Associa o campo user ao objeto do usuário
@@ -107,4 +107,12 @@ class HistoryUserLoan(models.Model):
     final_date = models.DateField()
 
     def __str__(self):
-        return self.user.full_name + " " + self.book.title               
+        return self.user.full_name + " " + self.book.title  
+
+# Modelo de Lista de Desejos        
+class UserWishList(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE) # Associa o campo user ao objeto do usuário
+    books = models.ManyToManyField(Book)
+
+    def __str__(self):
+        return self.user.full_name

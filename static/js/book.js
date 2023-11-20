@@ -43,6 +43,7 @@ function OpenBookModal(title, author, synopsis, genre, publisher, release_date, 
       `;
 
       document.getElementById('book_id').value = id;
+      document.getElementById('wishlist_book_id').value = id;
       document.getElementById('edit_book_id').value = id;
 }
 

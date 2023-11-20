@@ -13,6 +13,9 @@
      {% for loan in expired_loans %}
        <li>
          {{ loan.user }}
+         <p>E-mail: {{ loan.user.email }}</p>
+         <p>Telefone: {{ loan.user.phone_number }}</p>
+         <p>Curso: {{ loan.user.course }}</p>
          <label for="date1">Solicitado em:</label>
          <input type="date" id="date1" readonly value="{{ loan.start_date|date:'Y-m-d' }}" />
          <label for="date2">Data de Expiração:</label>

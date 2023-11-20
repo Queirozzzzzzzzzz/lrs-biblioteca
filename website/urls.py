@@ -19,5 +19,6 @@ urlpatterns = [
     path('emprestimos/lista/ativos/<int:book_id>/', views.activeloanslist, name="activeloanslist"),
     path('livros/emprestimo', views.bookloan, name="bookloan"),
     path('pdf/<int:loan_id>/', views.receiptpdfview, name='receiptpdfview'),
-    path('encerrar-emprestimo/<int:loan_id>', views.endloan, name="endloan")
+    path('encerrar-emprestimo/<int:loan_id>', views.endloan, name="endloan"),
+    path('lista-de-desejos/', views.wishlistadd, name="wishlistadd")
 ]

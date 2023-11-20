@@ -27,6 +27,23 @@
 <!-- LIVROS -->
 
     <span class="background">
+
+        <section class="gallery" data-status="wish_list" style="display: flex;">
+            <h3 class="secao">Lista de Desejos</h3>
+            {% for book in all_books %}
+                {% if book in wishlist.books.all %}
+                    <article class="card" data-status="wish_list">
+                        <button onclick="OpenBookModal('{{book.title|escapejs}}', '{{book.author|escapejs}}', '{{book.synopsis|escapejs}}', '{{book.get_genre_display|escapejs}}', '{{book.publisher|escapejs}}', '{{book.release_date}}', '{{book.status_display}}', '{{book.stock}}', '{{ book.id }}')">
+                            {% if book.front_cover %}
+                            <img src="{{book.front_cover.url}}" alt="Capa">
+                            {% else %}
+                            <img src="" alt="Capa padrão">
+                            {% endif %}
+                        </button>
+                    </article>
+                {% endif %}
+            {% endfor %}
+        </section>
         
         <section class="gallery" data-status="available" style="display: flex;">
             <h3 class="secao">Disponíveis</h3>
@@ -94,7 +111,11 @@
             <input type="hidden" id="book_id" name="book" value="">
             <button type="submit">Realizar empréstimo</button>
         </form> 
-        <button>+ Lista de Desejos</button>
+        <form action="{% url 'wishlistadd' %}" method="POST">
+            {% csrf_token %}
+            <input type="hidden" id="wishlist_book_id" name="wishlist_book_id" value="{{ book.id }}">
+            <button type="submit">+ Lista de Desejos</button>
+        </form>         
         {% if user.is_staff %}
             <form action="{% url 'bookedit' %}" method="POST">
                 {% csrf_token %}
