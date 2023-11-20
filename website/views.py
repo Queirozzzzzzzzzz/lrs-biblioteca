@@ -141,6 +141,14 @@ def bookloan(request):
 
                     book.save()
                     userloan.save()
+
+                    # Obtém todos os usuários bibliotecários
+                    librarians = User.objects.filter(is_librarian=True)
+
+                    # Notifica por e-mail o(s) bibliotecário(s) de que um empréstimo foi solicitado.
+                    for librarian in librarians:
+                        sendemail("Empréstimo Solicitado - Out Of Box Library", [librarian.email], "email-request-loan.html", context = {"user": user, "book":book})
+
                     return redirect('myloans')
                 else:
                     messages.error(request, ("Este livro não está disponível para empréstimos"))
@@ -337,6 +345,7 @@ def get_book_info(isbn):
 
     # Faz uma solicitação GET para a API do Google Books com os parâmetros definidos
     response = requests.get(base_url, params=params)
+    print(response.url)
 
     # Verifica se a solicitação foi bem-sucedida
     if response.status_code == 200:

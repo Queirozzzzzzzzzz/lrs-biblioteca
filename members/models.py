@@ -54,6 +54,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     course = models.CharField(max_length=50)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
+    is_librarian = models.BooleanField(default=False)
 
     # Define o gerenciador personalizado
     objects = UserManager()
