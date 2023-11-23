@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib.admin.views.decorators import staff_member_required
-from .forms import BookRegistrationForm, UserLoanForm, UserEditForm
+from .forms import BookRegistrationForm, UserLoanForm
 from .models import Book, UserLoan, HistoryUserLoan, UserWishList
 import requests
 from dateutil.parser import parse
@@ -378,23 +378,6 @@ def wishlistadd(request):
         wishlist.books.add(book)
    
     return redirect('books')
-
-# Atualiza informações do perfil
-@login_required(login_url='/membros/login')
-def updateprofile(request):
-    if request.method == 'POST':
-        form = UserEditForm(request.POST, request.FILES, instance=request.user)
-        if form.is_valid():
-            if 'icon' in request.FILES:
-                request.user.profile_image = request.FILES['icon']
-
-            request.user.phone_number = request.POST['phone_number']
-
-            request.user.save()
-
-            return redirect('profile')
-        
-    return render(request, 'profile.html', {})
 
 # Funções
 

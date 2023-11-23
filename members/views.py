@@ -6,6 +6,7 @@ from django.core.mail import send_mail
 from django.conf import settings
 from django.template.loader import render_to_string
 from django.core.files.base import ContentFile
+from django.contrib.auth.decorators import login_required
 
 User = get_user_model()
 
@@ -49,6 +50,9 @@ def userregister(request):
             # Salva o formulário do usuário
             user = form.save()
 
+            # Obtém a senha
+            password = form.cleaned_data['password1']
+
             # Define a foto de perfil padrão
             user.profile_image.save('default_cover_image.jpg', get_default_image())
 
@@ -64,7 +68,8 @@ def userregister(request):
             context = {
                 "full_name": user.full_name,
                 "email": user.email,
-                "password": user.password,
+                "course": user.course,
+                "password": password,
             }
 
             # Renderiza o conteúdo HTML do e-mail
@@ -107,3 +112,84 @@ def get_default_image():
         default_image = ContentFile(default_image_file.read())
 
     return default_image
+
+# Edita o perfil de usuário
+@login_required(login_url='/membros/login')
+def editprofile(request, user_id):
+    user = User.objects.get(id=user_id)
+    
+    if request.method == "POST":
+
+        # Campos formulário
+        fields = ['full_name', 'email', 'phone_number', 'course', 'password', 'profile_image']
+
+        # Checa se o campo é válido
+        def is_valid_field(field):
+            
+            # Rejeita campo se não existe na resposta do formulário
+            if field not in request.POST and field not in request.FILES:
+                return False
+
+            # Campos que podem estar vazios
+            optional_fields = ['course', 'phone_number']
+
+            # Obtém o valor do campo do formulário
+            value = request.POST.get(field)
+
+            # Permite campos opcionais serem salvos sem informação
+            if field in optional_fields:
+                return True
+
+            # Permite campo de imagem ser aceito
+            if field == 'profile_image' and not None:
+                return True
+
+            # Nega campos vazios
+            if field not in optional_fields and not value:
+                return False
+
+            # Aceita campos restantes
+            else:
+                return True
+
+        # Se o campo for válido atribui ele ao usuário
+        for field in fields:
+            if is_valid_field(field):
+                # Obtém o valor atual e novo do campo
+                new_value = request.POST.get(field)
+                current_value = getattr(user, field)
+
+                # Muda o valor do campo
+                if new_value != current_value:
+                    # Mensagem de sucesso
+                    mensagem = field + " atualizado com sucesso!"
+
+                    # Apenas muda o e-mail se for único
+                    if field == 'email':
+                        if User.objects.filter(email=new_value).exists():
+                            messages.error(request, 'Email já existe.')
+                            continue
+                    
+                    # Salva a senha de forma correta
+                    if field == 'password':
+                        user.set_password(new_value)
+                        messages.success(request, mensagem)
+                        continue
+
+                    # Salva a imagem de perfil 
+                    if field == 'profile_image':
+                        new_image = request.FILES.get('profile_image')
+                        if new_image:
+                            user.profile_image = new_image
+                            messages.success(request, mensagem)
+                        continue
+
+                    setattr(user, field, request.POST.get(field))
+                    messages.success(request, mensagem)
+        
+        # Salva
+        user.save()
+
+        return redirect('profile')
+    
+    return render(request, 'user-edit.html', {'profile':user})

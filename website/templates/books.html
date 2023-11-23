@@ -33,7 +33,7 @@
             {% for book in all_books %}
                 {% if book in wishlist.books.all %}
                     <article class="card" data-status="wish_list">
-                        <button onclick="OpenBookModal('{{book.title|escapejs}}', '{{book.author|escapejs}}', '{{book.synopsis|escapejs}}', '{{book.get_genre_display|escapejs}}', '{{book.publisher|escapejs}}', '{{book.release_date}}', '{{book.status_display}}', '{{book.stock}}', '{{ book.id }}')">
+                        <button onclick="OpenBookModal('{{book.title|escapejs}}', '{{book.author|escapejs}}', '{{book.synopsis|escapejs}}', '{{book.get_genre_display|escapejs}}', '{{book.publisher|escapejs}}', '{{book.release_date}}', '{{book.get_status_display}}', '{{book.stock}}', '{{ book.id }}')">
                             {% if book.front_cover %}
                             <img src="{{book.front_cover.url}}" alt="Capa">
                             {% else %}
@@ -50,7 +50,7 @@
             {% for book in all_books %}
                 {% if book.status == "available" %}
                     <article class="card" data-status="available">
-                        <button onclick="OpenBookModal('{{book.title|escapejs}}', '{{book.author|escapejs}}', '{{book.synopsis|escapejs}}', '{{book.get_genre_display|escapejs}}', '{{book.publisher|escapejs}}', '{{book.release_date}}', '{{book.status_display}}', '{{book.stock}}', '{{ book.id }}')">
+                        <button onclick="OpenBookModal('{{book.title|escapejs}}', '{{book.author|escapejs}}', '{{book.synopsis|escapejs}}', '{{book.get_genre_display|escapejs}}', '{{book.publisher|escapejs}}', '{{book.release_date}}', '{{book.get_status_display}}', '{{book.stock}}', '{{ book.id }}')">
                             {% if book.front_cover %}
                             <img src="{{book.front_cover.url}}" alt="Capa">
                             {% else %}
@@ -67,7 +67,7 @@
             {% for book in all_books %}
                 {% if book.status == "unavailable" %}
                     <article class="card" data-status="unavailable">
-                        <button onclick="OpenBookModal('{{book.title|escapejs}}', '{{book.author|escapejs}}', '{{book.synopsis|escapejs}}', '{{book.get_genre_display|escapejs}}', '{{book.publisher|escapejs}}', '{{book.release_date}}', '{{book.status_display}}', '{{book.stock}}', '{{ book.id }}')">
+                        <button onclick="OpenBookModal('{{book.title|escapejs}}', '{{book.author|escapejs}}', '{{book.synopsis|escapejs}}', '{{book.get_genre_display|escapejs}}', '{{book.publisher|escapejs}}', '{{book.release_date}}', '{{book.get_status_display}}', '{{book.stock}}', '{{ book.id }}')">
                             {% if book.front_cover %}
                             <img src="{{book.front_cover.url}}" alt="Capa">
                             {% else %}
@@ -84,7 +84,7 @@
             {% for book in all_books %}
                 {% if book.status == "soon" %}
                     <article class="card">
-                        <button onclick="OpenBookModal('{{book.title|escapejs}}', '{{book.author|escapejs}}', '{{book.synopsis|escapejs}}', '{{book.get_genre_display|escapejs}}', '{{book.publisher|escapejs}}', '{{book.release_date}}', '{{book.status_display}}', '{{book.stock}}', '{{ book.id }}')">
+                        <button onclick="OpenBookModal('{{book.title|escapejs}}', '{{book.author|escapejs}}', '{{book.synopsis|escapejs}}', '{{book.get_genre_display|escapejs}}', '{{book.publisher|escapejs}}', '{{book.release_date}}', '{{book.get_status_display}}', '{{book.stock}}', '{{ book.id }}')">
                             {% if book.front_cover %}
                             <img src="{{book.front_cover.url}}" alt="Capa">
                             {% else %}

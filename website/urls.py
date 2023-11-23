@@ -22,6 +22,5 @@ urlpatterns = [
     path('encerrar-emprestimo/<int:loan_id>/', views.endloan, name="endloan"),
     path('lista-de-desejos/', views.wishlistadd, name="wishlistadd"),
     path('renovar-emprestimo/<int:loan_id>/', views.bookrenew, name="bookrenew"),
-    path('pdf/receita/<int:history_loan_id>/', views.historyreceiptpdfview, name="historyreceiptpdfview"),
-    path('perfil/editar/', views.updateprofile, name="updateprofile")
+    path('pdf/receita/<int:history_loan_id>/', views.historyreceiptpdfview, name="historyreceiptpdfview")
 ]

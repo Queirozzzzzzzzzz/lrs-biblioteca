@@ -55,7 +55,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     is_librarian = models.BooleanField(default=False)
-    profile_image = models.ImageField(null=True, blank=True, upload_to="static/images/")
+    profile_image = models.ImageField(null=True, blank=True, upload_to="static/images/profile_pictures/")
 
     # Define o gerenciador personalizado
     objects = UserManager()

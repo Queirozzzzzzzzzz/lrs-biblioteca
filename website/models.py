@@ -81,7 +81,7 @@ class Book(models.Model):
     origin = models.CharField(max_length=12, choices=ORIGIN_CHOICES, default='unknown')
     comment = models.TextField(null=True, blank=True)
     loan_count = models.IntegerField(default=0)
-    front_cover = models.ImageField(null=True, blank=True, upload_to="static/images/")
+    front_cover = models.ImageField(null=True, blank=True, upload_to="static/images/front_covers/")
 
     #Nome do livro no banco de dados
     def __str__(self):

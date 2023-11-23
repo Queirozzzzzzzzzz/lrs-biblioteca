@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  </head>
+  <body>
+    {% if profile.profile_image %}
+      <img src="{{ profile.profile_image.url }}" alt="Foto de Usuário"/>
+    {% else %}
+      <img src="{% static 'images/default_profile_image.png' %}" alt="Foto de Usuário"/>
+    {% endif %}
+    <form class="form" method="POST" action="{% url 'editprofile' profile.id %}" enctype="multipart/form-data">
+      {% csrf_token %}
+      {% if user.is_staff %}
+        <label class="label-input" for="full_name">Nome completo
+          <input type="text" name="full_name" maxlength="255" autofocus required id="id_full_name" value="{{ profile.full_name }}" />
+        </label>
+        <label class="label-input" for="email">Email
+          <input type="text" name="email" class="form" maxlength="320" required id="id_email" value="{{ profile.email }}" />
+        </label>
+        <label class="label-input" for="course">Curso
+          <input type="text" name="course" maxlength="50" id="id_course" value="{{ profile.course }}" />
+        </label>
+        <label class="label-input" for="password">Senha
+          <input type="password" name="password" class="form" id="id_password"/>
+        </label>
+      {% endif %}
+      <label class="label-input" for="phone_number">Telefone
+        <input type="tel" name="phone_number" class="form" id="id_phone_number" placeholder="+XX XX XXXXX-XXXX" value="{{ profile.phone_number }}" />
+      </label>
+      <label class="label-input" for="profile_image">Imagem de perfil
+        <input type="file" name="profile_image" class="form" id="id_profile_image" />
+      </label>    
+      <button>Salvar Alterações</button>
+    </form>
+    <script src="{% static 'js/profile_registration.js' %}"></script>
+    <script>
+      var $input = $("#id_phone_number");
+      $input.on("keyup", function (event) {
+        var input = $(this).val();
+        var formatted = input.replace(/(\d{2})(\d{2})(\d{5})(\d{4})/, "+$1 $2 $3-$4");
+        $(this).val(formatted);
+      });
+    </script>
+  </body>
+{% endblock %}
