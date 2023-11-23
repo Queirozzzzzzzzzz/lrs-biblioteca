@@ -7,6 +7,7 @@ from django.conf import settings
 from django.template.loader import render_to_string
 from django.core.files.base import ContentFile
 from django.contrib.auth.decorators import login_required
+from django.core.exceptions import ValidationError
 
 User = get_user_model()
 
@@ -68,6 +69,7 @@ def userregister(request):
             context = {
                 "full_name": user.full_name,
                 "email": user.email,
+                "phone_number": user.phone_number,
                 "course": user.course,
                 "password": password,
             }
@@ -180,8 +182,21 @@ def editprofile(request, user_id):
                     if field == 'profile_image':
                         new_image = request.FILES.get('profile_image')
                         if new_image:
-                            user.profile_image = new_image
-                            messages.success(request, mensagem)
+                            try:
+
+                                # Valida o tipo da imagem
+                                validate_image_extension(new_image)
+
+                                # Valida o tamanho imagem
+                                validate_image_size(new_image)
+
+                                # Salva a imagem
+                                user.profile_image = new_image
+                                messages.success(request, mensagem)
+
+                            # Retorna o erro
+                            except ValidationError as e:
+                                messages.error(request, e.args[0])
                         continue
 
                     setattr(user, field, request.POST.get(field))
@@ -190,6 +205,36 @@ def editprofile(request, user_id):
         # Salva
         user.save()
 
-        return redirect('profile')
+        # Retorna para página de perfil caso o usuário seja o mesmo que esteja editando
+        if request.user == user:
+            return redirect('profile')
+        # Caso contrário retorna para a página de usuários
+        else:
+            return redirect('profiles')
     
-    return render(request, 'user-edit.html', {'profile':user})
+    return render(request, 'user-edit.html', {'profile': user})
+
+# Busca perfil de usuários
+def searchuser(request):
+    if request.method == 'POST':
+        email = request.POST.get('email')
+        try:
+            user = User.objects.get(email=email)
+            return redirect('editprofile', user_id=user.id)
+        except User.DoesNotExist:
+            return render(request, 'profiles.html', {'error': 'Usuário não existe.'})
+    else:
+        return render(request, 'profiles.html')
+
+# Funções
+
+# Valida tipo da imagem
+def validate_image_extension(img):
+    if not img.name[-3:].lower() in ['jpg', 'jpeg', 'png', 'gif']:
+            raise ValidationError("Os tipos de arquivos aceitos são jpg, jpeg, png e gif.")
+
+# Valida tamanho da imagem
+def validate_image_size(img):
+   filesize = img.size
+   if filesize > 15 * 1024 * 1024:
+       raise ValidationError('Arquivo deve ser menor que 15MB')

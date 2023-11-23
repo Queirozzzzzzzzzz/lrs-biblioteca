@@ -218,6 +218,11 @@ def userregister(request):
 def profile(request):
     return render(request, "profile.html", {})
 
+# Perfis usuários
+@staff_member_required
+def profiles(request):
+    return render(request, "profiles.html", {})
+
 # Lista de Empréstimos Solicitados
 @staff_member_required
 def loanslist(request, book_id):

@@ -3,10 +3,11 @@ Olá {{full_name.split|first}},
   Parabéns! Sua conta foi cadastrada com sucesso em nosso sistema bibliotecário. 
 Segue abaixo suas informações de cadastro:
 
-- Nome: {{ full_name }}
-- Email: {{ email }}
-- Curso: {{ course }}
-- Senha: {{ password }}
+- Nome: {% if full_name is not None %}{{ full_name }}{% endif %}
+- Email: {% if email is not None %}{{ email }}{% endif %}
+- Telefone: {% if phone_number is not None %}{{ phone_number }}{% endif %}
+- Curso: {% if course is not None %}{{ course }}{% endif %}
+- Senha: {% if password is not None %}{{ password }}{% endif %}
 
 Atenciosamente,
 Out Of Box Library.

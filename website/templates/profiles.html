@@ -1,0 +1,12 @@
+{% extends 'base.html' %} 
+
+{% load static %}
+
+{% block content %}
+<form method="POST" action="{% url 'searchuser' %}">
+    {% csrf_token %}
+    <label for="email">E-mail do usuário</label>
+    <input type="email" name="email" placeholder="E-mail">
+    <button type="submit">Procurar</button>
+</form> 
+{% endblock %}
