@@ -230,7 +230,7 @@ def searchuser(request):
 
 # Valida tipo da imagem
 def validate_image_extension(img):
-    if not img.name[-3:].lower() in ['jpg', 'jpeg', 'png', 'gif']:
+    if not img.name[-3:].lower() in ['jpg', 'png', 'gif'] and not img.name[-4:].lower() in ['jpeg']:
             raise ValidationError("Os tipos de arquivos aceitos são jpg, jpeg, png e gif.")
 
 # Valida tamanho da imagem
