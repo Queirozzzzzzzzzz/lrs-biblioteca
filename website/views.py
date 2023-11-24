@@ -366,7 +366,7 @@ def bookrenew(request, loan_id):
         loan.save()
 
     else:
-        messages.error(request, "A renovação foi negada.")
+        messages.error(request, "A renovação foi negada. Se quiser renovar novamente fale com o bibliotecário.")
 
     if request.user.is_staff:
         return redirect('loans')
