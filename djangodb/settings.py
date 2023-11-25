@@ -22,7 +22,7 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
-CSRF_TRUSTED_ORIGINS = ['https://localhost:8000', '.vercel.app', '.now.sh']
+CSRF_TRUSTED_ORIGINS = ['https://localhost:8000']
 
 # Application definition
 
@@ -35,7 +35,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'website',
     'members',
-    'whitenoise.runserver_nostatic',
 ]
 
 MIDDLEWARE = [
@@ -46,7 +45,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
 ]
 
 ROOT_URLCONF = 'djangodb.urls'
@@ -73,7 +71,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY")
 
 DEBUG = os.environ.get("DEBUG") != "False"
 
-ALLOWED_HOSTS = [".vercel.app", ".now.sh"]
+ALLOWED_HOSTS = []
 
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles", "static")
 
@@ -88,11 +86,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles", "static")
 #}
 
 DATABASES = {
-    'default': dj_database_url.parse(
-        os.environ.get("DATABASE_URL"),
-        conn_max_age=600,
-        conn_health_checks=True,
-    )
+    'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
 }
 
 
