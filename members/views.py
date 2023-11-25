@@ -103,7 +103,7 @@ def userregister(request):
 # Desloga da conta
 def signout(request):
     logout(request)
-    messages.success(request, ("Você saiu de sua conta"))
+    messages.warning(request, ("Você saiu de sua conta"))
     return redirect('home')
 
 # Edita o perfil de usuário

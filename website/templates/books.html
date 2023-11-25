@@ -4,6 +4,21 @@
 
 {% block content %}
 
+<!-- Procurar livros -->
+<ul> 
+    <div class="search-box">
+        <input type="text" list="books" class="form-control" placeholder="Pesquisar livro">
+        
+        <datalist id="books">
+            {% for book in all_books %}
+                <option value="{{ book.title }}"></option>
+            {% endfor %}
+        </datalist>
+
+        <button type="submit">Procurar</button>
+    </div>
+</ul>
+
 <!-- Filtro -->
 
     <label>Filtrar por:</label>
@@ -111,11 +126,18 @@
             <input type="hidden" id="book_id" name="book" value="">
             <button type="submit">Realizar empréstimo</button>
         </form> 
-        <form action="{% url 'wishlistadd' %}" method="POST">
+        <form action="{% url 'wishlist' %}" method="POST">
             {% csrf_token %}
-            <input type="hidden" id="wishlist_book_id" name="wishlist_book_id" value="{{ book.id }}">
+            <input type="hidden" id="wishlist_add_book_id" name="wishlist_book_id" value="{{ book.id }}">
+            <input type="hidden" id="wishlist_state" name="wishlist_state" value="add">
             <button type="submit">+ Lista de Desejos</button>
-        </form>         
+        </form>      
+        <form action="{% url 'wishlist' %}" method="POST">
+            {% csrf_token %}
+            <input type="hidden" id="wishlist_remove_book_id" name="wishlist_book_id" value="{{ book.id }}">
+            <input type="hidden" id="wishlist_state" name="wishlist_state" value="remove">
+            <button type="submit">- Lista de Desejos</button>
+        </form>          
         {% if user.is_staff %}
             <form action="{% url 'bookedit' %}" method="POST">
                 {% csrf_token %}
@@ -126,4 +148,6 @@
 
     </div>
     <script src="{% static 'js/book.js' %}"></script>
+
+
 {% endblock %}

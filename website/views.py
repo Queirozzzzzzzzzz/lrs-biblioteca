@@ -19,6 +19,7 @@ from io import BytesIO
 from django.http import HttpResponseForbidden
 from xhtml2pdf import pisa
 from members.models import User
+from django.http import JsonResponse
 
 User = get_user_model()
 
@@ -368,14 +369,20 @@ def bookrenew(request, loan_id):
 
     return redirect('myloans')
 
-# Adiciona livro para lista de desejos
+# Adiciona/Remove livro à lista de desejos
 @login_required(login_url='/membros/login')
-def wishlistadd(request):
+def wishlist(request,):
     book = get_object_or_404(Book, pk=request.POST.get('wishlist_book_id'))
+    state = request.POST.get('wishlist_state')
 
     if book:
         wishlist, created = UserWishList.objects.get_or_create(user=request.user)
-        wishlist.books.add(book)
+
+        if state == 'add':
+            wishlist.books.add(book)
+
+        if state == 'remove':
+            wishlist.books.remove(book)
    
     return redirect('books')
 

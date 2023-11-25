@@ -20,8 +20,8 @@ urlpatterns = [
     path('livros/emprestimo/', views.bookloan, name="bookloan"),
     path('pdf/<int:loan_id>/', views.receiptpdfview, name='receiptpdfview'),
     path('encerrar-emprestimo/<int:loan_id>/', views.endloan, name="endloan"),
-    path('lista-de-desejos/', views.wishlistadd, name="wishlistadd"),
+    path('lista-de-desejos/', views.wishlist, name="wishlist"),
     path('renovar-emprestimo/<int:loan_id>/', views.bookrenew, name="bookrenew"),
     path('pdf/receita/<int:history_loan_id>/', views.historyreceiptpdfview, name="historyreceiptpdfview"),
-    path('usuarios/', views.profiles, name='profiles')
+    path('usuarios/', views.profiles, name='profiles'),
 ]
