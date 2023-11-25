@@ -208,11 +208,6 @@ def myloans(request):
 
     return render(request, "my-loans.html", {"all_loans":all_loans, "all_history_loans":all_history_loans})
 
-# Cadastro de usuário
-@staff_member_required
-def userregister(request):
-    return render(request, "user-register.html", {})
-
 # Perfil
 @login_required(login_url='/membros/login')
 def profile(request):

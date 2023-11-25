@@ -18,8 +18,8 @@
     {% endif %}
     <p><strong>Nome:</strong> {{ user.full_name }}</p>
     <p><strong>Email:</strong> {{ user.email }}</p>
-    <p><strong>Telefone:</strong> {{ user.phone_number }}</p>
-    <p><strong>Curso:</strong> {{ user.course }}</p>
+    <p><strong>Telefone:</strong> {{ user.phone_number|default_if_none:'' }}</p>
+    <p><strong>Curso:</strong> {{ user.course|default_if_none:'' }}</p>
     <a href="{% url 'editprofile' user.id %}">
       <button type="button">Editar Perfil</button>
   </a>

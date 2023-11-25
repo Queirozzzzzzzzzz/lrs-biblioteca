@@ -16,6 +16,17 @@ Caso apareça o erro " ERROR: Could not build wheels for pycairo, which is requi
 
     sudo apt install libcairo2-dev
 
+Para definir as variáveis de ambiente
+
+    export EMAIL_HOST_USER='variavel_aqui'
+
+    export EMAIL_HOST_PASSWORD='variavel_aqui'
+
+    export SECRET_KEY='variavel_aqui'
+
+    # Caso você tenha um banco de dados externo
+    export DATABASE_URL='variavel_aqui'
+
 Para ativar o servidor:
 
     python manage.py migrate

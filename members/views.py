@@ -8,6 +8,7 @@ from django.template.loader import render_to_string
 from django.core.files.base import ContentFile
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
+from django.contrib.admin.views.decorators import staff_member_required
 
 User = get_user_model()
 
@@ -39,6 +40,7 @@ def signin(request):
       return render(request, 'authenticate/login.html', {})
 
 # Cadastro de usuário
+@staff_member_required
 def userregister(request):
     form = UserForm()
 
@@ -103,17 +105,6 @@ def signout(request):
     logout(request)
     messages.success(request, ("Você saiu de sua conta"))
     return redirect('home')
-
-# Obtem a foto de perfil padrão
-def get_default_image():
-    # Url da imagem
-    default_image_path = settings.STATICFILES_DIRS[0] + '/images/default_profile_image.png'
-
-    # Salva o conteúdo da imagem
-    with open(default_image_path, 'rb') as default_image_file:
-        default_image = ContentFile(default_image_file.read())
-
-    return default_image
 
 # Edita o perfil de usuário
 @login_required(login_url='/membros/login')
@@ -215,6 +206,7 @@ def editprofile(request, user_id):
     return render(request, 'user-edit.html', {'profile': user})
 
 # Busca perfil de usuários
+@staff_member_required
 def searchuser(request):
     if request.method == 'POST':
         email = request.POST.get('email')
@@ -238,3 +230,14 @@ def validate_image_size(img):
    filesize = img.size
    if filesize > 15 * 1024 * 1024:
        raise ValidationError('Arquivo deve ser menor que 15MB')
+
+# Obtem a foto de perfil padrão
+def get_default_image():
+    # Url da imagem
+    default_image_path = settings.STATICFILES_DIRS[0] + '/images/default_profile_image.png'
+
+    # Salva o conteúdo da imagem
+    with open(default_image_path, 'rb') as default_image_file:
+        default_image = ContentFile(default_image_file.read())
+
+    return default_image
