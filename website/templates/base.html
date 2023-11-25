@@ -1,17 +1,22 @@
 {% load static %}
+<head>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <!-- Importações do Bootstrap -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
 
 <body>
     <title>LRS - Biblioteca</title>
   
-    {% if messages %}
-        {% for message in messages %}
-            {% if form.errors %}
-                {{message}}
-            {% else %}
-                {{message}}
-                {% endif %}
-        {% endfor %}
-    {% endif %}
+    {% for message in messages %}
+    <div class="alert {{ message.tags }} alert-dismissible fade show" role="alert">
+       <strong>{{ message }}</strong>
+       <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+           <span aria-hidden="true">&times;</span>
+       </button>
+    </div>
+    {% endfor %}
 
     <!-- MENU -->
     <nav class="menu-lateral">
@@ -82,7 +87,7 @@
 
     </nav>
         {% block content %}
-
+        
         {% endblock %}
     </div>
 </body>

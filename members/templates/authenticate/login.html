@@ -1,42 +1,62 @@
 {% load static %}
 
-{% if messages %}
-        {% for message in messages %}
-            {% if form.errors %}
-                {{message}}
-            {% else %}
-                {{message}}
-                {% endif %}
-        {% endfor %}
-{% endif %}
-
 {% block content %}
 
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>LRS - Biblioteca</title>
+{% for message in messages %}
+    <div class="alert {{ message.tags }} alert-dismissible fade show" role="alert">
+       <strong>{{ message }}</strong>
+       <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+           <span aria-hidden="true">&times;</span>
+       </button>
+    </div>
+{% endfor %}
 
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}">
+	<link href="https://fonts.googleapis.com/css?family=Poppins:600&display=swap" rel="stylesheet">
+	<a href="https://storyset.com/people"></a>
+	<script src="https://kit.fontawesome.com/a861f52fab.js" crossorigin="anonymous"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Importações do Bootstrap -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 </head>
 <body>
-    <div class="container">
-        <form class="form" method="POST" action="{% url 'signin' %}">
-            {% csrf_token %}
-            <label class="label-input" for="">
-                <input type="email" id="signin-user" name="email" placeholder="Email">
-            </label>
-        
-            <label class="label-input" for="">
-                <input type="password" id="signin-password" name="password" value="{{password}}">
-            </label>
-        
-            <a class="password" href="#">Esqueceu a sua senha?</a>
-            <button>Logar</button>
-        </form>
+	<img class="wave" src="{% static 'images/wave.png' %}">
+	<div class="container">
+		<div class="img">
+			<img src="{% static 'images/library-animate.svg' %}">
+		</div>
+		<div class="login-content">
+			<form class="form" method="POST" action="{% url 'signin' %}">
+                {% csrf_token %}
+				<img src="{% static 'images/add-user-animate.svg' %}">
+				<h2 class="title">Bem-Vindo(a)</h2>
+           		<div class="input-div one">
+           		    <div class="i">
+                        <i class="fa-solid fa-envelope"></i>
+           		    </div>
+           		    <div class="div">
+                        <h5 id="email-label">Email</h5>
+           		   		<input type="email" id="signin-user" name="email">
+           		    </div>
+           		</div>
+           		<div class="input-div pass">
+           		   <div class="i"> 
+					<i class="fa-solid fa-key"></i>
+           		   </div>
+           		   <div class="div">
+                        <h5 id="password-label">Senha</h5>
+           		    	<input type="password" id="signin-password" name="password" value="{{password}}">
+            	   </div>
+            	</div>
+            	<input type="submit" class="btn" value="Login">
+            </form>
+        </div>
     </div>
+    <script type="text/javascript" src="{% static 'js/login.js' %}"></script>
 </body>
 </html>
     

@@ -5,6 +5,7 @@ Configurações gerais do banco de dados
 from pathlib import Path
 import os
 import dj_database_url
+from django.contrib.messages import constants as messages
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -108,6 +109,14 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+MESSAGE_TAGS = {
+  messages.DEBUG: 'alert-primary',
+  messages.INFO: 'alert-primary',
+  messages.SUCCESS: 'alert-success',
+  messages.WARNING: 'alert-warning',
+  messages.ERROR: 'alert-error',
+}
 
 
 # Internationalization
