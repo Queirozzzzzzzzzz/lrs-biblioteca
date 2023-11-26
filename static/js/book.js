@@ -7,7 +7,7 @@ var book_form = document.getElementById("id_book_modal_form")
 
 // Abrir modal
 function OpenBookModal(title, author, synopsis, genre, publisher, release_date, status, stock, id) {
-  modal.style.display = "block"; 
+  modal.style.display = "block";
   book_form.innerHTML = `
     <div class="form-group">
       <form>
@@ -42,18 +42,18 @@ function OpenBookModal(title, author, synopsis, genre, publisher, release_date, 
       </div> 
       `;
 
-      document.getElementById('book_id').value = id;
-      document.getElementById('wishlist_add_book_id').value = id;
-      document.getElementById('wishlist_remove_book_id').value = id;
-      document.getElementById('edit_book_id').value = id;
+  document.getElementById('book_id').value = id;
+  document.getElementById('wishlist_add_book_id').value = id;
+  document.getElementById('wishlist_remove_book_id').value = id;
+  document.getElementById('edit_book_id').value = id;
 }
 
 // Fechar modal
-span.onclick = function() {
+span.onclick = function () {
   modal.style.display = "none";
 }
 
-window.onclick = function(event) {
+window.onclick = function (event) {
   if (event.target == modal) {
     modal.style.display = "none";
   }
@@ -62,9 +62,9 @@ window.onclick = function(event) {
 // Filtragem de Livros
 
 // Listener para as checkbox de filtragem
-document.querySelectorAll('input[type="checkbox"]').forEach(function(checkbox) {
-  checkbox.addEventListener('change', function() {
-      filterGalleries();
+document.querySelectorAll('input[type="checkbox"]').forEach(function (checkbox) {
+  checkbox.addEventListener('change', function () {
+    filterGalleries();
   });
 });
 
@@ -76,25 +76,25 @@ function filterGalleries() {
   var galleries = document.querySelectorAll('.gallery');
 
   // Verifica se alguma checkbox está marcada
-  var isAnyCheckboxChecked = Array.from(checkboxes).some(function(checkbox) {
+  var isAnyCheckboxChecked = Array.from(checkboxes).some(function (checkbox) {
     return checkbox.checked;
   });
 
   // Se nenhuma checkbox está marcada, exibe todas as galerias
   if (!isAnyCheckboxChecked) {
-    galleries.forEach(function(gallery) {
+    galleries.forEach(function (gallery) {
       gallery.style.display = 'flex';
     });
     return;
   }
 
   // Loop através de todas as galerias
-  galleries.forEach(function(gallery) {
+  galleries.forEach(function (gallery) {
     // Obtém o tipo da galeria
     var galleryStatus = gallery.getAttribute('data-status');
 
     // Verificar se a galeria corresponde a algum dos filtros selecionados
-    var matchesAnyFilter = Array.from(checkboxes).some(function(checkbox) {
+    var matchesAnyFilter = Array.from(checkboxes).some(function (checkbox) {
       // Verifica se a checkbox está marcada e seu estado corresponde ao valor da checkbox
       if (checkbox.checked && checkbox.value === galleryStatus) {
         return true;
@@ -115,3 +115,21 @@ function filterGalleries() {
     }
   });
 }
+
+// Procura por livros
+
+function filterBooks(searchQuery) {
+  const books = document.querySelectorAll('.card');
+  books.forEach(function (book) {
+    const title = book.querySelector('button').getAttribute('onclick').split('\'')[1];
+    if (title.toLowerCase().includes(searchQuery.toLowerCase())) {
+      book.style.display = 'block';
+    } else {
+      book.style.display = 'none';
+    }
+  });
+}
+
+document.getElementById('search_button').addEventListener('click', function () {
+  filterBooks(document.getElementById('search_input').value);
+});

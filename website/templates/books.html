@@ -7,7 +7,7 @@
 <!-- Procurar livros -->
 <ul> 
     <div class="search-box">
-        <input type="text" list="books" class="form-control" placeholder="Pesquisar livro">
+        <input type="text" list="books" id="search_input" class="form-control" placeholder="Pesquisar livro">
         
         <datalist id="books">
             {% for book in all_books %}
@@ -15,7 +15,7 @@
             {% endfor %}
         </datalist>
 
-        <button type="submit">Procurar</button>
+        <button type="submit" id="search_button">Procurar</button>
     </div>
 </ul>
 
@@ -147,7 +147,5 @@
         {% endif %}
 
     </div>
-    <script src="{% static 'js/book.js' %}"></script>
-
-
+    <script src="{% static 'js/book.js' %}"></script>  
 {% endblock %}
