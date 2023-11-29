@@ -23,11 +23,6 @@
 
         <ul class="itens">
             <li>
-                <a href="{% url 'home' %}">
-                    <span class="txt-link">Home</span>
-                </a>
-            </li>
-            <li>
                 <a href="{% url 'books' %}">
                     <span class="txt-link">Livros</span>
                 </a>
@@ -39,6 +34,11 @@
             </li>
             {% if user.is_staff %}
             Staff
+            <li>
+                <a href="{% url 'home' %}">
+                    <span class="txt-link">Home</span>
+                </a>
+            </li>
             <li class="item-menu">
                 <a href="{% url 'loans' %}">
                     <span class="txt-link">Empréstimo</span>

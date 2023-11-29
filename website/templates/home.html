@@ -1,7 +1,9 @@
-{% extends 'base.html' %}
+{% extends 'base.html' %} {% block content %}
 
-{% block content %}
-
-    <h2>Seja bem-vindo(a) {{user.full_name.split|first}}</h2>
-
-{% endblock %}
+<h2>Seja bem-vindo(a) {{user.full_name.split|first}}</h2>
+<h3>Empréstimos Solicitados</h3>
+<p>Quantidade: {{ requested_loans_count }}</p>
+<h3>Empréstimos Por Livro</h3>
+{% for book in books %}
+<p>Livro: {{ book }} Solicitações: {{ book.total_loan_count }}.</p>
+{% endfor %} {% endblock %}

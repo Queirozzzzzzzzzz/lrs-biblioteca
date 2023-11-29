@@ -19,7 +19,9 @@ def signin(request):
       
       # Se o usuário já estiver autenticado, redireciona para a página inicial
       if request.user.is_authenticated:
-          return redirect('home')
+        if request.user.is_staff:
+            return redirect('home')
+        return redirect('books')
 
       # Se a requisição for POST
       if request.method == "POST":
@@ -31,7 +33,9 @@ def signin(request):
           # Se o usuário for autenticado com sucesso, faz login e redireciona para a página inicial
           if user is not None:
               login(request, user)
-              return redirect('home')
+              if user.is_staff:
+                return redirect('home')
+              return redirect('books')
           # Se a autenticação falhar, exibe uma mensagem de erro
           else:
               messages.error(request, ("Houve um erro ao logar na sua conta, tente novamente..."))
@@ -104,7 +108,7 @@ def userregister(request):
 def signout(request):
     logout(request)
     messages.warning(request, ("Você saiu de sua conta"))
-    return redirect('home')
+    return redirect('signin')
 
 # Edita o perfil de usuário
 @login_required(login_url='/membros/login')

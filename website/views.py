@@ -20,15 +20,42 @@ from django.http import HttpResponseForbidden
 from xhtml2pdf import pisa
 from members.models import User
 from django.http import JsonResponse
+from django.db.models import Count
+import datetime
 
 User = get_user_model()
 
 # Páginas
 
 # Página inicial
-@login_required(login_url='/membros/login')
+@staff_member_required(login_url='membros/login')
 def home(request):
-    return render(request, 'home.html', {})
+    # Empr´setimos solicitados
+    requested_loans = UserLoan.objects.filter(is_on=False)
+    requested_loans_count = requested_loans.count()
+
+    # Gêneros mais solicitados
+    now = datetime.datetime.now()
+
+    current_week = now.isocalendar()[1]
+    current_month = now.month
+    current_year = now.year
+
+    books = Book.objects.all()
+
+    # Conta a quantidade de empréstimos cada livro tem/teve
+    for book in books:
+        user_loan_count = UserLoan.objects.filter(book=book).count()
+        history_user_loan_count = HistoryUserLoan.objects.filter(book=book).count()
+        book.total_loan_count = user_loan_count + history_user_loan_count
+
+    context = {
+        'requested_loans_count':requested_loans_count,
+        'books':books,
+        'labels': [book.title for book in books],
+        'data': [book.total_loan_count for book in books],
+    }
+    return render(request, 'home.html', context)
 
 # Adicionar novo livro
 @staff_member_required
@@ -202,7 +229,7 @@ def loans(request):
 @login_required(login_url='/membros/login')
 def myloans(request):
     all_loans =  UserLoan.objects.filter(user_id=request.user.id)
-    all_history_loans =  HistoryUserLoan.objects.filter(user_id=request.user.id)
+    all_history_loans =  HistoryUserLoan.objects.filter(user_id=request.user.id, was_on=True)
 
     for loan in all_loans:
         loan.days_to_return = (loan.final_date - date.today()).days
@@ -282,6 +309,9 @@ def loanslist(request, book_id):
 
         # Envia e-mail/notificação sobre negação do empréstimo
         for loan in remove_loans:
+            # Adiciona ao histórico
+            savehistoryloan(loan.id, False)
+
             # Envia um email de notificação
             sendemail("Empréstimo Negado - Out Of Box Library", [loan.user.email], "email-reject-loan.html", context = {"user": loan.user, "book":book})
 
@@ -321,27 +351,7 @@ def activeloanslist(request, book_id):
 # Finalizar empréstimo
 @staff_member_required
 def endloan(request, loan_id):
-    loan = UserLoan.objects.get(pk=loan_id)
-
-    # Adiciona o empréstimo no histórico
-    historyloan = HistoryUserLoan()
-
-    historyloan.user = loan.user
-    historyloan.book = loan.book
-    historyloan.start_date = loan.start_date
-    historyloan.final_date = timezone.now()
-
-    historyloan.save()
-
-    # Automaticamente aumente o estoque do livro
-    loan.book.stock += 1
-    if loan.book.status == "unavailable":
-        loan.book.status = "available"
-
-    loan.book.save()
-
-    # Deleta o empréstimo
-    loan.delete()
+    savehistoryloan(loan_id, True)
 
     return redirect('loans')
 
@@ -539,3 +549,27 @@ def historyreceiptpdfview(request, history_loan_id):
         return FileResponse(pdf_io, content_type='application/pdf', filename=filename)
     else:
         return HttpResponseForbidden('Você não tem permissão para acessar esse comprovante.')
+
+def savehistoryloan(loan_id, was_on):
+    loan = UserLoan.objects.get(pk=loan_id)
+
+    # Adiciona o empréstimo no histórico
+    historyloan = HistoryUserLoan()
+
+    historyloan.user = loan.user
+    historyloan.book = loan.book
+    historyloan.start_date = loan.start_date
+    historyloan.final_date = timezone.now()
+    historyloan.was_on = was_on
+
+    historyloan.save()
+
+    # Automaticamente aumente o estoque do livro
+    loan.book.stock += 1
+    if loan.book.status == "unavailable":
+        loan.book.status = "available"
+
+    loan.book.save()
+
+    # Deleta o empréstimo
+    loan.delete()
