@@ -49,12 +49,24 @@ def home(request):
         history_user_loan_count = HistoryUserLoan.objects.filter(book=book).count()
         book.total_loan_count = user_loan_count + history_user_loan_count
 
+    labels = []
+    data = []
+
+    for book in books:
+        labels.append(book.title)
+        data.append(book.total_loan_count)
+
+
+    books_labels = [book.title for book in books]
+    books_data = [book.total_loan_count for book in books]
+
     context = {
         'requested_loans_count':requested_loans_count,
         'books':books,
-        'labels': [book.title for book in books],
-        'data': [book.total_loan_count for book in books],
+        'books_labels': books_labels,
+        'books_data': books_data
     }
+
     return render(request, 'home.html', context)
 
 # Adicionar novo livro
@@ -153,7 +165,7 @@ def bookloan(request):
         form = UserLoanForm(request.POST)
         if form.is_valid():
             if bookalreadyregistered:
-                messages.error(request, ("Livro já registrado em seus empréstimos"))
+                messages.error(request, ("Livro já foi emprestado a este usuário"))
                 return redirect('books')
             else:
                 # Checa se o livro está disponível
@@ -183,6 +195,9 @@ def bookloan(request):
                     if book in wishlist.books.all():
                         wishlist.books.remove(book)
 
+                    if request.user.is_staff:
+                        return redirect('loans')    
+
                     return redirect('myloans')
                 else:
                     messages.error(request, ("Este livro não está disponível para empréstimos"))
@@ -201,6 +216,9 @@ def books(request):
 # Livros com empréstimos
 @login_required(login_url='/membros/login')
 def loans(request):
+    all_books = Book.objects.all()
+    all_users = User.objects.all()
+
     all_loans = UserLoan.objects.all()
 
     # Obtém os livros dos empréstimos com o campo "is_on" desativado
@@ -223,7 +241,15 @@ def loans(request):
             expired_loans_books.append(loan.book)
 
 
-    return render(request, "loans.html", {"books":books, "expired_loans_books": expired_loans_books, "activated_books":activated_books})
+    context = {
+        "all_books":all_books,
+        "all_users":all_users,
+        "books":books,
+        "expired_loans_books": expired_loans_books,
+        "activated_books":activated_books
+        }
+
+    return render(request, "loans.html", context)
 
 # Meus Empréstimos
 @login_required(login_url='/membros/login')
@@ -294,6 +320,9 @@ def loanslist(request, book_id):
             if reject is not None:
                 # Obtém o empréstimo
                 loan = UserLoan.objects.get(pk=reject)
+
+                # Adiciona empréstimo ao histórico
+                savehistoryloan(reject, False)
 
                 # Envia um email de notificação
                 sendemail("Empréstimo Negado - Out Of Box Library", [loan.user.email], "email-reject-loan.html", context = {"user": loan.user, "book":book})

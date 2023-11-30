@@ -1,9 +1,35 @@
-{% extends 'base.html' %} {% block content %}
+{% extends 'base.html' %} 
 
-<h2>Seja bem-vindo(a) {{user.full_name.split|first}}</h2>
-<h3>Empréstimos Solicitados</h3>
-<p>Quantidade: {{ requested_loans_count }}</p>
-<h3>Empréstimos Por Livro</h3>
-{% for book in books %}
-<p>Livro: {{ book }} Solicitações: {{ book.total_loan_count }}.</p>
-{% endfor %} {% endblock %}
+{% block content %}
+<div id="container" style="width: 75%;">
+  <canvas id="books-chart"></canvas>
+  <canvas id="genres-chart"></canvas>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+<script>
+
+  var booksConfig = {
+    type: 'pie',
+    data: {
+      datasets: [{
+        data: {{ books_data|safe }},
+        backgroundColor: [
+          '#008000', '#00A000', '#00C000', '#00E000', '#00FF00'
+        ],
+        label: 'Livros'
+      }],
+      labels: {{ books_labels|safe }}
+    },
+    options: {
+      responsive: true
+    }
+  };
+
+  window.onload = function() {
+    var ctxBooks = document.getElementById('books-chart').getContext('2d');
+    window.myBooks = new Chart(ctxBooks, booksConfig);
+  };
+
+</script>
+{% endblock %}
