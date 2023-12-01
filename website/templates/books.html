@@ -1,45 +1,61 @@
 {% extends 'base.html' %} {% load static %} {% block content %}
 
-<!-- Procurar livros -->
-<ul>
+<style>
+
+</style>
+
+<!--CABEÇALHO COM BARRA DE PESQUISA-->
+
+<ul class="cabecalho">
+
+  <li><img class="logo" src="{% static 'images/senai_logo.png' %}" width="135px" height="50px"></button></li>
+  <meta charset="UTF-8">
   <div class="search-box">
-    <input
-      type="text"
-      list="books"
-      id="search_input"
-      class="form-control"
-      placeholder="Pesquisar livro"
-    />
+      <input type="text" class="search-text" list="books" placeholder="pesquisar livro..." id="search_input" style="caret-color: green;">
 
-    <datalist id="books">
-      {% for book in all_books %}
-      <option value="{{ book.title }}"></option>
-      {% endfor %}
-    </datalist>
+      <datalist id="books">
+        {% for book in all_books %}
+        <option value="{{ book.title }}"></option>
+        {% endfor %}
+      </datalist>
 
-    <button type="submit" id="search_button">Procurar</button>
+      <a class="search-btn">
+          <div class="back-loupe-white">
+              <img class="loupe-white" id="search_button" src="./loupe-white.svg" alt="" width="25px" height="25px">
+          </div>
+      </a>
+
   </div>
 </ul>
 
-<!-- Filtro -->
-
-<label>Filtrar por:</label>
-<div>
-  <input type="checkbox" id="id_filter_available" value="available" />
-  <label for="id_filter_available">Disponíveis</label>
-</div>
-<div>
-  <input type="checkbox" id="id_filter_unavailable" value="unavailable" />
-  <label for="id_filter_unavailable">Indisponíveis</label>
-</div>
-<div>
-  <input type="checkbox" id="filter_wish_list" value="wish_list" />
-  <label for="filter_wish_list">Lista de Desejos</label>
-</div>
-<div>
-  <input type="checkbox" id="id_filter_soon" value="soon" />
-  <label for="id_filter_soon">Em Breve</label>
-</div>
+    <!-- FILTRO DE PESQUISA -->
+    
+    <div class="filter">
+      <div class="filter-icon">
+          <img src="https://cdn-icons-png.flaticon.com/128/3686/3686786.png" width="35px" height="35px">
+      </div> 
+      <div class="filter-item">
+          <label for="id_filter_available">
+          <input type="checkbox" id="id_filter_available" value="available" class="checkbox-filter">
+          Disponíveis
+          </label>
+      </div>
+      <div class="filter-item">
+          <label for="id_filter_unavailable">
+          <input type="checkbox" id="id_filter_unavailable" value="unavailable" class="checkbox-filter">
+          Indisponíveis</label>
+      </div>
+      <div class="filter-item">
+          <label for="filter_wish_list">
+          <input type="checkbox" id="filter_wish_list" value="wish_list" class="checkbox-filter">
+          Lista de Desejos</label>
+      </div>
+      <div class="filter-item">
+          <label for="id_filter_soon">
+          <input type="checkbox" id="id_filter_soon" value="soon" class="checkbox-filter">
+          Em Breve</label>
+      </div>
+      </div>
 
 <!-- LIVROS -->
 
@@ -52,117 +68,177 @@
         onclick="OpenBookModal('{{book.title|escapejs}}', '{{book.author|escapejs}}', '{{book.synopsis|escapejs}}', '{{book.get_genre_display|escapejs}}', '{{book.publisher|escapejs}}', '{{book.release_date}}', '{{book.get_status_display}}', '{{book.stock}}', '{{ book.id }}')"
       >
         {% if book.front_cover %}
-        <img src="{{book.front_cover.url}}" alt="Capa" />
+        <figure>
+          <img src="{{book.front_cover.url}}" alt="Capa" />
         {% else %}
-        <img src="" alt="Capa padrão" />
+          <img src="" alt="Capa padrão" />
+        </figure>
         {% endif %}
       </button>
     </article>
     {% endif %} {% endfor %}
+
+    <img class="to-side" src="https://cdn-icons-png.flaticon.com/128/7543/7543114.png" width="50px" height="50px" id="play-carousel">
   </section>
 
   <section class="gallery" data-status="available" style="display: flex">
-    <h3 class="secao">Disponíveis</h3>
+    <h3 class="secao">Disponível</h3>
     {% for book in all_books %} {% if book.status == "available" %}
     <article class="card" data-status="available">
       <button
         onclick="OpenBookModal('{{book.title|escapejs}}', '{{book.author|escapejs}}', '{{book.synopsis|escapejs}}', '{{book.get_genre_display|escapejs}}', '{{book.publisher|escapejs}}', '{{book.release_date}}', '{{book.get_status_display}}', '{{book.stock}}', '{{ book.id }}')"
       >
         {% if book.front_cover %}
-        <img src="{{book.front_cover.url}}" alt="Capa" />
+        <figure>
+          <img src="{{book.front_cover.url}}" alt="Capa" />
         {% else %}
-        <img src="" alt="Capa padrão" />
+          <img src="" alt="Capa padrão" />
+        </figure>
         {% endif %}
       </button>
     </article>
     {% endif %} {% endfor %}
+
+    <img class="to-side" src="https://cdn-icons-png.flaticon.com/128/7543/7543114.png" width="50px" height="50px" id="play-carousel">
   </section>
 
   <section class="gallery" data-status="unavailable" style="display: flex">
-    <h3 class="secao">Indisponíveis</h3>
+    <h3 class="secao">Indisponível</h3>
     {% for book in all_books %} {% if book.status == "unavailable" %}
     <article class="card" data-status="unavailable">
       <button
         onclick="OpenBookModal('{{book.title|escapejs}}', '{{book.author|escapejs}}', '{{book.synopsis|escapejs}}', '{{book.get_genre_display|escapejs}}', '{{book.publisher|escapejs}}', '{{book.release_date}}', '{{book.get_status_display}}', '{{book.stock}}', '{{ book.id }}')"
       >
         {% if book.front_cover %}
-        <img src="{{book.front_cover.url}}" alt="Capa" />
+        <figure>
+          <img src="{{book.front_cover.url}}" alt="Capa" />
         {% else %}
-        <img src="" alt="Capa padrão" />
+          <img src="" alt="Capa padrão" />
+        </figure>
         {% endif %}
       </button>
     </article>
     {% endif %} {% endfor %}
+
+    <img class="to-side" src="https://cdn-icons-png.flaticon.com/128/7543/7543114.png" width="50px" height="50px" id="play-carousel">
   </section>
 
   <section class="gallery" data-status="soon" style="display: flex">
     <h3 class="secao">Em Breve</h3>
     {% for book in all_books %} {% if book.status == "soon" %}
-    <article class="card">
+    <article class="card" data-status="soon">
       <button
         onclick="OpenBookModal('{{book.title|escapejs}}', '{{book.author|escapejs}}', '{{book.synopsis|escapejs}}', '{{book.get_genre_display|escapejs}}', '{{book.publisher|escapejs}}', '{{book.release_date}}', '{{book.get_status_display}}', '{{book.stock}}', '{{ book.id }}')"
       >
         {% if book.front_cover %}
-        <img src="{{book.front_cover.url}}" alt="Capa" />
+        <figure>
+          <img src="{{book.front_cover.url}}" alt="Capa" />
         {% else %}
-        <img src="" alt="Capa padrão" />
+          <img src="" alt="Capa padrão" />
+        </figure>
         {% endif %}
       </button>
     </article>
     {% endif %} {% endfor %}
+
+    <img class="to-side" src="https://cdn-icons-png.flaticon.com/128/7543/7543114.png" width="50px" height="50px" id="play-carousel">
   </section>
 </span>
 
-<!-- Modal -->
-<div id="id_book-modal" class="book-modal" style="display: none">
-  <!-- Conteúdo do Modal -->
-  <span class="close">&times;</span>
-  <div id="id_book_modal_form" class="book-modal-content"></div>
-  <form action="{% url 'bookloan' %}" method="POST">
-    {% csrf_token %}
-    <input type="hidden" id="user_id" name="user" value="{{ user.id }}" />
-    <input type="hidden" id="book_id" name="book" value="" />
-    <button type="submit">Realizar empréstimo</button>
-  </form>
-  <form action="{% url 'wishlist' %}" method="POST">
-    {% csrf_token %}
-    <input
-      type="hidden"
-      id="wishlist_add_book_id"
-      name="wishlist_book_id"
-      value="{{ book.id }}"
-    />
-    <input
-      type="hidden"
-      id="wishlist_state"
-      name="wishlist_state"
-      value="add"
-    />
-    <button type="submit">+ Lista de Desejos</button>
-  </form>
-  <form action="{% url 'wishlist' %}" method="POST">
-    {% csrf_token %}
-    <input
-      type="hidden"
-      id="wishlist_remove_book_id"
-      name="wishlist_book_id"
-      value="{{ book.id }}"
-    />
-    <input
-      type="hidden"
-      id="wishlist_state"
-      name="wishlist_state"
-      value="remove"
-    />
-    <button type="submit">- Lista de Desejos</button>
-  </form>
-  {% if user.is_staff %}
-  <form action="{% url 'bookedit' %}" method="POST">
-    {% csrf_token %}
-    <input type="hidden" id="edit_book_id" name="edit_book_id" value="" />
-    <button type="submit" name="open">Editar</button>
-  </form>
-  {% endif %}
-</div>
+    <!-- PERFIL DE USUÁRIO -->
+    <div class="information">
+
+      <main class="w-100 box">
+          <div class="w-100 box">
+              <form class="box" id="form-form">
+                  <div class="image-upload box">
+                    {% if user.profile_image %}
+                    <img src="{{ user.profile_image.url }}" id="image-preview" class="w-100 h-100"/>
+                    {% else %}
+                    <img
+                      src="{% static 'images/default_profile_image.png' %}" id="image-preview" class="w-100 h-100"/>
+                    {% endif %}
+                      <input id="image-field" type="file">
+                  </div>
+              </form>
+          </div>
+      </main>
+
+      {% if user.is_staff %}
+        <h3 class="title-profile">Bibliotecário</h3>
+      {% else %}
+        <h3 class="title-profile">Perfil</h3>
+      {% endif %}
+
+      <p class="user-name">{{ user.full_name }}</p>
+      <p class="user-email">{{ user.email }}</p>
+      <p class="user-tel">{{ user.phone_number }}</p>
+      
+      {% if user.is_staff %}
+        <div class="buttons-align">
+          <a href="{% url 'bookadd' %}"><button class="cad-li" id="cad-emp">Cadastrar livros</button></a>
+          <a href="{% url 'loans' %}"><button class="cad-emp" id="cad-emp">Gerenciar empréstimos</button></a>
+        </div>
+      {% else %}
+        <a href="{% url 'editprofile' user.id %}"><button class="cad-li" id="cad-emp">Editar perfil</button></a>
+      {% endif %}
+      <div class="button-line">
+      <button class="exit-button" id="exit-button">Sair</button>
+
+  </div>
+  </div>
+
+<!-- MODAL INFORMAÇÃO DE LIVROS -->
+  <div id="id_book-modal" class="book-modal modal-li" style="display: none">
+    <!-- Conteúdo do Modal -->
+    <span class="close">&times;</span>
+    <div id="id_book_modal_form" class="book-modal-content"></div>
+    <form action="{% url 'bookloan' %}" method="POST">
+      {% csrf_token %}
+      <input type="hidden" id="user_id" name="user" value="{{ user.id }}" />
+      <input type="hidden" id="book_id" name="book" value="" />
+      <button class="send" type="submit">Realizar empréstimo</button>
+    </form>
+    <form action="{% url 'wishlist' %}" method="POST">
+      {% csrf_token %}
+      <input
+        type="hidden"
+        id="wishlist_add_book_id"
+        name="wishlist_book_id"
+        value="{{ book.id }}"
+      />
+      <input
+        type="hidden"
+        id="wishlist_state"
+        name="wishlist_state"
+        value="add"
+      />
+      <button class="send" type="submit">+ Lista de Desejos</button>
+    </form>
+    <form action="{% url 'wishlist' %}" method="POST">
+      {% csrf_token %}
+      <input
+        type="hidden"
+        id="wishlist_remove_book_id"
+        name="wishlist_book_id"
+        value="{{ book.id }}"
+      />
+      <input
+        type="hidden"
+        id="wishlist_state"
+        name="wishlist_state"
+        value="remove"
+      />
+      <button class="send" type="submit">- Lista de Desejos</button>
+    </form>
+    {% if user.is_staff %}
+    <form action="{% url 'bookedit' %}" method="POST">
+      {% csrf_token %}
+      <input type="hidden" id="edit_book_id" name="edit_book_id" value="" />
+      <button class="send" type="submit" name="open">Editar</button>
+    </form>
+    {% endif %}
+  </div>
+
 <script src="{% static 'js/book.js' %}"></script>
 {% endblock %}

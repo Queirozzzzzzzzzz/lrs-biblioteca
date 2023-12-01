@@ -4,6 +4,9 @@
     <!-- Importações do Bootstrap -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css"/>
+    <script src="https://kit.fontawesome.com/a861f52fab.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -18,62 +21,66 @@
     </div>
     {% endfor %}
 
-    <!-- MENU -->
-    <nav class="menu-lateral">
+<!-- BARRA LATERAL -->
+<nav class="menu-lateral">
 
-        <ul class="itens">
-            <li>
-                <a href="{% url 'books' %}">
-                    <span class="txt-link">Livros</span>
-                </a>
-            </li>
-            <li>
-                <a href="{% url 'myloans' %}">
-                    <span class="txt-link">Meus empréstimos</span>
-                </a>
-            </li>
-            {% if user.is_staff %}
-            Staff
-            <li>
-                <a href="{% url 'home' %}">
-                    <span class="txt-link">Home</span>
-                </a>
-            </li>
+    <div class="btn-expandir">
+        <i class="bi bi-list" id="btn-exp"></i>
+    </div>
+    <!--btn-expandir-->
+ 
+    <ul class="itens">
+        {% if user.is_staff %}
             <li class="item-menu">
-                <a href="{% url 'loans' %}">
-                    <span class="txt-link">Empréstimo</span>
+                <a href="{% url 'home' %}">
+                    <span class="icon"><i class="bi bi-house"></i></span>
+                    <span class="txt-link">Meus Empréstimos</span>
                 </a>
             </li>
-            <li>
-                <a href="{% url 'bookadd' %}">
-                    <span class="txt-link">Cadastrar Livros</span>
-                </a>
-            </li>
-            <li>
+        {% endif %}
+        <li class="item-menu">
+            <a href="{% url 'books' %}">
+                <span class="icon"><i class="bi bi-book"></i></span>
+                <span class="txt-link">Livros</span>
+            </a>
+        </li>
+        <li class="item-menu">
+            <a href="{% url 'myloans' %}">
+                <span class="icon"><i class="bi bi-pen"></i></span>
+                <span class="txt-link">Meus Empréstimos</span>
+            </a>
+        </li>
+        {% if user.is_staff %}
+            <li class="item-menu">
                 <a href="{% url 'userregister' %}">
+                    <span class="icon"><i class="bi bi-person-add"></i></span>
                     <span class="txt-link">Cadastrar Usuários</span>
                 </a>
             </li>
-            <li>
+            <li class="item-menu">
                 <a href="{% url 'profiles' %}">
+                    <span class="icon"><i class="bi bi-people"></i></span>
                     <span class="txt-link">Usuários</span>
                 </a>
             </li>
-            {% endif %}
-            <li>
-                <a href="{% url 'profile' %}">
-                    <span class="txt-link">Perfil</span>
-                </a>
-            </li>
-            <li>
-                <a href="{% url 'signout' %}">
-                    <span class="txt-link">Sair</span>
-                </a>
-            </li>
-
-        </ul>
-
-    </nav>
+        {% endif %}
+        <li class="item-menu">
+            <a href="{% url 'profile' %}">
+                <span class="icon"><i class="bi bi-person-circle"></i></span>
+                <span class="txt-link">Perfil</span>
+            </a>
+        </li>
+        <li class="item-menu">
+            <a href="{% url 'signout' %}">
+                <span class="icon"><i class="bi bi-box-arrow-in-left"></i></span>
+                <span class="txt-link">Sair</span>
+            </a>
+        </li>
+ 
+    </ul>
+    <script src="{% static 'js/base.js' %}"></script>
+ </nav>
+ 
         {% block content %}
         
         {% endblock %}

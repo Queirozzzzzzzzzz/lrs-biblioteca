@@ -24,32 +24,36 @@ function OpenBookModal(
         <h1>Informações</h1>
         <ul>
         <li>
-            <label id="id_title"><strong>Título:</strong> ${title}</label>
+            <input type="text" name="title" maxlength="255" required="" id="id_title" value="${title}" readonly style="">
+            <label for="title" style="margin-top: -80px; padding-left: 8px; color: #026948; font-weight: 500;">Título</label>
         </li>
         <li>
-            <label id="id_author"><strong>Autor:</strong> ${author}</label>
+            <input type="text" name="author" maxlength="80" required="" id="id_author" value="${author}" readonly>
+            <label for="author" style="margin-top: -80px; padding-left: 8px; color: #026948; font-weight: 500;">Autor</label>
         </li>
         <li>
-            <label id="id_synopsis"><strong>Sinópse:</strong> ${synopsis}</label>
+            <textarea name="synopsis" cols="40" rows="10" required="" id="id_synopsis" readonly>${synopsis}</textarea>
+            <label for="synopsis" style="margin-top: -210px; padding-left: 8px; color: #026948; font-weight: 500;">Sinópse</label>
         </li>
         <li>
-            <label id="id_genre"><strong>Gênero:</strong> ${genre}</label>
-        </li>    
-        <li>
-            <label id="id_publisher"><strong>Editora:</strong> ${publisher}</label>
-        </li>    
-        <li>
-            <label for="id_release_date"><strong>Data de Lançamento:</strong> ${release_date}</label>
+            <input type="text" name="genre" maxlength="80" required="" id="id_genre" value="${genre}" readonly>
+            <label for="author" style="margin-top: -80px; padding-left: 8px; color: #026948; font-weight: 500;">Gênero</label>
         </li>
         <li>
-            <label for="id_status"><strong>Disponibilidade:</strong> ${status}</label>
+            <input type="text" name="publisher" maxlength="80" required="" id="id_publisher" value="${publisher}" readonly>
+            <label for="author" style="margin-top: -80px; padding-left: 8px; color: #026948; font-weight: 500;">Editora</label>
+        </li>   
+        <li>
+            <input type="text" name="author" maxlength="80" required="" id="id_author" value="${release_date}" readonly>
+            <label for="author" style="margin-top: -80px; padding-left: 8px; color: #026948; font-weight: 500;">Data de Lançamento</label>
         </li>
         <li>
-            <label for="id_stock"><strong>Estoque:</strong> ${stock}</label>
+            <input type="text" name="author" maxlength="80" required="" id="id_author" value="${stock}" readonly>
+            <label for="author" style="margin-top: -80px; padding-left: 8px; color: #026948; font-weight: 500;">Estoque</label>
         </li>
         </ul>
       </form>
-      </div> 
+    </div> 
       `;
 
   document.getElementById("book_id").value = id;
@@ -138,7 +142,7 @@ function filterBooks(searchQuery) {
       .getAttribute("onclick")
       .split("'")[1];
     if (title.toLowerCase().includes(searchQuery.toLowerCase())) {
-      book.style.display = "block";
+      book.style.display = "flex";
     } else {
       book.style.display = "none";
     }
@@ -148,3 +152,65 @@ function filterBooks(searchQuery) {
 document.getElementById("search_button").addEventListener("click", function () {
   filterBooks(document.getElementById("search_input").value);
 });
+
+// ABRIR E FECHAR MODAL
+
+const buttonClose = document.querySelector(".close")
+const buttonClosea = document.querySelector(".closea")
+
+const buttonLi = document.querySelector(".cad-li")
+const modalLi = document.querySelector(".modal-li")
+
+buttonLi.onclick = function (){
+modalLi.show()
+}
+
+buttonClosea.onclick = function(){
+modalLi.close()
+}
+
+// PEGA A IMAGEM DO INPUT FILE DA CAPA
+
+const imgBook = document.querySelector('#book-image');
+const bookInput = document.querySelector('#id_front_cover');
+bookInput.addEventListener('change', function(evt) {
+if (!(evt.target && evt.target.files && evt.target.files.length > 0)) {
+return;
+}
+
+// Inicia o file-reader:
+var r = new FileReader();
+// Define o que ocorre quando concluir:
+r.onload = function() {
+// Define o `src` do elemento para o resultado:
+imgBook.src = r.result;
+}
+// Lê o arquivo e cria um link (o resultado vai ser enviado para o onload.
+r.readAsDataURL(evt.target.files[0]);
+
+// Define o texto (coisa que já tava fazendo, ~estou ignorando problema de segurança~):
+//   document.querySelector('#meme-text').innerHTML = textInsert.value;
+});
+
+// SELECIONAR IMAGEM DE PERFIL
+
+const imageField = document.querySelector("#image-field");
+const imagePreview = document.querySelector("#image-preview");
+
+
+const loadImage = (e) => {
+      const filePath = e.target || window.event.srcElement;
+
+      const file = filePath.files;
+
+      const fileReader = new FileReader();
+
+      fileReader.onload = () => {
+          imagePreview.src = fileReader.result;
+      };
+
+      fileReader.readAsDataURL(file[0]);
+
+  };
+
+imageField.addEventListener("change", loadImage);

@@ -4,79 +4,86 @@
 
 {% block content %}
 <body>
-  <h1>Página de Meus Empréstimos</h1>
-
-  <!-- Botão para Meus Comprovantes -->
-  <button id="openModal">Meus Comprovantes</button>
-
-  <!-- Seção de Livros -->
-
-  <!-- Empréstimos Solicitados -->
-  <h2>Empréstimos Solicitados</h2>
-    {% for loan in all_loans %}
-    {% if loan.is_on == False %}
-      <div class="loaned-books">
-        <div class="loan">
-          <div class="book-cover"></div>
-          <img src="{{ loan.book.front_cover.url }}" alt="Capa do Livro" />
+  <div class="container">
+    <div class="">
+      <h1>Página de Meus Empréstimos</h1>
+    
+      <!-- Botão para Meus Comprovantes -->
+      <button id="openModal">Meus Comprovantes</button>
+    </div>
+  
+    <!-- Seção de Livros -->
+  
+    <!-- Empréstimos Solicitados -->
+    <div class="">
+      <h2>Empréstimos Solicitados</h2>
+      {% for loan in all_loans %}
+      {% if loan.is_on == False %}
+        <div class="loaned-books">
+          <div class="loan">
+            <div class="book-cover"></div>
+            <img src="{{ loan.book.front_cover.url }}" alt="Capa do Livro" />
+          </div>
         </div>
-    {% endif %}
-    {% endfor %}
-  </div>
-
-  <!-- Empréstimos em Andamento -->
-  <h2>Empréstimos em Andamento</h2>
-    {% for loan in all_loans %}
-    {% if loan.is_on %}
-      <div class="loaned-books">
-        <div class="loan">
-          <div class="book-cover"></div>
-          <img src="{{ loan.book.front_cover.url }}" alt="Capa do Livro" />
-          {% if loan.days_to_return > 7 %}
-              <div style="background-color: green">{{ loan.days_to_return }} dias para a devolução do livro.</div>
-          {% elif loan.days_to_return > 3 %}
-              <div style="background-color: yellow">{{ loan.days_to_return }} dias para a devolução do livro.</div>
-          {% elif loan.days_to_return > 0 %}
-              <div style="background-color: red">{{ loan.days_to_return }} dias para a devolução do livro.</div>
-          {% else %}
-              <div style="background-color: red">A devolução do livro está atrasada em {{ loan.days_to_return|abs }} dias.</div>
-          {% endif %}
-          <form action="{% url 'bookrenew' loan.id %}" method="POST">
-            {% csrf_token %}
-            <button type="submit">Renovar Empréstimo</button>
-          </form> 
+      {% endif %}
+      {% endfor %}
+    </div>
+  
+    <!-- Empréstimos em Andamento -->
+    <h2>Empréstimos em Andamento</h2>
+      {% for loan in all_loans %}
+      {% if loan.is_on %}
+        <div class="loaned-books">
+          <div class="loan">
+            <div class="book-cover"></div>
+            <img src="{{ loan.book.front_cover.url }}" alt="Capa do Livro" />
+            {% if loan.days_to_return > 7 %}
+                <div style="background-color: green">{{ loan.days_to_return }} dias para a devolução do livro.</div>
+            {% elif loan.days_to_return > 3 %}
+                <div style="background-color: yellow">{{ loan.days_to_return }} dias para a devolução do livro.</div>
+            {% elif loan.days_to_return > 0 %}
+                <div style="background-color: red">{{ loan.days_to_return }} dias para a devolução do livro.</div>
+            {% else %}
+                <div style="background-color: red">A devolução do livro está atrasada em {{ loan.days_to_return|abs }} dias.</div>
+            {% endif %}
+            <form action="{% url 'bookrenew' loan.id %}" method="POST">
+              {% csrf_token %}
+              <button type="submit">Renovar Empréstimo</button>
+            </form> 
+          </div>
         </div>
-    {% endif %}
-    {% endfor %}
-  </div>
-
-  <!-- Empréstimos Devolvidos -->
-  <h2>Livros Devolvidos</h2>
-  <div class="loaned-books">
-    {% for loan in all_history_loans %}
-      <div class="loaned-books">
-        <div class="loan">
-          <div class="book-cover"></div>
-          <img src="{{ loan.book.front_cover.url }}" alt="Capa do Livro" />
-          <button onclick="window.open('{% url 'historyreceiptpdfview' loan.id %}')">Receita</button>
+      {% endif %}
+      {% endfor %}
+  
+    <!-- Empréstimos Devolvidos -->
+    <h2>Livros Devolvidos</h2>
+    <div class="loaned-books">
+      {% for loan in all_history_loans %}
+        <div class="loaned-books">
+          <div class="loan">
+            <div class="book-cover"></div>
+            <img src="{{ loan.book.front_cover.url }}" alt="Capa do Livro" />
+            <button onclick="window.open('{% url 'historyreceiptpdfview' loan.id %}')">Receita</button>
+          </div>
         </div>
-    {% endfor %}
-  </div>
-
-  <!-- Modal para Comprovantes -->
-  <div id="myModal" class="modal" style="display: none">
-    <div class="modal-content">
-      <span class="close" id="closeModal">&times;</span>
-      <div class="receipt">
-        {% for loan in all_loans %}
-          {% if loan.is_on and loan.days_to_return > 0 %}
-            <h2>{{ loan.book.title }}</h2>
-            <img src="{{ loan.book.front_cover.url }}" />
-            <button onclick="window.open('{% url 'receiptpdfview' loan.id %}')">Comprovante</button>
-          {% endif %}
-        {% endfor %}
+      {% endfor %}
+  
+    <!-- Modal para Comprovantes -->
+    <div id="myModal" class="modal" style="display: none">
+      <div class="modal-content">
+        <span class="close" id="closeModal">&times;</span>
+        <div class="receipt">
+          {% for loan in all_loans %}
+            {% if loan.is_on and loan.days_to_return > 0 %}
+              <h2>{{ loan.book.title }}</h2>
+              <img src="{{ loan.book.front_cover.url }}" />
+              <button onclick="window.open('{% url 'receiptpdfview' loan.id %}')">Comprovante</button>
+            {% endif %}
+          {% endfor %}
+        </div>
       </div>
     </div>
+
   </div>
 
   <script>

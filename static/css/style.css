@@ -1,97 +1,807 @@
-/* Mensagens de alerta */
+@import url('https://fonts.googleapis.com/css2?family=Fira+Sans:ital@1&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fira+Sans:ital,wght@1,900&family=Roboto:ital,wght@1,700;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@800&family=Playfair+Display:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@800&family=Playfair+Display:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap');
+
+
 
 :root {
-  --primary: #0676ed;
-  --background: #222b45;
-  --warning: #f2a600;
-  --success: #12c99b;
-  --error: #e41749;
-  --dark: #151a30;
+    background: #99c28b;
+    --background-card: #e0d5b3;
 }
 
-.alert-primary {
-  background: var(--primary);
+* {
+    margin: 0;
+    padding: 0;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
 
-.alert {
-  min-height: 67px;
-  display: flex;
-  align-items: center;
-  padding-left: 0.5em;
-  padding-right: 0.5em;
-  width: fit-content;
-  border-radius: 0.3em;
-  color: white;
+
+/* RESPONSIVIDADE (EM EDIÇÃO)*/
+
+/* desktop */
+@media all and (min-width: 1824px) and (max-width: 1280px){}
+
+/* tablet landscape */
+@media all and (min-width: 768px) and (max-width: 1024px){}
+
+/* tablet portrait */
+@media all and (min-width: 480px) and (max-width: 768px){}
+
+/* phone landscape & smaller */
+@media all and (max-width: 480px) {}
+
+
+/* LIVROS */
+
+/* posicionamento na página */
+.background {
+    display: grid;
+    place-items: center;
+    height: 40vh;
+    padding-top: 20px;
+
 }
 
-.alert-warning {
-  background: var(--warning);
+/* titulos das seções */
+.secao {
+    position: absolute;
+    top: -25%;
+    left: -10%;
+    /* font-family: Young Serif; */
+    font-size: 16px;
+    color: rgb(55, 57, 86);
+    font-style: italic;
+    text-decoration: underline;
+    background-color: bisque;
+    padding: .5em;
+    border-radius: 1em;
+
 }
 
-.alert-success {
-  background: var(--success);
+/* seção */
+.gallery {
+    display: flex;
+    position: relative;
+    margin-top: 3%;
+    width: 70%;
 }
 
-.alert-primary {
-  background: var(--primary);
+/* livro */
+.card {
+    position: relative;
+    left: 0px;
+
+    width: 110px;
+    height: 160px;
+
+    background-color: var(--background-card);
+    box-shadow: 0 5px 12px rgba(0, 0, 0, 0.5);
+    border-radius: 8px;
+
+    /* trancição de subida dos livros */
+    transition: 1s ease-in-out;
+    overflow: hidden;
+
+    display: flex;
+    justify-content: flex-start;
 }
 
-.alert-dark {
-  background: var(--dark);
+/* quando os livros não forem ativados */
+.card:not(:first-child) {
+    margin-left: -45px;
 }
 
-.alert-error {
-  background: var(--error);
+/* quando forem ativados */
+.card:hover {
+
+    /* faz o livro subir */
+    transform: translateY(-16px);
+
+    font-weight: bold;
+    cursor: pointer;
 }
 
-.alert .icon__wrapper {
-  height: 34px;
-  width: 34px;
-  border-radius: 50%;
-  background: rgba(255, 255, 255, 0.253);
-  display: flex;
-  align-items: center;
-  justify-content: center;
+/* faz os outros livros se afastarem */
+.card:hover~.card {
+    left: 55px;
 }
 
-.alert .icon__wrapper span {
-  font-size: 21px;
-  color: #fff;
+/* posicionamento da capa do livro */
+.card img {
+    height: 160px;
+    object-fit: cover;
+    border-radius: 4px;
 }
 
-.alert p {
-  color: #fff;
-  font-family: Verdana;
-  margin-left: 10px;
+
+
+
+
+
+
+/*  CABEÇALHO */
+
+/* "senai" */
+.logo {
+    border-radius: 5px;
+    position: absolute;
+    right: 5%;
+    top: 1%;
 }
 
-.alert p a,
-.alert p a:visited,
-.alert p a:active {
-  color: #fff;
+
+.cabecalho {
+    display: flex;
+    gap: 78px;
+    padding: 34px;
+    background-color: bisque;
 }
 
-.alert .open {
-  margin-left: auto;
-  margin-right: 5px;
+
+
+/* BARRA DE PESQUISA */
+
+/* barra em geral */
+.search-box {
+    background: #fff;
+
+    height: 45px;
+    border-radius: 40px;
+    padding: 3px;
+
+    /* posicionamento do texto na caixa  */
+    display: flex;
+
+    position: absolute;
+    right: 37%;
+    top: 10px;
+
 }
 
-.alert .close,
-.alert .open {
-  color: black;
-  transition: transform 0.5s;
-  font-size: 18px;
-  cursor: pointer;
+/* barra de pesquisa e place-holder */
+.search-text {
+    /* tira a formatação pronta de html */
+    background: none;
+    border: 0;
+    outline: 0;
+
+    font-size: 16px;
 }
 
-.alert .close:hover,
-.alert .open:hover {
-  transform: scale(1.3);
+/* tamanho da barra de pesquisa */
+.search-text {
+    width: 500px;
+    padding-left: 20px;
 }
 
-.close {
-  background-color: white;
-  border-radius: 1em;
-  border-color: white;
-  margin-left: 1em;
+
+/* fundo verde da lupa */
+.back-loupe-white {
+    background: #94cc74;
+
+    width: 43px;
+    height: 50.5px;
+
+    border-top-right-radius: 50px;
+    border-bottom-right-radius: 50px;
+
+    position: absolute;
+    top: 0%;
+    right: -2%;
+
+}
+
+/* espaçamento da lupa no fundo verde */
+.loupe-white {
+    margin: 12px 5px;
+    
+
+}
+
+/* espaçamento da lupa no fundo verde */
+.loupe-white:hover {
+    cursor: grab;
+    
+
+}
+
+
+/* FILTRO */
+
+.filter{
+    display: flex;
+    align-items: center;
+    margin-left: 25%;
+    background-color: bisque;
+    width: 50%;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+
+    /* display: none; */
+}
+
+
+.filter-item{
+    margin-right: 0;
+}
+
+.filter-icon{
+    margin-left: 10px;
+
+}
+
+.filter-icon:checked ~ .filter{
+    display: block;
+}
+
+
+.checkbox-filter{
+    appearance: none;
+    -webkit-appearance: none;
+    height: 25px;
+    width: 25px;
+    background-color: #faf2f2;
+    border-radius: 5px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    outline: none;
+    margin-right: 3px;
+}
+
+
+
+.checkbox-filter::after{
+    font-family: "Font Awesome 5 Free";
+    font-weight: 900;
+    font-size: 17px;
+    color: #fff;
+    content: "\f00c";
+    display: none;
+}
+
+
+.filter :where(label){
+    display: flex;
+    align-items: center;
+    color: #4c4c4c;
+    font-size: 15px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    cursor: pointer;
+    margin: 10px 15px;
+}
+
+.checkbox-filter:hover{
+    background-color: #cac7c7;
+}
+.checkbox-filter:checked{
+    background-color: #5bcd3e;
+}
+.checkbox-filter:checked::after{
+    display: block;
+}
+
+
+
+/* BARRA DE NAVEGAÇÃO LATERAL */
+
+.menu {
+    background: none;
+    border: 0;
+    outline: 0;
+    border: none;
+
+    cursor: pointer;
+}
+
+/* links da barra */
+.item-menu {
+    /* distância de um pra outro */
+    padding-bottom: 0px;
+}
+
+/* barra lateral no geral */
+nav.menu-lateral {
+    background-color: #7b9c69;
+    box-shadow: 3px 0 0 #88aac7;
+
+    width: 80px;
+    height: 100vh;
+
+    /* ajustar o espaçamento dos icones */
+    padding: 60px 0 60px 1%;
+
+
+    position: fixed;
+    overflow: hidden;
+    transition: .5s;
+    z-index: 10;
+}
+
+/* largura da barra */
+nav.menu-lateral.expandir {
+    width: 350px;
+}
+
+/* icone que abre a barra */
+.btn-expandir {
+    width: 100%;
+    padding-left: 10px;
+
+    position: absolute;
+}
+
+.btn-expandir>i {
+    color: rgb(255, 255, 255);
+    font-size: 30px;
+
+    cursor: pointer;
+    position: absolute;
+    top: -40px;
+}
+
+/* alinhamento de itens */
+ul {
+    list-style-type: none;
+    align-items: stretch;
+}
+
+ul li.item-menu {
+    transition: .2s;
+}
+
+/* fundo azul que ativa com pointer */
+ul li.ativo {
+    background-color: #88aac7;
+    border-bottom-left-radius: 10px;
+    border-top-left-radius: 10px;
+    padding-bottom: 20px;
+
+
+}
+
+ul li.item-menu:hover {
+    background: #88aac7;
+
+    padding: 20px;
+    cursor: pointer;
+
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 20px;
+}
+
+ul li.item-menu a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 20px;
+    padding: 20px 2.5%;
+    display: flex;
+    margin-bottom: 15px;
+    line-height: 40px;
+}
+
+ul li.item-menu a .txt-link {
+    display: none;
+}
+
+nav.menu-lateral.expandir .txt-link {
+    margin-left: 40px;
+    opacity: 1;
+    display: block;
+}
+
+ul li.item-menu a .icon>i {
+    font-size: 30px;
+    margin-left: 10px;
+}
+
+
+
+
+
+/* PERFIL USUÁRIO */
+
+.information {
+    /* posição */
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    width: 25%;
+
+    border-radius: 15px;
+    background-color: #fff;
+    z-index: 10;
+
+
+    
+
+    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.2);
+    transition: 0.3s;
+
+}
+
+.information:hover {
+    box-shadow: 0 0px 20px 0 rgba(0,0,0,0.2);
+   }
+
+
+.user-name{
+    font-weight: 700;
+    font-size: 25px;
+    text-align: center;
+    line-height: 24px;
+    color: #323099;
+    font-family: sans-serif;
+
+    margin-top: 3px;
+    
+}
+
+.user-email, .user-class, .user-tel{
+    color: #646464;
+    font-size: 16px;
+    font-family: sans-serif;
+    margin-top: 7px;
+}
+
+/* posição do usuário na escola */
+.title-profile {
+    font-size: 16px;
+    margin-top: 2px;
+    font-weight: 700;
+    padding-top: 15px;
+    color: rgb(131, 131, 230);
+    font-family: sans-serif;
+}
+   
+
+
+
+/* icone */
+.box{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.w-100{
+    width: 100%;
+}
+
+.h-100{
+    height: 100%;
+}
+
+.m-2{
+    margin: 12px;
+}
+
+.p-4{
+    padding: 24px;
+}
+
+
+.image-upload{
+        margin-top: 20px;
+        width: 120px;
+        height: 120px;
+        border-radius: 100%;
+        border: 4px solid rgb(26, 48, 139);
+        position: relative;
+        box-shadow: 2px 3px 12px black;
+        overflow: hidden;
+        
+}
+
+.image-upload img{
+    object-fit: cover;
+    cursor: pointer;
+}
+
+.image-upload i{
+    position: absolute;
+    margin: 0 auto;
+    font-size: 50px;
+    color: rgb(0, 26, 128);
+}
+
+#image-field{
+    position: absolute;
+    margin: 0 auto;
+    width: 100px;
+    height: 100px;
+    opacity: 0;
+    cursor: pointer;
+}
+
+
+
+.cad-li, .cad-emp{
+    cursor: pointer;
+
+    width: 120px;
+    height: 45px;
+
+    font-weight: 700;
+    color: #fff;
+    padding: 8px 10px;
+    margin-top: 15px;
+    
+    border-radius: 10px;
+    background: #323099;
+    border: 0;
+    outline: 0;
+}
+
+.button-line{
+    border-top: 1px solid grey;
+    display: flex;
+    flex-direction: column;
+    width: 85%;
+    margin: 16px 16px 0 16px;
+}
+
+.exit-button{
+    width: 105px;
+    height: 40px;
+    background-color: rgb(247, 217, 217);
+    color: rgb(155, 45, 45);
+    border: none;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+    margin: 16px auto;
+    cursor: pointer;
+}
+
+
+
+/* MODAIS NO GERAL */
+.modal::backdrop {
+    background-color: rgb(0 0 0 / .5);
+}
+
+.modal-li, .modal-emp {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    background-color: #ebf1e8;
+    box-shadow: 0 0 1em rgb(0 0 0 / .3);
+    
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    
+    width: 50%;
+    max-height: 90%;
+    box-sizing: border-box;
+    
+    padding: 30px;
+    margin-top: 15px;
+    border: 1px solid #ccc;
+    z-index: 1000;
+
+    border-radius: .8rem; 
+
+    overflow: hidden;
+    overflow-y: scroll;
+}
+
+.close, .closea{
+    display: block;
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    top: 2px;
+    right: 5px;
+    border-radius: 5px;
+    border: 0;
+    background-color: #ebf1e8;
+    cursor: pointer;
+}
+
+/* MODAL EMPRÉSTIMOS */
+
+.modal-emp :where(input){
+    width: 20%;
+    height: 15px;
+    margin: 5px 1px 28px 1px;
+    padding: 9px;
+    font-size: 14px;
+    font-weight: 200;
+    color: #555;
+    border: rgb(65, 118, 97) 1px solid;
+    outline: none;
+    border-radius: 5px;
+}
+
+
+.modal-emp :where(li){
+    padding: 5px 15px 2px 15px;
+    margin-bottom: 5px;
+    font-size: 18px;
+    color: #555;
+    font-weight: 500;
+    
+}
+
+
+
+.modal-emp :where(.accept-button, .reject-button){
+    cursor: pointer;
+    color: #ffffff;
+    padding: 8px 22px;
+    border-radius: 6px;
+    background: #99c28b;
+    transition: all 0.5s ease;
+    border: 0;
+
+}
+
+.modal-emp :where(.reject-button){
+    background: rgb(231, 127, 127);
+}
+
+
+
+.modal-emp :where(button:active){
+    transform: scale(0.96);
+}
+
+
+.circlea{
+    position: absolute;
+    margin: 0 auto;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    top: -35px;
+    right: 0;
+    left: 0;
+    background-color: #94cc74;
+    border: 2px #fff solid;
+}
+
+.modal-emp :where(.figure){
+    position: absolute;
+    top: 15px;
+    left: 15px;
+}
+
+
+/* MODAL LIVROS */
+
+.form-group h1{
+  margin: 1em 0em 1em 0em;
+}
+
+.modal-li :where(li) { 
+    padding: 5px 15px -10px 15px;
+    margin-bottom: 5px;
+    font-size: 18px;
+    color: #555;
+    font-weight: 500;
+
+}
+
+.modal-li :where(.figure){
+    position: absolute;
+    top: 5px;
+    left: 5px;
+}
+
+.modal-li :where(input, textarea){
+    width: 95%;
+    height: 15px;
+    margin: 5px 1px 28px 1px;
+    padding: 9px;
+    font-size: 14px;
+    font-weight: 200;
+    color: #555;
+    border: rgb(65, 118, 97) 1px solid;
+    outline: none;
+}
+
+.modal-li :where(textarea){
+  height: 150px;
+}
+
+.modal-li :where(label){
+
+        display: block;
+        position: absolute;
+        font-size: 18px;
+        color: rgb(169, 171, 170);
+        margin-top: -50px;
+        padding-left: 18px;
+        text-align: left;
+        pointer-events: none;
+        transition: .4s;
+    
+}
+
+.modal-li :where(input:focus~label),
+.modal-li :where(input:valid~label){
+    margin-top: -80px;
+    padding-left: 8px;
+    color: #026948;
+    font-weight: 500;
+}
+.modal-li :where(textarea:focus~label),
+.modal-li :where(textarea:valid~label){
+    margin-top: -215px;
+    padding-left: 8px;
+    color: #026948;
+    font-weight: 500;
+}
+
+
+.available {
+    color: rgb(2, 105, 72);
+    font-size: 18px;
+    padding: 50px 320px 0 0;
+    margin: -11% 5px; 
+
+}
+.checkbox-div{
+    position: relative;
+    display: inline-flex;
+    margin-bottom: 2px;
+
+}
+
+.send{
+    cursor: pointer;
+    color: #ffffff;
+    padding: 7px 35px;
+    border-radius: 6px;
+    background: #99c28b;
+    transition: all 0.5s ease;
+    border: 0;
+    font-size: 18px;
+    font-weight: 500;
+    margin-top: 2px;
+    display: inline-block;
+}
+
+.send:active{
+    transform: scale(1);
+    background: #cce4c5;
+    color: #99c28b;
+}
+
+.date{
+    font-size: 18px;
+    padding-left: 8px;
+    color: #026948;
+    font-weight: 500;
+}
+
+.file{
+    width: 40%;
+}
+
+.capa{
+    position: absolute;
+    right: 15%;
+    bottom: 7%;
+    border: none;
+    border-image: none;
+    border-radius: 10px;
 }
