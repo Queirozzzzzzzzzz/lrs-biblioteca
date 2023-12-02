@@ -3,10 +3,22 @@
 {% load static %}
 
 {% block content %}
-<form method="POST" action="{% url 'searchuser' %}">
+<div class="container">
+    <div class="center">
+<form class="search-form" method="POST" action="{% url 'searchuser' %}">
     {% csrf_token %}
+    <h2>Procurar Usuário</h2>
     <label for="email">E-mail do usuário</label>
-    <input type="email" name="email" placeholder="E-mail">
+    <input type="email" list="emails" name="email" placeholder="E-mail">
+
+    <datalist id="emails">
+        {% for email in all_emails %}
+        <option value="{{ email }}"></option>
+        {% endfor %}
+    </datalist>
+
     <button type="submit">Procurar</button>
 </form> 
+</div>
+</div>
 {% endblock %}

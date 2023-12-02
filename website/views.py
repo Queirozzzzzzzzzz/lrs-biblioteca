@@ -166,41 +166,58 @@ def bookloan(request):
         if form.is_valid():
             if bookalreadyregistered:
                 messages.error(request, ("Livro já foi emprestado a este usuário"))
+
+                if request.user.is_staff:
+                        return redirect('loans') 
+                        
                 return redirect('books')
             else:
                 # Checa se o livro está disponível
                 if book.status == "available":
-                    # Define valores do form
-                    userloan = form.save(commit=False)
-                    userloan.book = book
-                    userloan.user = user
-                    userloan.start_date = timezone.now()
-                    userloan.final_date = timezone.now()
+                    try:
+                        # Define valores do form
+                        userloan = form.save(commit=False)
+                        userloan.book = book
+                        userloan.user = user
+                        userloan.start_date = timezone.now()
+                        userloan.final_date = timezone.now()
 
-                    # Adiciona número de empréstimos solicitados do livro
-                    book.loan_count += 1
+                        # Adiciona número de empréstimos solicitados do livro
+                        book.loan_count += 1
 
-                    book.save()
-                    userloan.save()
+                        book.save()
+                        userloan.save()
 
-                    # Obtém todos os usuários bibliotecários
-                    librarians = User.objects.filter(is_librarian=True)
+                        # Obtém todos os usuários bibliotecários
+                        librarians = User.objects.filter(is_librarian=True)
 
-                    # Notifica por e-mail o(s) bibliotecário(s) de que um empréstimo foi solicitado.
-                    for librarian in librarians:
-                        sendemail("Empréstimo Solicitado - Out Of Box Library", [librarian.email], "email-request-loan.html", context = {"user": user, "book":book})
+                        # Notifica por e-mail o(s) bibliotecário(s) de que um empréstimo foi solicitado.
+                        for librarian in librarians:
+                            sendemail("Empréstimo Solicitado - Out Of Box Library", [librarian.email], "email-request-loan.html", context = {"user": user, "book":book})
 
-                    # Retira o livro da lista de desejos caso ele estivesse lá
-                    wishlist = UserWishList.objects.get(user=request.user)
-                    if book in wishlist.books.all():
-                        wishlist.books.remove(book)
+                        # Retira o livro da lista de desejos caso ele estivesse lá
+                        wishlist = UserWishList.objects.get(user=request.user)
+                        if book in wishlist.books.all():
+                            wishlist.books.remove(book)
 
-                    if request.user.is_staff:
-                        return redirect('loans')    
+                        if request.user.is_staff:
+                            return redirect('loans')    
 
-                    return redirect('myloans')
+                        return redirect('myloans')
+
+                    except Book.DoesNotExist:
+                        messages.error(request, ("Houve um erro ao cadastrar o empréstimo."))
+                        if request.user.is_staff:
+                            return redirect('loans') 
+                        
+                        return redirect('books')
+
                 else:
                     messages.error(request, ("Este livro não está disponível para empréstimos"))
+
+                    if request.user.is_staff:
+                        return redirect('loans') 
+
                     return redirect('books')
 
     return redirect('books')
@@ -270,7 +287,9 @@ def profile(request):
 # Perfis usuários
 @staff_member_required
 def profiles(request):
-    return render(request, "profiles.html", {})
+    all_emails = User.objects.all().values_list('email', flat=True)
+
+    return render(request, "profiles.html", {"all_emails":all_emails})
 
 # Lista de Empréstimos Solicitados
 @staff_member_required

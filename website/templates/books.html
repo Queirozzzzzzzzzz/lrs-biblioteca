@@ -1,9 +1,5 @@
 {% extends 'base.html' %} {% load static %} {% block content %}
 
-<style>
-
-</style>
-
 <!--CABEÇALHO COM BARRA DE PESQUISA-->
 
 <ul class="cabecalho">
@@ -21,7 +17,7 @@
 
       <a class="search-btn">
           <div class="back-loupe-white">
-              <img class="loupe-white" id="search_button" src="./loupe-white.svg" alt="" width="25px" height="25px">
+              <img class="loupe-white" id="search_button" src="{% static 'images/loupe.png' %}" alt="" width="25px" height="25px">
           </div>
       </a>
 
@@ -60,11 +56,11 @@
 <!-- LIVROS -->
 
 <span class="background">
-  <section class="gallery" data-status="wish_list" style="display: flex">
+  <section class="gallery" data-status="wish_list">
     <h3 class="secao">Lista de Desejos</h3>
     {% for book in all_books %} {% if book in wishlist.books.all %}
     <article class="card" data-status="wish_list">
-      <button
+      <button id="card-button"
         onclick="OpenBookModal('{{book.title|escapejs}}', '{{book.author|escapejs}}', '{{book.synopsis|escapejs}}', '{{book.get_genre_display|escapejs}}', '{{book.publisher|escapejs}}', '{{book.release_date}}', '{{book.get_status_display}}', '{{book.stock}}', '{{ book.id }}')"
       >
         {% if book.front_cover %}
@@ -77,15 +73,13 @@
       </button>
     </article>
     {% endif %} {% endfor %}
-
-    <img class="to-side" src="https://cdn-icons-png.flaticon.com/128/7543/7543114.png" width="50px" height="50px" id="play-carousel">
   </section>
 
-  <section class="gallery" data-status="available" style="display: flex">
+  <section class="gallery" data-status="available">
     <h3 class="secao">Disponível</h3>
     {% for book in all_books %} {% if book.status == "available" %}
     <article class="card" data-status="available">
-      <button
+      <button id="card-button"
         onclick="OpenBookModal('{{book.title|escapejs}}', '{{book.author|escapejs}}', '{{book.synopsis|escapejs}}', '{{book.get_genre_display|escapejs}}', '{{book.publisher|escapejs}}', '{{book.release_date}}', '{{book.get_status_display}}', '{{book.stock}}', '{{ book.id }}')"
       >
         {% if book.front_cover %}
@@ -98,15 +92,13 @@
       </button>
     </article>
     {% endif %} {% endfor %}
-
-    <img class="to-side" src="https://cdn-icons-png.flaticon.com/128/7543/7543114.png" width="50px" height="50px" id="play-carousel">
   </section>
 
-  <section class="gallery" data-status="unavailable" style="display: flex">
+  <section class="gallery" data-status="unavailable">
     <h3 class="secao">Indisponível</h3>
     {% for book in all_books %} {% if book.status == "unavailable" %}
     <article class="card" data-status="unavailable">
-      <button
+      <button id="card-button"
         onclick="OpenBookModal('{{book.title|escapejs}}', '{{book.author|escapejs}}', '{{book.synopsis|escapejs}}', '{{book.get_genre_display|escapejs}}', '{{book.publisher|escapejs}}', '{{book.release_date}}', '{{book.get_status_display}}', '{{book.stock}}', '{{ book.id }}')"
       >
         {% if book.front_cover %}
@@ -119,15 +111,13 @@
       </button>
     </article>
     {% endif %} {% endfor %}
-
-    <img class="to-side" src="https://cdn-icons-png.flaticon.com/128/7543/7543114.png" width="50px" height="50px" id="play-carousel">
   </section>
 
-  <section class="gallery" data-status="soon" style="display: flex">
+  <section class="gallery" data-status="soon">
     <h3 class="secao">Em Breve</h3>
     {% for book in all_books %} {% if book.status == "soon" %}
     <article class="card" data-status="soon">
-      <button
+      <button id="card-button"
         onclick="OpenBookModal('{{book.title|escapejs}}', '{{book.author|escapejs}}', '{{book.synopsis|escapejs}}', '{{book.get_genre_display|escapejs}}', '{{book.publisher|escapejs}}', '{{book.release_date}}', '{{book.get_status_display}}', '{{book.stock}}', '{{ book.id }}')"
       >
         {% if book.front_cover %}
@@ -140,8 +130,6 @@
       </button>
     </article>
     {% endif %} {% endfor %}
-
-    <img class="to-side" src="https://cdn-icons-png.flaticon.com/128/7543/7543114.png" width="50px" height="50px" id="play-carousel">
   </section>
 </span>
 
@@ -151,14 +139,12 @@
       <main class="w-100 box">
           <div class="w-100 box">
               <form class="box" id="form-form">
-                  <div class="image-upload box">
+                  <div class="image-logo box">
                     {% if user.profile_image %}
-                    <img src="{{ user.profile_image.url }}" id="image-preview" class="w-100 h-100"/>
+                    <img src="{{ user.profile_image.url }}" class="w-100 h-100"/>
                     {% else %}
-                    <img
-                      src="{% static 'images/default_profile_image.png' %}" id="image-preview" class="w-100 h-100"/>
+                    <img src="{% static 'images/default_profile_image.png' %}" class="w-100 h-100"/>
                     {% endif %}
-                      <input id="image-field" type="file">
                   </div>
               </form>
           </div>
@@ -179,8 +165,6 @@
           <a href="{% url 'bookadd' %}"><button class="cad-li" id="cad-emp">Cadastrar livros</button></a>
           <a href="{% url 'loans' %}"><button class="cad-emp" id="cad-emp">Gerenciar empréstimos</button></a>
         </div>
-      {% else %}
-        <a href="{% url 'editprofile' user.id %}"><button class="cad-li" id="cad-emp">Editar perfil</button></a>
       {% endif %}
       <div class="button-line">
       <button class="exit-button" id="exit-button">Sair</button>
@@ -191,7 +175,7 @@
 <!-- MODAL INFORMAÇÃO DE LIVROS -->
   <div id="id_book-modal" class="book-modal modal-li" style="display: none">
     <!-- Conteúdo do Modal -->
-    <span class="close">&times;</span>
+    <span class="close"><svg xmlns="http://www.w3.org/2000/svg" height="32" width="22" viewBox="0 0 352 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2023 Fonticons, Inc.--><path d="M242.7 256l100.1-100.1c12.3-12.3 12.3-32.2 0-44.5l-22.2-22.2c-12.3-12.3-32.2-12.3-44.5 0L176 189.3 75.9 89.2c-12.3-12.3-32.2-12.3-44.5 0L9.2 111.5c-12.3 12.3-12.3 32.2 0 44.5L109.3 256 9.2 356.1c-12.3 12.3-12.3 32.2 0 44.5l22.2 22.2c12.3 12.3 32.2 12.3 44.5 0L176 322.7l100.1 100.1c12.3 12.3 32.2 12.3 44.5 0l22.2-22.2c12.3-12.3 12.3-32.2 0-44.5L242.7 256z"/></svg></span>
     <div id="id_book_modal_form" class="book-modal-content"></div>
     <form action="{% url 'bookloan' %}" method="POST">
       {% csrf_token %}
@@ -241,4 +225,5 @@
   </div>
 
 <script src="{% static 'js/book.js' %}"></script>
+ 
 {% endblock %}

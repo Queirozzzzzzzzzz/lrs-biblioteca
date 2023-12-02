@@ -4,8 +4,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@800&family=Playfair+Display:wght@700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&display=swap');
 
-
-
 :root {
     background: #99c28b;
     --background-card: #e0d5b3;
@@ -15,6 +13,12 @@
     margin: 0;
     padding: 0;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+body {
+    max-width: 100vw;
+    overflow-x: hidden;
+    background-color: #99c28b;
 }
 
 
@@ -47,25 +51,39 @@
 /* titulos das seções */
 .secao {
     position: absolute;
-    top: -25%;
-    left: -10%;
+    top: -40px;
+    left: -80px;
     /* font-family: Young Serif; */
     font-size: 16px;
     color: rgb(55, 57, 86);
     font-style: italic;
-    text-decoration: underline;
-    background-color: bisque;
-    padding: .5em;
+   
     border-radius: 1em;
 
+    z-index: 2;
+    background-color: white;
+    padding: .5em;
 }
 
 /* seção */
 .gallery {
-    display: flex;
     position: relative;
-    margin-top: 3%;
-    width: 70%;
+    display: flex;
+    flex-wrap: wrap;
+    width: 50%;
+    margin: 2% 20% 2% 0%;
+}
+
+/* Carrosel */
+.carousel {
+    display: flex;
+    overflow-x: scroll;
+    scroll-snap-type: x mandatory;
+}
+
+.card {
+    flex: 0 0 auto;
+    scroll-snap-align: start;
 }
 
 /* livro */
@@ -101,18 +119,28 @@
 
     font-weight: bold;
     cursor: pointer;
+    z-index: 2;
 }
 
-/* faz os outros livros se afastarem */
+/* faz os outros livros se afastarem 
 .card:hover~.card {
     left: 55px;
 }
+*/
 
 /* posicionamento da capa do livro */
 .card img {
     height: 160px;
     object-fit: cover;
     border-radius: 4px;
+}
+
+#card-button {
+    padding: 0;
+  }
+
+#card-button {
+filter: contrast(100%);
 }
 
 
@@ -213,7 +241,7 @@
 .filter{
     display: flex;
     align-items: center;
-    margin-left: 25%;
+    margin-left: 9%;
     background-color: bisque;
     width: 50%;
     border-bottom-left-radius: 10px;
@@ -225,6 +253,7 @@
 
 .filter-item{
     margin-right: 0;
+    width: 25%;
 }
 
 .filter-icon{
@@ -302,12 +331,13 @@
 .item-menu {
     /* distância de um pra outro */
     padding-bottom: 0px;
+    display: flex;
 }
 
 /* barra lateral no geral */
 nav.menu-lateral {
     background-color: #7b9c69;
-    box-shadow: 3px 0 0 #88aac7;
+    box-shadow: 0px 0px 1em black;
 
     width: 80px;
     height: 100vh;
@@ -320,6 +350,8 @@ nav.menu-lateral {
     overflow: hidden;
     transition: .5s;
     z-index: 10;
+
+    top: 0px;
 }
 
 /* largura da barra */
@@ -350,21 +382,11 @@ ul {
     align-items: stretch;
 }
 
-ul li.item-menu {
+ul.itens a {
     transition: .2s;
 }
 
-/* fundo azul que ativa com pointer */
-ul li.ativo {
-    background-color: #88aac7;
-    border-bottom-left-radius: 10px;
-    border-top-left-radius: 10px;
-    padding-bottom: 20px;
-
-
-}
-
-ul li.item-menu:hover {
+ul.itens a:hover {
     background: #88aac7;
 
     padding: 20px;
@@ -374,17 +396,16 @@ ul li.item-menu:hover {
     border-bottom-left-radius: 20px;
 }
 
-ul li.item-menu a {
+ul.itens a {
     color: #fff;
     text-decoration: none;
     font-size: 20px;
     padding: 20px 2.5%;
     display: flex;
-    margin-bottom: 15px;
     line-height: 40px;
 }
 
-ul li.item-menu a .txt-link {
+ul.itens a .txt-link {
     display: none;
 }
 
@@ -394,7 +415,7 @@ nav.menu-lateral.expandir .txt-link {
     display: block;
 }
 
-ul li.item-menu a .icon>i {
+ul a .icon>i {
     font-size: 30px;
     margin-left: 10px;
 }
@@ -407,7 +428,7 @@ ul li.item-menu a .icon>i {
 
 .information {
     /* posição */
-    position: absolute;
+    position: fixed;
     right: 20px;
     top: 50%;
     transform: translateY(-50%);
@@ -493,7 +514,7 @@ ul li.item-menu a .icon>i {
 }
 
 
-.image-upload{
+.image-logo{
         margin-top: 20px;
         width: 120px;
         height: 120px;
@@ -505,12 +526,11 @@ ul li.item-menu a .icon>i {
         
 }
 
-.image-upload img{
+.image-logo img{
     object-fit: cover;
-    cursor: pointer;
 }
 
-.image-upload i{
+.image-logo i{
     position: absolute;
     margin: 0 auto;
     font-size: 50px;
@@ -604,7 +624,7 @@ ul li.item-menu a .icon>i {
 
 .close, .closea{
     display: block;
-    position: absolute;
+    position: relative;
     width: 30px;
     height: 30px;
     padding: 0;
@@ -612,8 +632,8 @@ ul li.item-menu a .icon>i {
     right: 5px;
     border-radius: 5px;
     border: 0;
-    background-color: #ebf1e8;
     cursor: pointer;
+    margin-left: 100%;
 }
 
 /* MODAL EMPRÉSTIMOS */
@@ -706,7 +726,7 @@ ul li.item-menu a .icon>i {
     left: 5px;
 }
 
-.modal-li :where(input, textarea){
+.modal-li :where(input), .modal-li :where(textarea) {
     width: 95%;
     height: 15px;
     margin: 5px 1px 28px 1px;
@@ -804,4 +824,109 @@ ul li.item-menu a .icon>i {
     border: none;
     border-image: none;
     border-radius: 10px;
+}
+
+/* Mensagens de alerta */
+
+:root {
+	--primary: #0676ed;
+	--background: #222b45;
+	--warning: #f2a600;
+	--success: #12c99b;
+	--error: #e41749;
+	--dark: #151a30;
+}
+
+.alert-primary {
+	background: var(--primary);
+}
+
+.alert {
+	position: fixed;
+    min-height: 67px;
+    display: flex;
+    align-items: center;
+    padding-left: .5em;
+    padding-right: .5em;
+    width: fit-content;
+	margin: .3em;
+	border-radius: .3em;
+	color: white;
+	z-index: 1000;
+    top: 5px;
+    left: 5px;
+}
+
+
+.alert-warning {
+	background: var(--warning);
+}
+
+.alert-success {
+	background: var(--success);
+}
+
+.alert-primary {
+	background: var(--primary);
+}
+
+.alert-dark {
+	background: var(--dark);
+}
+
+.alert-error {
+	background: var(--error);
+}
+
+.alert .icon__wrapper {
+	height: 34px;
+	width: 34px;
+	border-radius: 50%;
+	background: rgba(255, 255, 255, 0.253);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.alert .icon__wrapper span {
+	font-size: 21px;
+	color: #fff;
+}
+
+.alert p {
+	color: #fff;
+	font-family: Verdana;
+	margin-left: 10px;
+}
+
+.alert p a,
+.alert p a:visited,
+.alert p a:active {
+	color: #fff;
+}
+
+.alert .open {
+	margin-left: auto;
+	margin-right: 5px;
+}
+
+.alert .close,
+.alert .open {
+	color: black;
+	transition: transform 0.5s;
+	font-size: 18px;
+	cursor: pointer;
+}
+
+.alert .close:hover,
+.alert .open:hover {
+	transform: scale(1.3);
+}
+
+.alert .close {
+	background-color: white;
+	border-radius: 1em;
+	border-color: white;
+    position: relative;
+	margin-left: 1em;
 }
