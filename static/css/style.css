@@ -1227,16 +1227,16 @@ input[type="file"] {
 /* RESPONSIVIDADE */
 
 /* desktop */
-@media all and (min-width: 1824px) and (max-width: 1280px) {}
+@media screen and (min-width: 1824px) and (max-width: 1280px) {}
 
 /* tablet landscape */
-@media all and (min-width: 768px) and (max-width: 1024px) {}
+@media screen and (min-width: 768px) and (max-width: 1024px) {}
 
 /* tablet portrait */
-@media all and (min-width: 480px) and (max-width: 768px) {}
+@media screen and (min-width: 480px) and (max-width: 768px) {}
 
 /* phone landscape & smaller */
-@media all and (max-width: 480px) {
+@media screen and (max-width: 480px) {
 
 .center {
     margin: 20% 13% 0% 5%;
