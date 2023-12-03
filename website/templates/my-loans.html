@@ -14,7 +14,7 @@
     </div>
 
     <!-- Modal para Comprovantes -->
-    <div id="myModal" class="modal" style="display: none">
+    <div id="myModal" class="modal no-display">
       <div class="loaned-books">
       <div class="modal-content">
         <span class="close" id="closeModal"><svg xmlns="http://www.w3.org/2000/svg" height="32" width="22" viewBox="0 0 352 512"><!--!Font Awesome Free 6.5.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2023 Fonticons, Inc.--><path d="M242.7 256l100.1-100.1c12.3-12.3 12.3-32.2 0-44.5l-22.2-22.2c-12.3-12.3-32.2-12.3-44.5 0L176 189.3 75.9 89.2c-12.3-12.3-32.2-12.3-44.5 0L9.2 111.5c-12.3 12.3-12.3 32.2 0 44.5L109.3 256 9.2 356.1c-12.3 12.3-12.3 32.2 0 44.5l22.2 22.2c12.3 12.3 32.2 12.3 44.5 0L176 322.7l100.1 100.1c12.3 12.3 32.2 12.3 44.5 0l22.2-22.2c12.3-12.3 12.3-32.2 0-44.5L242.7 256z"/></svg></span>
@@ -89,14 +89,14 @@
   <script>
     // Abrir o modal ao clicar no botão "Meus Comprovantes"
     document.getElementById("openModal").addEventListener("click", function () {
-      document.getElementById("myModal").style.display = "flex";
+      document.getElementById("myModal").classList.remove("no-display");
     });
 
     // Fechar o modal ao clicar no "X"
     document
       .getElementById("closeModal")
       .addEventListener("click", function () {
-        document.getElementById("myModal").style.display = "none";
+        document.getElementById("myModal").classList.add("no-display");
       });
   </script>
 </body>

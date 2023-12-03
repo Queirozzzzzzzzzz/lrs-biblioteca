@@ -1,5 +1,17 @@
 {% load static %}
 
+<head>
+	<link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}">
+	<link href="https://fonts.googleapis.com/css?family=Poppins:600&display=swap" rel="stylesheet">
+	<script src="https://kit.fontawesome.com/a861f52fab.js" crossorigin="anonymous"></script>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>LRS - Biblioteca</title>
+    <!-- Importações do Bootstrap -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+	<link rel="icon" href="{% static 'images/outofbox_logo.jpg' %}">
+</head>
+
 {% block content %}
 
 {% for message in messages %}
@@ -13,18 +25,6 @@
 
 <!DOCTYPE html>
 <html>
-<head>
-	<link rel="stylesheet" type="text/css" href="{% static 'css/login.css' %}">
-	<link href="https://fonts.googleapis.com/css?family=Poppins:600&display=swap" rel="stylesheet">
-	<a href="https://storyset.com/people"></a>
-	<script src="https://kit.fontawesome.com/a861f52fab.js" crossorigin="anonymous"></script>
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="icon" href="{% static 'images/outofbox_logo.jpg' %}">
-	<title>LRS - Biblioteca</title>
-    <!-- Importações do Bootstrap -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-</head>
 <body>
 	<div id="particles-js"></div>
 	<img class="wave" src="{% static 'images/wave.png' %}">

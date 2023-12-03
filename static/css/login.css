@@ -242,6 +242,12 @@ a:hover {
 	}
 }
 
+@media screen and (max-width: 480px) {
+	form {
+		margin-right: 40vw;
+	}
+}
+
 /* Mensagens de alerta */
 
 :root {

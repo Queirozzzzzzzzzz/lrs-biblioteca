@@ -145,6 +145,7 @@ def bookedit(request):
                 form.save()
                 return redirect('books')
 
+    print(request.method)
     return redirect('books')
 
 # Empréstimo de livros

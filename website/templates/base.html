@@ -50,6 +50,12 @@
                 </li>
             </a>
             {% if user.is_staff %}
+            <a href="{% url 'bookadd' %}">
+                <li class="item-menu">
+                    <span class="icon"><i class="bi bi-journal-plus"></i></span>
+                    <span class="txt-link">Cadastrar Livros</span>
+                </li>
+            </a>
             <a href="{% url 'loans' %}">
                 <li class="item-menu">
                     <span class="icon"><i class="bi bi-card-heading"></i></span>
