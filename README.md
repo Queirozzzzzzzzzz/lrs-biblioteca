@@ -27,8 +27,10 @@ Para definir as variáveis de ambiente
     # Caso você tenha um banco de dados externo
     export DATABASE_URL='variavel_aqui'
 
-Para ativar o servidor:
+Para gerar o banco de dados:
 
     python manage.py migrate
+
+Para ativar o servidor:
 
     python manage.py runserver
