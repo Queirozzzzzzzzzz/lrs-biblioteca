@@ -1229,8 +1229,9 @@ input[type="file"] {
 @media (min-width:1280px) {}
 
 /* mobile */
+
 @media (min-width:480px) and (max-width:1280px) {
-    
+
     .center {
         margin: 20% 13% 0% 5%;
     }
@@ -1300,7 +1301,7 @@ input[type="file"] {
         display: block;
     }
 
-    .filter-item input{
+    .filter-item input {
         width: 100%;
     }
 
@@ -1308,7 +1309,12 @@ input[type="file"] {
         display: none;
     }
 
-    .w-100, .box, .title-profile, .user-name, .user-email, .button-line {
+    .w-100,
+    .box,
+    .title-profile,
+    .user-name,
+    .user-email,
+    .button-line {
         display: none;
     }
 
@@ -1409,7 +1415,8 @@ input[type="file"] {
 
 }
 
-/* celulares pequenos */
+/* mobile menor */
+
 @media (max-width:480px) {
 
     .center {
@@ -1481,7 +1488,7 @@ input[type="file"] {
         display: block;
     }
 
-    .filter-item input{
+    .filter-item input {
         width: 100%;
     }
 
@@ -1489,7 +1496,12 @@ input[type="file"] {
         display: none;
     }
 
-    .w-100, .box, .title-profile, .user-name, .user-email, .button-line {
+    .w-100,
+    .box,
+    .title-profile,
+    .user-name,
+    .user-email,
+    .button-line {
         display: none;
     }
 
@@ -1502,11 +1514,15 @@ input[type="file"] {
     .gallery {
         padding: 10% 10% 10% 10%;
         margin: 10% 0 0 10%;
-        width: 50%;
+        width: 60%;
     }
 
     .card {
         margin-left: 0;
+    }
+
+    .card:not(:first-child) {
+        margin-left: -38px;
     }
 
     /* FORMULÁRIOS */
@@ -1585,9 +1601,6 @@ input[type="file"] {
         font-size: 150%;
         margin-left: 8%;
     }
-
-
-
 }
 
 /* ADICIONÁVEIS */
