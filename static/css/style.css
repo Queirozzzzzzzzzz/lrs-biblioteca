@@ -1226,191 +1226,365 @@ input[type="file"] {
 
 /* RESPONSIVIDADE */
 
-/* desktop */
-@media screen and (min-width: 1824px) and (max-width: 1280px) {}
+@media (min-width:1280px) {}
 
-/* tablet landscape */
-@media screen and (min-width: 768px) and (max-width: 1024px) {}
+/* mobile */
+@media (min-width:480px) and (max-width:1280px) {
+    
+    .center {
+        margin: 20% 13% 0% 5%;
+    }
 
-/* tablet portrait */
-@media screen and (min-width: 480px) and (max-width: 768px) {}
+    /* PÁGINA INICIAL */
 
-/* phone landscape & smaller */
-@media screen and (max-width: 480px) {
+    nav.menu-lateral {
+        display: block;
+        height: 0;
+        width: 100%;
+        padding: 60px 0 0px 0;
+        box-shadow: none;
+    }
 
-.center {
-    margin: 20% 13% 0% 5%;
+    nav.menu-lateral.expandir {
+        width: 100%;
+        height: 100%;
+    }
+
+    nav.menu-lateral.expandir ul.itens {
+        display: block;
+    }
+
+    .btn-expandir i {
+        margin-left: 0%;
+    }
+
+    .menu-lateral ul.itens {
+        display: none;
+    }
+
+    ul.cabecalho {
+        position: relative;
+        margin-top: 15%;
+        padding: 1em;
+    }
+
+    ul.cabecalho li img {
+        /* 
+        position: fixed;
+        top: 5px;
+        z-index: 1000;
+        */
+        display: none;
+    }
+
+    .search-box {
+        width: 100%;
+        position: relative;
+        right: 24%;
+        top: 0;
+    }
+
+    .filter {
+        width: 100%;
+        margin: 0;
+        padding: 1em 0 1em 0;
+        display: block;
+    }
+
+    .filter-item {
+        margin-right: 0;
+        width: 100%;
+    }
+
+    .filter-item label {
+        display: block;
+    }
+
+    .filter-item input{
+        width: 100%;
+    }
+
+    .information {
+        display: none;
+    }
+
+    .w-100, .box, .title-profile, .user-name, .user-email, .button-line {
+        display: none;
+    }
+
+    .secao {
+        width: 100%;
+        text-align: center;
+        margin-left: 18%;
+    }
+
+    .gallery {
+        padding: 10% 10% 10% 10%;
+        margin: 10% 0 0 10%;
+        width: 50%;
+    }
+
+    .card {
+        margin-left: 0;
+    }
+
+    /* FORMULÁRIOS */
+
+    .search-form,
+    .book-covers,
+    .requests-loan-list,
+    .expired-loans,
+    .form,
+    .user-preview,
+    .modal,
+    .book-modal {
+        width: 100%;
+        display: block;
+    }
+
+    .search-form button {
+        display: block;
+        margin-left: 25%;
+    }
+
+    .requests-loan-list {
+        margin-left: 5%;
+    }
+
+    .expired-loans button,
+    .requests-loan-list button {
+        width: 100%;
+    }
+
+    .expired-loans {
+        margin-left: 13.5%;
+    }
+
+    .user-preview,
+    .form {
+        margin: 0;
+    }
+
+    .search-book-form,
+    .book-form {
+        margin: 20% 2.5% 10% 2.5%;
+    }
+
+    .search-book-form {
+        width: 87%;
+    }
+
+    .user-preview .image-logo {
+        display: block;
+        margin-left: 30%;
+    }
+
+    .loan-requests #stock {
+        width: 16%;
+    }
+
+    .form-control {
+        margin: .5em 0 1em 0;
+        border-radius: 1em;
+    }
+
+    .loaned-books {
+        width: 100%;
+    }
+
+    .loan {
+        margin: 0 0 0 25%;
+    }
+
+    .home-charts {
+        margin: 15% 0 0 0;
+    }
+
+    .home-charts h1 {
+        font-size: 150%;
+        margin-left: 8%;
+    }
+
+
+
 }
 
-/* PÁGINA INICIAL */
+/* celulares pequenos */
+@media (max-width:480px) {
 
-nav.menu-lateral {
-    display: block;
-    height: 0;
-    width: 100%;
-    padding: 60px 0 0px 0;
-    box-shadow: none;
-}
+    .center {
+        margin: 20% 13% 0% 5%;
+    }
 
-nav.menu-lateral.expandir {
-    width: 100%;
-    height: 100%;
-}
+    /* PÁGINA INICIAL */
 
-nav.menu-lateral.expandir ul.itens {
-    display: block;
-}
+    nav.menu-lateral {
+        display: block;
+        height: 0;
+        width: 100%;
+        padding: 60px 0 0px 0;
+        box-shadow: none;
+    }
 
-.btn-expandir i {
-    margin-left: 0%;
-}
+    nav.menu-lateral.expandir {
+        width: 100%;
+        height: 100%;
+    }
 
-.menu-lateral ul.itens {
-    display: none;
-}
+    nav.menu-lateral.expandir ul.itens {
+        display: block;
+    }
 
-ul.cabecalho {
-    position: relative;
-    margin-top: 15%;
-    padding: 1em;
-}
+    .btn-expandir i {
+        margin-left: 0%;
+    }
 
-ul.cabecalho li img {
-    /* 
-    position: fixed;
-    top: 5px;
-    z-index: 1000;
-    */
-    display: none;
-}
+    .menu-lateral ul.itens {
+        display: none;
+    }
 
-.search-box {
-    width: 100%;
-    position: relative;
-    right: 24%;
-    top: 0;
-}
+    ul.cabecalho {
+        position: relative;
+        margin-top: 15%;
+        padding: 1em;
+    }
 
-.filter {
-    width: 100%;
-    margin: 0;
-    padding: 1em 0 1em 0;
-    display: block;
-}
+    ul.cabecalho li img {
+        /* 
+        position: fixed;
+        top: 5px;
+        z-index: 1000;
+        */
+        display: none;
+    }
 
-.filter-item {
-    margin-right: 0;
-    width: 100%;
-}
+    .search-box {
+        width: 100%;
+        position: relative;
+        right: 24%;
+        top: 0;
+    }
 
-.filter-item label {
-    display: block;
-}
+    .filter {
+        width: 100%;
+        margin: 0;
+        padding: 1em 0 1em 0;
+        display: block;
+    }
 
-.filter-item input{
-    width: 100%;
-}
+    .filter-item {
+        margin-right: 0;
+        width: 100%;
+    }
 
-.information {
-    display: none;
-}
+    .filter-item label {
+        display: block;
+    }
 
-.w-100, .box, .title-profile, .user-name, .user-email, .button-line {
-    display: none;
-}
+    .filter-item input{
+        width: 100%;
+    }
 
-.secao {
-    width: 100%;
-    text-align: center;
-    margin-left: 18%;
-}
+    .information {
+        display: none;
+    }
 
-.gallery {
-    padding: 10% 10% 10% 10%;
-    margin: 10% 0 0 10%;
-    width: 50%;
-}
+    .w-100, .box, .title-profile, .user-name, .user-email, .button-line {
+        display: none;
+    }
 
-.card {
-    margin-left: 0;
-}
+    .secao {
+        width: 100%;
+        text-align: center;
+        margin-left: 18%;
+    }
 
-/* FORMULÁRIOS */
+    .gallery {
+        padding: 10% 10% 10% 10%;
+        margin: 10% 0 0 10%;
+        width: 50%;
+    }
 
-.search-form,
-.book-covers,
-.requests-loan-list,
-.expired-loans,
-.form,
-.user-preview,
-.modal,
-.book-modal {
-    width: 100%;
-    display: block;
-}
+    .card {
+        margin-left: 0;
+    }
 
-.search-form button {
-    display: block;
-    margin-left: 25%;
-}
+    /* FORMULÁRIOS */
 
-.requests-loan-list {
-    margin-left: 5%;
-}
+    .search-form,
+    .book-covers,
+    .requests-loan-list,
+    .expired-loans,
+    .form,
+    .user-preview,
+    .modal,
+    .book-modal {
+        width: 100%;
+        display: block;
+    }
 
-.expired-loans button,
-.requests-loan-list button {
-    width: 100%;
-}
+    .search-form button {
+        display: block;
+        margin-left: 25%;
+    }
 
-.expired-loans {
-    margin-left: 13.5%;
-}
+    .requests-loan-list {
+        margin-left: 5%;
+    }
 
-.user-preview,
-.form {
-    margin: 0;
-}
+    .expired-loans button,
+    .requests-loan-list button {
+        width: 100%;
+    }
 
-.search-book-form,
-.book-form {
-    margin: 20% 2.5% 10% 2.5%;
-}
+    .expired-loans {
+        margin-left: 13.5%;
+    }
 
-.search-book-form {
-    width: 87%;
-}
+    .user-preview,
+    .form {
+        margin: 0;
+    }
 
-.user-preview .image-logo {
-    display: block;
-    margin-left: 30%;
-}
+    .search-book-form,
+    .book-form {
+        margin: 20% 2.5% 10% 2.5%;
+    }
 
-.loan-requests #stock {
-    width: 16%;
-}
+    .search-book-form {
+        width: 87%;
+    }
 
-.form-control {
-    margin: .5em 0 1em 0;
-    border-radius: 1em;
-}
+    .user-preview .image-logo {
+        display: block;
+        margin-left: 30%;
+    }
 
-.loaned-books {
-    width: 100%;
-}
+    .loan-requests #stock {
+        width: 16%;
+    }
 
-.loan {
-    margin: 0 0 0 25%;
-}
+    .form-control {
+        margin: .5em 0 1em 0;
+        border-radius: 1em;
+    }
 
-.home-charts {
-    margin: 15% 0 0 0;
-}
+    .loaned-books {
+        width: 100%;
+    }
 
-.home-charts h1 {
-    font-size: 150%;
-    margin-left: 8%;
-}
+    .loan {
+        margin: 0 0 0 25%;
+    }
+
+    .home-charts {
+        margin: 15% 0 0 0;
+    }
+
+    .home-charts h1 {
+        font-size: 150%;
+        margin-left: 8%;
+    }
 
 
 
