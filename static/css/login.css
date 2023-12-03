@@ -245,8 +245,13 @@ a:hover {
 /* mobile */
 
 @media screen and (min-width: 480px) and (max-width: 1280px) {
+	.container {
+		padding: 0;
+	}
+
 	.login-content {
 		justify-content: center;
+		width: 100vw;
 	}
 
 	.container {
@@ -263,22 +268,19 @@ a:hover {
 
 	body {
 		width: 100vw;
-	}
-
-	form {
-		margin-right: 35%;
 	}
 }
 
 /* mobile menor */
 
 @media screen and (max-width: 480px) {
-	.login-content {
-		justify-content: center;
+	.container {
+		padding: 0;
 	}
 
-	.container {
-		grid-template-columns: 1fr;
+	.login-content {
+		justify-content: center;
+		width: 100vw;
 	}
 
 	.img {
@@ -291,10 +293,6 @@ a:hover {
 
 	body {
 		width: 100vw;
-	}
-
-	form {
-		margin-right: 37.5%;
 	}
 }
 
