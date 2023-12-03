@@ -1,6 +1,7 @@
 {% load static %}
 <head>
     <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <link rel="icon" href="{% static 'images/outofbox_logo.jpg' %}">
     <!-- Importações do Bootstrap -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
@@ -8,354 +9,83 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css"/>
     <script src="https://kit.fontawesome.com/a861f52fab.js" crossorigin="anonymous"></script>
 </head>
-<style>
-    .container {
-        width: 100vw;
-    }
-
-    .center {
-        margin-left: 20%;
-    }
-
-    button {
-      background-color: #94cc74;
-      padding: 1em;
-      border: none;
-      border-radius: 1em;
-    }
-
-    button:hover {
-      transition: .5s;
-      filter: contrast(150%);
-    }
-
-    /* Livro página inicial */
-
-    #card-button {
-      padding: 0;
-    }
-
-    #card-button {
-      filter: contrast(100%);
-    }
-
-    
-
-    .book-form {
-            margin: 0% 25% 25% 25%;
-            display: block;
-            background-color: #f8f8f8;
-            border: none;
-            border-radius: 1em;
-            padding: 16px;
-            text-align: center;
-      }
-    
-      .book-form label {
-        display: block;
-        margin-top: 1em;
-      }
-    
-      .loan-list input,
-      .requests-loan-list input,
-      .user-preview input,
-      .form input, .form textarea,
-      .book-form input, .book-form textarea, .book-form select {
-        margin: .5em;
-        padding: 1em;
-        border: none;
-        border-radius: 1em;
-        width: 75%;
-      }
-    
-      input[type="file"] {
-        border-radius: 0px;
-    }
-    
-      .book-form button {
-        margin: .5em;
-        padding: .5em;
-        border: none;
-        border-radius: 1em;
-      }
-    
-      .book-form button[type='submit'] {
-        padding: 1em;
-        width: 50%;
-      }
-    
-      #book-form-image {
-        margin: .5em;
-        width: 180px;
-      }
-    
-      .search-book-form {
-            margin: 0% 25% 5% 25%;
-            display: block;
-            background-color: #f8f8f8;
-            border: none;
-            border-radius: 1em;
-            padding: 16px;
-            text-align: center;
-            width: 47.5%;
-      }
-
-      .book-covers,
-      .loaned-books {
-            margin: 0% 15% 5% 0%;
-            display: flex;
-            flex-wrap: wrap;
-            background-color: #f8f8f8;
-            border: none;
-            border-radius: 1em;
-            padding: 16px;
-      }
-
-      .loan {
-        margin: 2% 7% 2% 8% ;
-        width: 160px;
-      }
-
-      .loan img {
-        width: 160px;
-        height: 270px;
-      }
-
-      .loan-list button,
-      .loaned-books button, 
-      .form button {
-        display: block;
-        border: none;
-        border-radius: 1em;
-        padding: 1em;
-        margin: 1em 0em 1em 0em;
-      }
-
-      .search-form button {
-        border: none;
-        border-radius: 1em;
-        padding: 1em;
-      }
-
-      #openModal {
-        display: block;
-        border: none;
-        border-radius: 1em;
-        padding: 1em;
-        margin: 1em 0em 1em 0em;
-      }
-
-      #loan-return {
-        width: 95%;
-        padding: .3em;
-        border-radius: .5em;
-        margin: 1em 0em 1em 0em;
-      }
-
-      .user-preview,
-      .form {
-        display: block;
-        margin: 5% 0% 5% 15%;
-        width: 50%;
-        background-color: #f8f8f8;
-        border: none;
-        border-radius: 1em;
-        padding: 16px;
-        text-align: center;
-      }
-
-      .user-preview input,
-      .form input, .form textarea {
-        background-color: white;
-        border-radius: 1em;
-        width: 75%;
-      }
-
-      .form button {
-        width: 50%;
-        margin-left: 25.5%;
-      }
-
-      .user-preview label,
-      .form label {
-        display: block;
-        margin-top: 1em;
-      }
-
-      .form img {
-        margin: 0 auto;
-        width: 150px;
-        height: 150px;
-        border-radius: 50%;
-        background-color: #94cc74;
-        border: 2px #fff solid;
-        object-fit: cover;
-      }
-
-      .search-form {
-        display: block;
-        margin: 5% 15% 5% 0%;
-        background-color: #f8f8f8;
-        border: none;
-        border-radius: 1em;
-        padding: 16px;
-        text-align: center;
-      }
-
-      .search-form input {
-        border: none;
-        padding: 1em;
-      }
-
-      .modal-content {
-        width: 100%;
-      }
-
-      .modal-content .receipt {
-        display: flex;
-        flex-wrap: wrap;
-        width: 100%;
-      }
-
-      .modal-content .close {
-        margin-left: 95%;
-      }
-
-      #myModal .loaned-books {
-        width: 100%;
-      }
-
-      .requests-loan-list,
-      .loan-list {
-        margin-right: 15%;
-        height: 50%;
-      }
-
-      .requests-loan-list ul,
-      .loan-list ul {
-        display: flex;
-        flex-wrap: wrap;
-      }
-      
-      .requests-loan-list label,
-      .loan-list label {
-        display: flex;
-      }
-
-      .requests-loan-list ul li,
-      .loan-list ul li {
-        display: block;
-        background-color: #f8f8f8;
-        margin: 1em;
-        padding: 1em;
-        border-radius: 1em;
-      }
-
-      .requests-loan-list button {
-        margin: 1% 2% 0% 2%;
-        width: 45%;
-      }
-
-      .loan-requests #stock {
-        border: none;
-        padding: 1em;
-        border-radius: 1em;
-        width: 5%;
-      }
-
-      .home-charts {
-        margin: 5% 0% 0% 10%;
-      }
-
-      .user-preview label {
-        margin: 2% 60% 0% 13%;
-        color: white;
-        background-color: rgba(0, 0, 0, .75);
-        padding: .5em;
-        border-radius: .5em;
-      }
-
-    </style>
 <body>
     <title>LRS - Biblioteca</title>
-  
+
     {% for message in messages %}
     <div class="alert {{ message.tags }} alert-dismissible fade show" role="alert">
-       <strong>{{ message }}</strong>
-       <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-           <span aria-hidden="true">&times;</span>
-       </button>
+        <strong>{{ message }}</strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
     </div>
     {% endfor %}
 
-<!-- BARRA LATERAL -->
-<nav class="menu-lateral">
+    <!-- BARRA LATERAL -->
+    <nav class="menu-lateral">
+        <div class="btn-expandir">
+            <i class="bi bi-list" id="btn-exp"></i>
+        </div>
+        <!--btn-expandir-->
 
-    <div class="btn-expandir">
-        <i class="bi bi-list" id="btn-exp"></i>
-    </div>
-    <!--btn-expandir-->
- 
-    <ul class="itens">
-        {% if user.is_staff %}
-        <a href="{% url 'home' %}">
-            <li class="item-menu">
+        <ul class="itens">
+            {% if user.is_staff %}
+            <a href="{% url 'home' %}">
+                <li class="item-menu">
                     <span class="icon"><i class="bi bi-pie-chart"></i></span>
                     <span class="txt-link">Estatísticas</span>
-                  </li>
-                </a>
-        {% endif %}
-        <a href="{% url 'books' %}">
-        <li class="item-menu">
-                <span class="icon"><i class="bi bi-book"></i></span>
-                <span class="txt-link">Livros</span>
-              </li>
+                </li>
+            </a>
+            {% endif %}
+            <a href="{% url 'books' %}">
+                <li class="item-menu">
+                    <span class="icon"><i class="bi bi-book"></i></span>
+                    <span class="txt-link">Livros</span>
+                </li>
             </a>
             <a href="{% url 'myloans' %}">
-        <li class="item-menu">
-                <span class="icon"><i class="bi bi-tag"></i></span>
-                <span class="txt-link">Meus Empréstimos</span>
-              </li>
+                <li class="item-menu">
+                    <span class="icon"><i class="bi bi-tag"></i></span>
+                    <span class="txt-link">Meus Empréstimos</span>
+                </li>
             </a>
-        {% if user.is_staff %}
-        <a href="{% url 'loans' %}">
-          <li class="item-menu">
-              <span class="icon"><i class="bi bi-card-heading"></i></span>
-              <span class="txt-link">Empréstimos</span>
-          </li>
-        </a>
-        <a href="{% url 'userregister' %}">
-            <li class="item-menu">
+            {% if user.is_staff %}
+            <a href="{% url 'loans' %}">
+                <li class="item-menu">
+                    <span class="icon"><i class="bi bi-card-heading"></i></span>
+                    <span class="txt-link">Empréstimos</span>
+                </li>
+            </a>
+            <a href="{% url 'userregister' %}">
+                <li class="item-menu">
                     <span class="icon"><i class="bi bi-person-add"></i></span>
                     <span class="txt-link">Cadastrar Usuários</span>
-                  </li>
-                </a>
-                <a href="{% url 'profiles' %}">
-            <li class="item-menu">
+                </li>
+            </a>
+            <a href="{% url 'profiles' %}">
+                <li class="item-menu">
                     <span class="icon"><i class="bi bi-people"></i></span>
                     <span class="txt-link">Usuários</span>
-                  </li>
-                </a>
-        {% endif %}
-        <a href="{% url 'profile' %}">
-            <li class="item-menu">
+                </li>
+            </a>
+            {% endif %}
+            <a href="{% url 'profile' %}">
+                <li class="item-menu">
                     <span class="icon"><i class="bi bi-person-circle"></i></span>
                     <span class="txt-link">Perfil</span>
-                  </li>
-                </a>
-                <a href="{% url 'signout' %}">
-        <li class="item-menu">
-                <span class="icon"><i class="bi bi-box-arrow-in-left"></i></span>
-                <span class="txt-link">Sair</span>
-              </li>
-          </a>
- 
-    </ul>
-    <script src="{% static 'js/base.js' %}"></script>
- </nav>
- 
-        {% block content %}
-        
-        {% endblock %}
-    </div>
+                </li>
+            </a>
+            <a href="{% url 'signout' %}">
+                <li class="item-menu">
+                    <span class="icon"><i class="bi bi-box-arrow-in-left"></i></span>
+                    <span class="txt-link">Sair</span>
+                </li>
+            </a>
+        </ul>
+        <script src="{% static 'js/base.js' %}"></script>
+    </nav>
+
+    {% block content %}
+
+    {% endblock %}
 </body>

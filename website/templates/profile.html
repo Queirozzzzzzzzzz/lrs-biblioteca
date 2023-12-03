@@ -1,35 +1,41 @@
-{% extends 'base.html' %} {% load static %} {% block content %}
-<body>
-  <div class="container">
-    <div class="center">
-      <div class="user-preview">
-      <h1>Perfil de Usuário</h1>
+{% extends 'base.html' %}
+{% load static %}
 
-      <!-- Informações do Usuário -->
-      <div class="user-info">
-        {% if user.profile_image %}
-        <img class="image-logo w-100 h-100" src="{{ user.profile_image.url }}" alt="Foto de Usuário" />
-        {% else %}
-        <img
-          src="{% static 'images/default_profile_image.png' %}"
-          alt="Foto de Usuário"
-        />
-        {% endif %}
-        <label>Nome</label> 
-          <input type="text" value="{{ user.full_name }}" readonly>
-        <label>Email</label> 
-          <input type="text" value="{{ user.email }}" readonly>
-        <label>Telefone</label> 
-          <input type="text" value="{{ user.phone_number|default_if_none:'' }}" readonly>
-        <label>Curso</label> 
-          <input type="text" value="{{ user.course|default_if_none:'' }}" readonly>
-        <br>
-        <a href="{% url 'editprofile' user.id %}">
-          <button type="button">Editar Perfil</button>
-        </a>
-      </div>
+{% block content %}
+  <body>
+    <div class="container">
+      <div class="center">
+        <div class="user-preview">
+          <h1>Perfil de Usuário</h1>
+
+          <!-- Informações do Usuário -->
+          <div class="user-info">
+            {% if user.profile_image %}
+              <img class="image-logo w-100 h-100" src="{{ user.profile_image.url }}" alt="Foto de Usuário" />
+            {% else %}
+              <img src="{% static 'images/default_profile_image.png' %}" alt="Foto de Usuário" />
+            {% endif %}
+            
+            <label>Nome</label>
+            <input type="text" value="{{ user.full_name }}" readonly>
+            
+            <label>Email</label>
+            <input type="text" value="{{ user.email }}" readonly>
+            
+            <label>Telefone</label>
+            <input type="text" value="{{ user.phone_number|default_if_none:'' }}" readonly>
+            
+            <label>Curso</label>
+            <input type="text" value="{{ user.course|default_if_none:'' }}" readonly>
+
+            <br>
+            
+            <a href="{% url 'editprofile' user.id %}">
+              <button type="button">Editar Perfil</button>
+            </a>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
-</body>
+  </body>
 {% endblock %}

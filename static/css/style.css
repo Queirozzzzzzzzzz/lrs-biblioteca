@@ -21,17 +21,36 @@ body {
     background-color: #99c28b;
 }
 
+.container {
+    width: 100vw;
+}
+
+.center {
+    margin-left: 16%;
+}
+
+button {
+    background-color: #94cc74;
+    padding: 1em;
+    border: none;
+    border-radius: 1em;
+}
+
+button:hover {
+    transition: .5s;
+    filter: contrast(150%);
+}
 
 /* RESPONSIVIDADE (EM EDIÇÃO)*/
 
 /* desktop */
-@media all and (min-width: 1824px) and (max-width: 1280px){}
+@media all and (min-width: 1824px) and (max-width: 1280px) {}
 
 /* tablet landscape */
-@media all and (min-width: 768px) and (max-width: 1024px){}
+@media all and (min-width: 768px) and (max-width: 1024px) {}
 
 /* tablet portrait */
-@media all and (min-width: 480px) and (max-width: 768px){}
+@media all and (min-width: 480px) and (max-width: 768px) {}
 
 /* phone landscape & smaller */
 @media all and (max-width: 480px) {}
@@ -57,7 +76,7 @@ body {
     font-size: 16px;
     color: rgb(55, 57, 86);
     font-style: italic;
-   
+
     border-radius: 1em;
 
     z-index: 2;
@@ -137,10 +156,10 @@ body {
 
 #card-button {
     padding: 0;
-  }
+}
 
 #card-button {
-filter: contrast(100%);
+    filter: contrast(100%);
 }
 
 
@@ -224,21 +243,21 @@ filter: contrast(100%);
 /* espaçamento da lupa no fundo verde */
 .loupe-white {
     margin: 12px 5px;
-    
+
 
 }
 
 /* espaçamento da lupa no fundo verde */
 .loupe-white:hover {
     cursor: grab;
-    
+
 
 }
 
 
 /* FILTRO */
 
-.filter{
+.filter {
     display: flex;
     align-items: center;
     margin-left: 9%;
@@ -251,22 +270,22 @@ filter: contrast(100%);
 }
 
 
-.filter-item{
+.filter-item {
     margin-right: 0;
     width: 25%;
 }
 
-.filter-icon{
+.filter-icon {
     margin-left: 10px;
 
 }
 
-.filter-icon:checked ~ .filter{
+.filter-icon:checked~.filter {
     display: block;
 }
 
 
-.checkbox-filter{
+.checkbox-filter {
     appearance: none;
     -webkit-appearance: none;
     height: 25px;
@@ -283,7 +302,7 @@ filter: contrast(100%);
 
 
 
-.checkbox-filter::after{
+.checkbox-filter::after {
     font-family: "Font Awesome 5 Free";
     font-weight: 900;
     font-size: 17px;
@@ -293,7 +312,7 @@ filter: contrast(100%);
 }
 
 
-.filter :where(label){
+.filter :where(label) {
     display: flex;
     align-items: center;
     color: #4c4c4c;
@@ -304,13 +323,15 @@ filter: contrast(100%);
     margin: 10px 15px;
 }
 
-.checkbox-filter:hover{
+.checkbox-filter:hover {
     background-color: #cac7c7;
 }
-.checkbox-filter:checked{
+
+.checkbox-filter:checked {
     background-color: #5bcd3e;
 }
-.checkbox-filter:checked::after{
+
+.checkbox-filter:checked::after {
     display: block;
 }
 
@@ -444,19 +465,19 @@ ul a .icon>i {
     z-index: 10;
 
 
-    
 
-    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.2);
+
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.2);
     transition: 0.3s;
 
 }
 
 .information:hover {
-    box-shadow: 0 0px 20px 0 rgba(0,0,0,0.2);
-   }
+    box-shadow: 0 0px 20px 0 rgba(0, 0, 0, 0.2);
+}
 
 
-.user-name{
+.user-name {
     font-weight: 700;
     font-size: 25px;
     text-align: center;
@@ -465,10 +486,12 @@ ul a .icon>i {
     font-family: sans-serif;
 
     margin-top: 3px;
-    
+
 }
 
-.user-email, .user-class, .user-tel{
+.user-email,
+.user-class,
+.user-tel {
     color: #646464;
     font-size: 16px;
     font-family: sans-serif;
@@ -484,12 +507,12 @@ ul a .icon>i {
     color: rgb(131, 131, 230);
     font-family: sans-serif;
 }
-   
+
 
 
 
 /* icone */
-.box{
+.box {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -497,47 +520,47 @@ ul a .icon>i {
 
 }
 
-.w-100{
+.w-100 {
     width: 100%;
 }
 
-.h-100{
+.h-100 {
     height: 100%;
 }
 
-.m-2{
+.m-2 {
     margin: 12px;
 }
 
-.p-4{
+.p-4 {
     padding: 24px;
 }
 
 
-.image-logo{
-        margin-top: 20px;
-        width: 120px;
-        height: 120px;
-        border-radius: 100%;
-        border: 4px solid rgb(26, 48, 139);
-        position: relative;
-        box-shadow: 2px 3px 12px black;
-        overflow: hidden;
-        
+.image-logo {
+    margin-top: 20px;
+    width: 120px;
+    height: 120px;
+    border-radius: 100%;
+    border: 4px solid rgb(26, 48, 139);
+    position: relative;
+    box-shadow: 2px 3px 12px black;
+    overflow: hidden;
+
 }
 
-.image-logo img{
+.image-logo img {
     object-fit: cover;
 }
 
-.image-logo i{
+.image-logo i {
     position: absolute;
     margin: 0 auto;
     font-size: 50px;
     color: rgb(0, 26, 128);
 }
 
-#image-field{
+#image-field {
     position: absolute;
     margin: 0 auto;
     width: 100px;
@@ -548,7 +571,8 @@ ul a .icon>i {
 
 
 
-.cad-li, .cad-emp{
+.cad-li,
+.cad-emp {
     cursor: pointer;
 
     width: 120px;
@@ -558,14 +582,14 @@ ul a .icon>i {
     color: #fff;
     padding: 8px 10px;
     margin-top: 15px;
-    
+
     border-radius: 10px;
     background: #323099;
     border: 0;
     outline: 0;
 }
 
-.button-line{
+.button-line {
     border-top: 1px solid grey;
     display: flex;
     flex-direction: column;
@@ -573,7 +597,7 @@ ul a .icon>i {
     margin: 16px 16px 0 16px;
 }
 
-.exit-button{
+.exit-button {
     width: 105px;
     height: 40px;
     background-color: rgb(247, 217, 217);
@@ -597,32 +621,34 @@ ul a .icon>i {
     background-color: rgb(0 0 0 / .5);
 }
 
-.modal-li, .modal-emp {
+.modal-li,
+.modal-emp {
     font-family: Verdana, Geneva, Tahoma, sans-serif;
     background-color: #ebf1e8;
     box-shadow: 0 0 1em rgb(0 0 0 / .3);
-    
+
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    
+
     width: 50%;
     max-height: 90%;
     box-sizing: border-box;
-    
+
     padding: 30px;
     margin-top: 15px;
     border: 1px solid #ccc;
     z-index: 1000;
 
-    border-radius: .8rem; 
+    border-radius: .8rem;
 
     overflow: hidden;
     overflow-y: scroll;
 }
 
-.close, .closea{
+.close,
+.closea {
     display: block;
     position: relative;
     width: 30px;
@@ -638,7 +664,7 @@ ul a .icon>i {
 
 /* MODAL EMPRÉSTIMOS */
 
-.modal-emp :where(input){
+.modal-emp :where(input) {
     width: 20%;
     height: 15px;
     margin: 5px 1px 28px 1px;
@@ -652,18 +678,18 @@ ul a .icon>i {
 }
 
 
-.modal-emp :where(li){
+.modal-emp :where(li) {
     padding: 5px 15px 2px 15px;
     margin-bottom: 5px;
     font-size: 18px;
     color: #555;
     font-weight: 500;
-    
+
 }
 
 
 
-.modal-emp :where(.accept-button, .reject-button){
+.modal-emp :where(.accept-button, .reject-button) {
     cursor: pointer;
     color: #ffffff;
     padding: 8px 22px;
@@ -674,18 +700,18 @@ ul a .icon>i {
 
 }
 
-.modal-emp :where(.reject-button){
+.modal-emp :where(.reject-button) {
     background: rgb(231, 127, 127);
 }
 
 
 
-.modal-emp :where(button:active){
+.modal-emp :where(button:active) {
     transform: scale(0.96);
 }
 
 
-.circlea{
+.circlea {
     position: absolute;
     margin: 0 auto;
     width: 60px;
@@ -698,7 +724,7 @@ ul a .icon>i {
     border: 2px #fff solid;
 }
 
-.modal-emp :where(.figure){
+.modal-emp :where(.figure) {
     position: absolute;
     top: 15px;
     left: 15px;
@@ -707,11 +733,11 @@ ul a .icon>i {
 
 /* MODAL LIVROS */
 
-.form-group h1{
-  margin: 1em 0em 1em 0em;
+.form-group h1 {
+    margin: 1em 0em 1em 0em;
 }
 
-.modal-li :where(li) { 
+.modal-li :where(li) {
     padding: 5px 15px -10px 15px;
     margin-bottom: 5px;
     font-size: 18px;
@@ -720,13 +746,14 @@ ul a .icon>i {
 
 }
 
-.modal-li :where(.figure){
+.modal-li :where(.figure) {
     position: absolute;
     top: 5px;
     left: 5px;
 }
 
-.modal-li :where(input), .modal-li :where(textarea) {
+.modal-li :where(input),
+.modal-li :where(textarea) {
     width: 95%;
     height: 15px;
     margin: 5px 1px 28px 1px;
@@ -738,33 +765,34 @@ ul a .icon>i {
     outline: none;
 }
 
-.modal-li :where(textarea){
-  height: 150px;
+.modal-li :where(textarea) {
+    height: 150px;
 }
 
-.modal-li :where(label){
+.modal-li :where(label) {
 
-        display: block;
-        position: absolute;
-        font-size: 18px;
-        color: rgb(169, 171, 170);
-        margin-top: -50px;
-        padding-left: 18px;
-        text-align: left;
-        pointer-events: none;
-        transition: .4s;
-    
+    display: block;
+    position: absolute;
+    font-size: 18px;
+    color: rgb(169, 171, 170);
+    margin-top: -50px;
+    padding-left: 18px;
+    text-align: left;
+    pointer-events: none;
+    transition: .4s;
+
 }
 
 .modal-li :where(input:focus~label),
-.modal-li :where(input:valid~label){
+.modal-li :where(input:valid~label) {
     margin-top: -80px;
     padding-left: 8px;
     color: #026948;
     font-weight: 500;
 }
+
 .modal-li :where(textarea:focus~label),
-.modal-li :where(textarea:valid~label){
+.modal-li :where(textarea:valid~label) {
     margin-top: -215px;
     padding-left: 8px;
     color: #026948;
@@ -776,17 +804,18 @@ ul a .icon>i {
     color: rgb(2, 105, 72);
     font-size: 18px;
     padding: 50px 320px 0 0;
-    margin: -11% 5px; 
+    margin: -11% 5px;
 
 }
-.checkbox-div{
+
+.checkbox-div {
     position: relative;
     display: inline-flex;
     margin-bottom: 2px;
 
 }
 
-.send{
+.send {
     cursor: pointer;
     color: #ffffff;
     padding: 7px 35px;
@@ -800,24 +829,24 @@ ul a .icon>i {
     display: inline-block;
 }
 
-.send:active{
+.send:active {
     transform: scale(1);
     background: #cce4c5;
     color: #99c28b;
 }
 
-.date{
+.date {
     font-size: 18px;
     padding-left: 8px;
     color: #026948;
     font-weight: 500;
 }
 
-.file{
+.file {
     width: 40%;
 }
 
-.capa{
+.capa {
     position: absolute;
     right: 15%;
     bottom: 7%;
@@ -829,104 +858,370 @@ ul a .icon>i {
 /* Mensagens de alerta */
 
 :root {
-	--primary: #0676ed;
-	--background: #222b45;
-	--warning: #f2a600;
-	--success: #12c99b;
-	--error: #e41749;
-	--dark: #151a30;
+    --primary: #0676ed;
+    --background: #222b45;
+    --warning: #f2a600;
+    --success: #12c99b;
+    --error: #e41749;
+    --dark: #151a30;
 }
 
 .alert-primary {
-	background: var(--primary);
+    background: var(--primary);
 }
 
 .alert {
-	position: fixed;
+    position: fixed;
     min-height: 67px;
     display: flex;
     align-items: center;
     padding-left: .5em;
     padding-right: .5em;
     width: fit-content;
-	margin: .3em;
-	border-radius: .3em;
-	color: white;
-	z-index: 1000;
+    margin: .3em;
+    border-radius: .3em;
+    color: white;
+    z-index: 1000;
     top: 5px;
     left: 5px;
 }
 
 
 .alert-warning {
-	background: var(--warning);
+    background: var(--warning);
 }
 
 .alert-success {
-	background: var(--success);
+    background: var(--success);
 }
 
 .alert-primary {
-	background: var(--primary);
+    background: var(--primary);
 }
 
 .alert-dark {
-	background: var(--dark);
+    background: var(--dark);
 }
 
 .alert-error {
-	background: var(--error);
+    background: var(--error);
 }
 
 .alert .icon__wrapper {
-	height: 34px;
-	width: 34px;
-	border-radius: 50%;
-	background: rgba(255, 255, 255, 0.253);
-	display: flex;
-	align-items: center;
-	justify-content: center;
+    height: 34px;
+    width: 34px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.253);
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .alert .icon__wrapper span {
-	font-size: 21px;
-	color: #fff;
+    font-size: 21px;
+    color: #fff;
 }
 
 .alert p {
-	color: #fff;
-	font-family: Verdana;
-	margin-left: 10px;
+    color: #fff;
+    font-family: Verdana;
+    margin-left: 10px;
 }
 
 .alert p a,
 .alert p a:visited,
 .alert p a:active {
-	color: #fff;
+    color: #fff;
 }
 
 .alert .open {
-	margin-left: auto;
-	margin-right: 5px;
+    margin-left: auto;
+    margin-right: 5px;
 }
 
 .alert .close,
 .alert .open {
-	color: black;
-	transition: transform 0.5s;
-	font-size: 18px;
-	cursor: pointer;
+    color: black;
+    transition: transform 0.5s;
+    font-size: 18px;
+    cursor: pointer;
 }
 
 .alert .close:hover,
 .alert .open:hover {
-	transform: scale(1.3);
+    transform: scale(1.3);
 }
 
 .alert .close {
-	background-color: white;
-	border-radius: 1em;
-	border-color: white;
+    background-color: white;
+    border-radius: 1em;
+    border-color: white;
     position: relative;
-	margin-left: 1em;
+    margin-left: 1em;
+}
+
+/* Livro página inicial */
+
+#card-button {
+    padding: 0;
+}
+
+#card-button {
+    filter: contrast(100%);
+}
+
+
+/* Formulário Livro */
+
+.book-form {
+    margin: 5% 22.5% 5% 27.5%;
+    display: block;
+    background-color: #f8f8f8;
+    border: none;
+    border-radius: 1em;
+    padding: 16px;
+    text-align: center;
+}
+
+.book-form label {
+    display: block;
+    margin-top: 1em;
+}
+
+.loan-list input,
+.requests-loan-list input,
+.user-preview input,
+.form input,
+.form textarea,
+.book-form input,
+.book-form textarea,
+.book-form select {
+    margin: .5em;
+    padding: 1em;
+    border: none;
+    border-radius: 1em;
+    width: 75%;
+}
+
+input[type="file"] {
+    border-radius: 0px;
+}
+
+.book-form button {
+    margin: .5em;
+    padding: .5em;
+    border: none;
+    border-radius: 1em;
+}
+
+.book-form button[type='submit'] {
+    padding: 1em;
+    width: 50%;
+}
+
+#book-form-image {
+    margin: .5em;
+    width: 180px;
+}
+
+.search-book-form {
+    margin: 5% 0% 5% 27.5%;
+    display: block;
+    background-color: #f8f8f8;
+    border: none;
+    border-radius: 1em;
+    padding: 16px;
+    text-align: center;
+    width: 47.5%;
+}
+
+/* Empréstimos */
+
+.book-covers,
+.loaned-books {
+    margin: 0% 15% 5% 0%;
+    display: flex;
+    flex-wrap: wrap;
+    background-color: #f8f8f8;
+    border: none;
+    border-radius: 1em;
+    padding: 16px;
+}
+
+.loan {
+    margin: 2% 7% 2% 8%;
+    width: 160px;
+}
+
+.loan img {
+    width: 160px;
+    height: 270px;
+}
+
+.loan-list button,
+.loaned-books button,
+.form button {
+    display: block;
+    border: none;
+    border-radius: 1em;
+    padding: 1em;
+    margin: 1em 0em 1em 0em;
+}
+
+.search-form button {
+    border: none;
+    border-radius: 1em;
+    padding: 1em;
+}
+
+#openModal {
+    display: block;
+    border: none;
+    border-radius: 1em;
+    padding: 1em;
+    margin: 1em 0em 1em 0em;
+}
+
+#loan-return {
+    width: 95%;
+    padding: .3em;
+    border-radius: .5em;
+    margin: 1em 0em 1em 0em;
+}
+
+/* Perfil de Usuário */
+
+.user-preview,
+.form {
+    display: block;
+    margin: 5% 0% 5% 17%;
+    width: 50%;
+    background-color: #f8f8f8;
+    border: none;
+    border-radius: 1em;
+    padding: 16px;
+    text-align: center;
+}
+
+.user-preview input,
+.form input,
+.form textarea {
+    background-color: white;
+    border-radius: 1em;
+    width: 75%;
+}
+
+.form button {
+    width: 50%;
+    margin-left: 25.5%;
+}
+
+.user-preview label,
+.form label {
+    display: block;
+    margin-top: 1em;
+}
+
+/* Formulário de Lista de Empréstimos */
+
+.form img {
+    margin: 0 auto;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background-color: #94cc74;
+    border: 2px #fff solid;
+    object-fit: cover;
+}
+
+.search-form {
+    display: block;
+    margin: 5% 15% 5% 0%;
+    background-color: #f8f8f8;
+    border: none;
+    border-radius: 1em;
+    padding: 16px;
+    text-align: center;
+}
+
+.search-form input {
+    border: none;
+    padding: 1em;
+}
+
+.modal-content {
+    width: 100%;
+}
+
+.modal-content .receipt {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.modal-content .close {
+    margin-left: 95%;
+}
+
+#myModal .loaned-books {
+    width: 100%;
+}
+
+.requests-loan-list,
+.loan-list {
+    margin-right: 15%;
+    height: 50%;
+}
+
+.requests-loan-list ul,
+.loan-list ul {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.requests-loan-list label,
+.loan-list label {
+    display: flex;
+}
+
+.requests-loan-list ul li,
+.loan-list ul li {
+    display: block;
+    background-color: #f8f8f8;
+    margin: 1em;
+    padding: 1em;
+    border-radius: 1em;
+}
+
+.requests-loan-list button {
+    margin: 1% 2% 0% 2%;
+    width: 45%;
+}
+
+.loan-requests #stock {
+    border: none;
+    padding: 1em;
+    border-radius: 1em;
+    width: 5%;
+}
+
+.home-charts {
+    margin: 5% 0% 0% 10%;
+}
+
+.user-preview label {
+    margin: 2% 60% 0% 13%;
+    color: white;
+    background-color: rgba(0, 0, 0, .75);
+    padding: .5em;
+    border-radius: .5em;
+}
+
+.user-preview img {
+    object-fit: cover;
+}
+
+#delete-button {
+    background-color: rgb(255, 50, 50);
+    width: 50%;
 }

@@ -1,24 +1,24 @@
-{% extends 'base.html' %} 
+{% extends 'base.html' %}
 
 {% load static %}
 
 {% block content %}
-<div class="container">
+  <div class="container">
     <div class="center">
-<form class="search-form" method="POST" action="{% url 'searchuser' %}">
-    {% csrf_token %}
-    <h2>Procurar Usuário</h2>
-    <label for="email">E-mail do usuário</label>
-    <input type="email" list="emails" name="email" placeholder="E-mail">
+      <form class="search-form" method="POST" action="{% url 'searchuser' %}">
+        {% csrf_token %}
+        <h2>Procurar Usuário</h2>
+        <label for="email">E-mail do usuário</label>
+        <input type="email" list="emails" name="email" placeholder="E-mail">
 
-    <datalist id="emails">
-        {% for email in all_emails %}
-        <option value="{{ email }}"></option>
-        {% endfor %}
-    </datalist>
+        <datalist id="emails">
+          {% for email in all_emails %}
+            <option value="{{ email }}"></option>
+          {% endfor %}
+        </datalist>
 
-    <button type="submit">Procurar</button>
-</form> 
-</div>
-</div>
+        <button type="submit">Procurar</button>
+      </form>
+    </div>
+  </div>
 {% endblock %}

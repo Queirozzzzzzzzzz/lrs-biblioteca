@@ -3,52 +3,54 @@
 {% load templatetags %}
 
 {% block content %}
-<body>
- <div class="container">
-   <div class="center">
- <h1>{{ book.title }}</h1>
+  <body>
+    <div class="container">
+      <div class="center">
+        <h1>{{ book.title }}</h1>
 
- <!-- Lista de Empréstimos Expirados -->
- <div class="expired-loans">
-  <h2>Empréstimos Expirados</h2>
-  <div class="loan-list">
-  <ul>
-    {% for loan in expired_loans %}
-      <li>
-        <label for="user"><strong>Usuário:</strong></label>
-        <input type="text" id="user" readonly value="{{ loan.user|default_if_none:'' }}" />
+        <!-- Lista de Empréstimos Expirados -->
+        <div class="expired-loans">
+          <h2>Empréstimos Expirados</h2>
+          <div class="loan-list">
+            <ul>
+              {% for loan in expired_loans %}
+                <li>
+                  <label for="user"><strong>Usuário:</strong></label>
+                  <input type="text" id="user" readonly value="{{ loan.user|default_if_none:'' }}" />
 
-        <label for="email"><strong>E-mail:</strong></label>
-        <input type="text" id="email" readonly value="{{ loan.user.email }}" />
+                  <label for="email"><strong>E-mail:</strong></label>
+                  <input type="text" id="email" readonly value="{{ loan.user.email }}" />
 
-        <label for="phone"><strong>Telefone:</strong></label>
-        <input type="text" id="phone" readonly value="{{ loan.user.phone_number|default_if_none:'' }}" />
+                  <label for="phone"><strong>Telefone:</strong></label>
+                  <input type="text" id="phone" readonly value="{{ loan.user.phone_number|default_if_none:'' }}" />
 
-        <label for="course"><strong>Curso:</strong></label>
-        <input type="text" id="course" readonly value="{{ loan.user.course|default_if_none:'' }}" />
+                  <label for="course"><strong>Curso:</strong></label>
+                  <input type="text" id="course" readonly value="{{ loan.user.course|default_if_none:'' }}" />
 
-        <label for="date1"><strong>Solicitado em:</strong></label>
-        <input type="date" id="date1" readonly value="{{ loan.start_date|date:'Y-m-d' }}" />
+                  <label for="date1"><strong>Solicitado em:</strong></label>
+                  <input type="date" id="date1" readonly value="{{ loan.start_date|date:'Y-m-d' }}" />
 
-        <label for="date2"><strong>Data de Expiração:</strong></label>
-        <input type="date" id="date2" readonly value="{{ loan.final_date|date:'Y-m-d' }}" />
+                  <label for="date2"><strong>Data de Expiração:</strong></label>
+                  <input type="date" id="date2" readonly value="{{ loan.final_date|date:'Y-m-d' }}" />
 
-        <label for="remaining_days" style="color: red;">Dias de Atraso</label>
-        <input id="remaining_days" type="number" value="{{ loan.days_to_return|abs }}" readonly />
-        <form class="loan-list-endloan-form" action="{% url 'endloan' loan.id %}" method="POST">
-          {% csrf_token %}
-            <button>Encerrar Empréstimo</button>
-        </form>
-        <form class="loan-list-renew-form" action="{% url 'bookrenew' loan.id %}" method="POST">
-          {% csrf_token %}
-          <button type="submit">Renovar Empréstimo</button>
-        </form>
-      </li>
-    {% endfor %}
-  </ul>
-  </div>
- </div>
-</div>
-</div>
-</body>
+                  <label for="remaining_days" style="color: red;">Dias de Atraso</label>
+                  <input id="remaining_days" type="number" value="{{ loan.days_to_return|abs }}" readonly />
+
+                  <form class="loan-list-endloan-form" action="{% url 'endloan' loan.id %}" method="POST">
+                    {% csrf_token %}
+                    <button>Encerrar Empréstimo</button>
+                  </form>
+
+                  <form class="loan-list-renew-form" action="{% url 'bookrenew' loan.id %}" method="POST">
+                    {% csrf_token %}
+                    <button type="submit">Renovar Empréstimo</button>
+                  </form>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
 {% endblock %}

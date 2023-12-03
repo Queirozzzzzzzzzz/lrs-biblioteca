@@ -444,6 +444,12 @@ def wishlist(request,):
    
     return redirect('books')
 
+def bookremove(request, book_id):
+    book = Book.objects.get(pk=book_id)
+    book.delete()
+
+    return redirect('books')
+
 # Funções
 
 # Enviar e-mail
@@ -469,7 +475,6 @@ def get_book_info(isbn):
 
     # Faz uma solicitação GET para a API do Google Books com os parâmetros definidos
     response = requests.get(base_url, params=params)
-    print(response.url)
 
     # Verifica se a solicitação foi bem-sucedida
     if response.status_code == 200:

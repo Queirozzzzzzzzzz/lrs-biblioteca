@@ -1,78 +1,69 @@
-{% extends 'base.html' %} {% block content %}
-<body>
-  <div class="container">
-    <div class="center">
-  <!-- Cadastrar empréstimo -->
-  <form class="search-form" action="{% url 'bookloan' %}" method="POST">
-    {% csrf_token %}
-    <h2>Cadastrar Empréstimo</h1>
-    <input type="text" list="users" id="user_id" class="form-control" placeholder="Pesquisar usuário" name="user" />
-    <datalist id="users">
-    {% for user in all_users %}
-    <option value="{{ user.id }}">{{ user.email }}</option>
-    {% endfor %}
-    </datalist>
-    <input type="text" list="books" id="book_id" class="form-control" placeholder="Pesquisar livro" name="book" />
-   
-    <datalist id="books">
-    {% for book in all_books %}
-    <option value="{{ book.id }}">{{ book.title }}</option>
-    {% endfor %}
-    </datalist>
-    <button type="submit">Realizar empréstimo</button>
-   </form>   
+{% extends 'base.html' %}
+{% block content %}
+  <body>
+    <div class="container">
+      <div class="center">
+        <!-- Cadastrar empréstimo -->
+        <form class="search-form" action="{% url 'bookloan' %}" method="POST">
+          {% csrf_token %}
+          <h2>Cadastrar Empréstimo</h2>
+          <input type="text" list="users" id="user_id" class="form-control" placeholder="Pesquisar usuário" name="user" />
+          <datalist id="users">
+            {% for user in all_users %}
+              <option value="{{ user.id }}">{{ user.email }}</option>
+            {% endfor %}
+          </datalist>
+          <input type="text" list="books" id="book_id" class="form-control" placeholder="Pesquisar livro" name="book" />
+          <datalist id="books">
+            {% for book in all_books %}
+              <option value="{{ book.id }}">{{ book.title }}</option>
+            {% endfor %}
+          </datalist>
+          <button type="submit">Realizar empréstimo</button>
+        </form>
 
-  <!-- Lista dos Livros Solicitados -->
-  <h2>Empréstimos Solicitados</h2>
-  <div class="book-covers">
-    {% for book in books %}
-    <div class="loan">
-      <a href="{% url 'loanslist' book.id %}">
-        <div class="book-cover">
-          <img
-            src="{{ book.front_cover.url }}"
-            alt="Capa"
-          />
+        <!-- Lista dos Livros Solicitados -->
+        <h2>Empréstimos Solicitados</h2>
+        <div class="book-covers">
+          {% for book in books %}
+            <div class="loan">
+              <a href="{% url 'loanslist' book.id %}">
+                <div class="book-cover">
+                  <img src="{{ book.front_cover.url }}" alt="Capa" />
+                </div>
+              </a>
+            </div>
+          {% endfor %}
         </div>
-      </a>
+
+        <!-- Lista dos Livros com Empréstimos Atrasados -->
+        <h2>Empréstimos Atrasados</h2>
+        <div class="book-covers">
+          {% for book in expired_loans_books %}
+            <div class="loan">
+              <a href="{% url 'expiredloanslist' book.id %}">
+                <div class="book-cover">
+                  <img src="{{ book.front_cover.url }}" alt="Capa" />
+                </div>
+              </a>
+            </div>
+          {% endfor %}
+        </div>
+
+        <!-- Lista dos Livros com Empréstimos Ativos -->
+        <h2>Empréstimos Ativos</h2>
+        <div class="book-covers">
+          {% for book in activated_books %}
+            <div class="loan">
+              <a href="{% url 'activeloanslist' book.id %}">
+                <div class="book-cover">
+                  <img src="{{ book.front_cover.url }}" alt="Capa" />
+                </div>
+              </a>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
     </div>
-    {% endfor %}
-  </div>
-
-  <!-- Lista dos Livros com Empréstimos Atrasados -->
-  <h2>Empréstimos Atrasados</h2>
-  <div class="book-covers">
-    <div class="loan">
-    {% for book in expired_loans_books %}
-      <a href="{% url 'expiredloanslist' book.id %}">
-        <div class="book-cover">
-          <img
-            src="{{ book.front_cover.url }}"
-            alt="Capa"
-          />
-        </div>
-      </a>
-    {% endfor %}
-  </div>
-  </div>
-
-  <!-- Lista dos Livros com Empréstimos Ativos -->
-  <h2>Empréstimos Ativos</h2>
-  <div class="book-covers">
-    {% for book in activated_books %}
-    <div class="loan">
-      <a href="{% url 'activeloanslist' book.id %}">
-        <div class="book-cover">
-          <img
-            src="{{ book.front_cover.url }}"
-            alt="Capa"
-          />
-        </div>
-      </a>
-    </div>
-    {% endfor %}
-  </div>
-</div>
-</div>
-</body>
+  </body>
 {% endblock %}

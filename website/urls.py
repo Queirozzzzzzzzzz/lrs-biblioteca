@@ -24,4 +24,5 @@ urlpatterns = [
     path('renovar-emprestimo/<int:loan_id>/', views.bookrenew, name="bookrenew"),
     path('pdf/receita/<int:history_loan_id>/', views.historyreceiptpdfview, name="historyreceiptpdfview"),
     path('usuarios/', views.profiles, name='profiles'),
+    path('livros/remover/<int:book_id>', views.bookremove, name='bookremove'),
 ]

@@ -1,50 +1,46 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-  <head>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  </head>
-  <body>
-    <div class="container">
-      <div class="center">
-    <form class="form" method="POST" action="{% url 'editprofile' profile.id %}" enctype="multipart/form-data">
-      {% csrf_token %}
-      {% if profile.profile_image %}
-      <img src="{{ profile.profile_image.url }}" alt="Foto de Usuário"/>
-      {% else %}
-        <img src="{% static 'images/default_profile_image.png' %}" alt="Foto de Usuário"/>
-      {% endif %}
-      {% if user.is_staff %}
-        <label class="label-input" for="full_name">Nome completo</label>
-        <input type="text" name="full_name" maxlength="255" autofocus required id="id_full_name" value="{{ profile.full_name|default_if_none:'' }}" />
-        <label class="label-input" for="email">Email
-        </label>
-        <input type="text" name="email" maxlength="320" required id="id_email" value="{{ profile.email|default_if_none:'' }}" />
-        <label class="label-input" for="course">Curso
-        </label>
-        <input type="text" name="course" maxlength="50" id="id_course" value="{{ profile.course|default_if_none:'' }}" />
-        <label class="label-input" for="password">Senha
-        </label>
-        <input type="password" name="password" id="id_password" />
-      {% endif %}
-      <label class="label-input" for="phone_number">Telefone
-      </label>
-      <input type="tel" name="phone_number" id="id_phone_number" placeholder="+XX XX XXXXX-XXXX" value="{{ profile.phone_number|default_if_none:'' }}" />
-      <label class="label-input" for="profile_image">Imagem de perfil
-      </label>     
-      <input type="file" name="profile_image" id="id_profile_image" />
-      <button>Salvar Alterações</button>
-    </form>
-    <script src="{% static 'js/profile_registration.js' %}"></script>
-    <script>
-      var $input = $("#id_phone_number");
-      $input.on("keyup", function (event) {
-        var input = $(this).val();
-        var formatted = input.replace(/(\d{2})(\d{2})(\d{5})(\d{4})/, "+$1 $2 $3-$4");
-        $(this).val(formatted);
-      });
-    </script>
+<head>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+  <div class="container">
+    <div class="center">
+      <form class="form" method="POST" action="{% url 'editprofile' profile.id %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        <h1>Editar Usuário</h1>
+        {% if profile.profile_image %}
+          <img src="{{ profile.profile_image.url }}" alt="Foto de Usuário"/>
+        {% else %}
+          <img src="{% static 'images/default_profile_image.png' %}" alt="Foto de Usuário"/>
+        {% endif %}
+        {% if user.is_staff %}
+          <label class="label-input" for="full_name">Nome completo</label>
+          <input type="text" name="full_name" maxlength="255" autofocus required id="id_full_name" value="{{ profile.full_name|default_if_none:'' }}" />
+          <label class="label-input" for="email">Email</label>
+          <input type="text" name="email" maxlength="320" required id="id_email" value="{{ profile.email|default_if_none:'' }}" />
+          <label class="label-input" for="course">Curso</label>
+          <input type="text" name="course" maxlength="50" id="id_course" value="{{ profile.course|default_if_none:'' }}" />
+          <label class="label-input" for="password">Senha</label>
+          <input type="password" name="password" id="id_password" />
+        {% endif %}
+        <label class="label-input" for="phone_number">Telefone</label>
+        <input type="tel" name="phone_number" id="id_phone_number" placeholder="+XX XX XXXXX-XXXX" value="{{ profile.phone_number|default_if_none:'' }}" />
+        <label class="label-input" for="profile_image">Imagem de perfil</label>
+        <input type="file" name="profile_image" id="id_profile_image" />
+        <button>Salvar Alterações</button>
+      </form>
+      <script src="{% static 'js/profile_registration.js' %}"></script>
+      <script>
+        var $input = $("#id_phone_number");
+        $input.on("keyup", function (event) {
+          var input = $(this).val();
+          var formatted = input.replace(/(\d{2})(\d{2})(\d{5})(\d{4})/, "+$1 $2 $3-$4");
+          $(this).val(formatted);
+        });
+      </script>
     </div>
   </div>
-  </body>
+</body>
 {% endblock %}

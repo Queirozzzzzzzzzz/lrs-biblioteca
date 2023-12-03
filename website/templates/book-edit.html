@@ -14,15 +14,19 @@
                 <h1>Editar Livro</h1>
                 <ul>
                     <li>
+                        <label for="id_title"><strong>Título</strong></label>
                         <input type="text" name="title" maxlength="255" required="" id="id_title" placeholder="Título" value="{{ book.title }}">  <!-- título -->
                     </li>
                     <li>
+                        <label for="id_author"><strong>Autor</strong></label>
                         <input type="text" name="author" maxlength="80" required="" id="id_author" placeholder="Autor" value="{{ book.author }}">  <!-- autor -->
                     </li>
                     <li>
+                        <label for="id_synopsis"><strong>Sinópse</strong></label>
                         <textarea name="synopsis" cols="40" rows="10" required="" id="id_synopsis" placeholder="Sinópse">{{ book.synopsis }}</textarea>  <!-- sinópse -->
                     </li>
                     <li>
+                        <label for="id_genre"><strong>Gênero</strong></label>
                         <select name="genre" id="id_genre" required="">
                             {% for value, display in form.fields.genre.choices %}
                                 <option value="{{ value }}" {% if value == book.genre %}selected{% endif %}>{{ display }}</option>
@@ -30,6 +34,7 @@
                         </select>  <!-- gênero -->
                     </li>
                     <li>
+                        <label for="id_publisher"><strong>Editora</strong></label>
                         <input type="text" name="publisher" maxlength="255" id="id_publisher" placeholder="Publisher" value="{{ book.publisher }}"> <!-- editora -->
                     </li>
                     <li>
@@ -49,6 +54,7 @@
                         <input type="number" name="stock" required="" id="id_stock"  value="{{ book.stock }}">  <!-- estoque -->
                     </li>
                     <li>
+                        <label for="id_origin"><strong>Origem</strong></label>
                         <select name="origin" id="id_origin" required="">
                             {% for value, display in form.fields.origin.choices %}
                                 <option value="{{ value }}" {% if value == book.origin %}selected{% endif %}>{{ display }}</option>
@@ -56,6 +62,7 @@
                         </select> <!-- origem -->
                     </li>
                     <li>
+                        <label for="id_comment"><strong>Comentário</strong></label>
                         <textarea name="comment" cols="40" rows="10" id="id_comment" placeholder="Comentário">{{ book.comment }}</textarea> <!-- comentário -->
                     </li>
                     <img id="book-form-image" src="{% if book.front_cover %}{{ book.front_cover.url }}{% else %}{% static 'images/default_front_cover.png' %}{% endif %}" alt="Capa">  <!-- Imagem da capa do livro -->
@@ -66,12 +73,13 @@
                         <label for="id_front_cover"><strong>Capa</strong></label> 
                         <input type="file" name="front_cover" id="id_front_cover" placeholder="Capa">  <!-- arquivo da capa -->
                     </li>
-                    <button type="button" id="reset_front_cover">Redefinir Capa</button>  <!-- redefinir a capa -->
+                    <!-- <button type="button" id="reset_front_cover">Redefinir Capa</button> -->  <!-- redefinir a capa -->
                 </ul>
                 <input type="hidden" name="form_action" value="add_new_book">
                 <input type="hidden" id="edit_book_id" name="edit_book_id" value="{{ book.id }}">
                 <button type="submit" name="edit">Enviar</button>
             </form>      
+            <a href="{% url 'bookremove' book.id %}"><button id="delete-button">Excluir</button></a>
         </div>
     </div>
     <script>
