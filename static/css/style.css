@@ -1097,6 +1097,10 @@ input[type="file"] {
     text-align: center;
 }
 
+.user-preview .user-info a {
+    text-decoration: none;
+}
+
 .user-preview input,
 .form input,
 .form textarea {
