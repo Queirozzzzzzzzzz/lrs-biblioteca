@@ -975,6 +975,7 @@ ul a .icon>i {
 
 .loan-list input,
 .requests-loan-list input,
+.home-charts input,
 .user-preview input,
 .form input,
 .form textarea,
@@ -986,6 +987,10 @@ ul a .icon>i {
     border: none;
     border-radius: 1em;
     width: 75%;
+}
+
+.home-charts input {
+    width: 25%;
 }
 
 .expired-loans input,
@@ -1408,6 +1413,7 @@ input[type="file"] {
 
     .home-charts {
         margin: 15% 0 0 0;
+        height: 100vh;
     }
 
     .home-charts h1 {
@@ -1415,7 +1421,11 @@ input[type="file"] {
         margin-left: 8%;
     }
 
+    .home-charts input {
+        margin-left: 20%;
+    }
 
+    
 
 }
 
@@ -1599,11 +1609,16 @@ input[type="file"] {
 
     .home-charts {
         margin: 15% 0 0 0;
+        height: 100vh;
     }
 
     .home-charts h1 {
         font-size: 150%;
         margin-left: 8%;
+    }
+
+    .home-charts input {
+        margin-left: 20%;
     }
 }
 

@@ -2,9 +2,14 @@
 {% block content %}
   <div class="home-charts">
     <h1>Livros mais solicitados</h1>
-    <canvas id="books-chart"></canvas>
+    <input type="number" id="numBooks" value="5">
+    <button onclick="updateChart('bookChart')">Mudar Valores</button>
+    <canvas id="books-chart" style="position: relative; height:50%; width:90vw"></canvas>
+
     <h1>Gêneros mais solicitados</h1>
-    <canvas id="genres-chart"></canvas>
+    <input type="number" id="numGenres" value="5">
+    <button onclick="updateChart('genreChart')">Mudar Valores</button>
+    <canvas id="genres-chart" style="position: relative; height:50%; width:90vw"></canvas>   
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
@@ -14,7 +19,7 @@
       var letters = '0123456789ABCDEF';
       var color = '#';
       for (var i = 0; i < 6; i++) {
-        color += letters[Math.floor(Math.random() * 6)];
+        color += letters[Math.floor(Math.random() * 8)];
       }
       return color;
     }
@@ -24,26 +29,77 @@
       colors.push(getRandomColor());
     {% endfor %}
 
-    var booksConfig = {
-      type: 'pie',
-      data: {
-        datasets: [{
-          data: {{ books_data|safe }},
-          backgroundColor: colors,
-          label: 'Livros'
-        }],
-        labels: {{ books_labels|safe }}
-      },
-      options: {
-        legend: {
-          display: false
-        }
-      }
-    };
+    function updateChart(chart) {
+      var allBooksData = {{ books_data|safe }};
+      var allBooksLabels = {{ books_labels|safe }};
 
-    window.onload = function() {
+      var allGenresData = {{ genres_data|safe }};
+      var allGenresLabels = {{ genres_labels|safe }};
+
+      if(chart == "bookChart") {
+        var numBooks = document.getElementById('numBooks').value;
+        window.myBooks.data.datasets[0].data = allBooksData.slice(0, numBooks);
+        window.myBooks.data.labels = allBooksLabels.slice(0, numBooks);
+        window.myBooks.update();
+      }
+
+      if(chart == "genreChart") {
+        var numGenres = document.getElementById('numGenres').value;
+        window.myGenres.data.datasets[0].data = allGenresData.slice(0, numGenres);
+        window.myGenres.data.labels = allGenresLabels.slice(0, numGenres);
+        window.myGenres.update();
+      }
+    }
+
+
+
+
+    function bookChart() {
+      var allBooksData = {{ books_data|safe }};
+      var allBooksLabels = {{ books_labels|safe }};
+      var numBooks = document.getElementById('numBooks').value;
+      var booksConfig = {
+        type: 'pie',
+        data: {
+          datasets: [{
+            data: allBooksData.slice(0, numBooks),
+            backgroundColor: colors,
+            label: 'Livros'
+          }],
+          labels: allBooksLabels.slice(0, numBooks)
+        },
+        options: {
+        }
+      };
+
       var ctxBooks = document.getElementById('books-chart').getContext('2d');
       window.myBooks = new Chart(ctxBooks, booksConfig);
-    };
+    }
+
+    function genreChart() {
+      var allGenresData = {{ genres_data|safe }};
+      var allGenresLabels = {{ genres_labels|safe }};
+      var numGenres = document.getElementById('numGenres').value;
+      var genresConfig = {
+        type: 'pie',
+        data: {
+          datasets: [{
+            data: allGenresData.slice(0, numGenres),
+            backgroundColor: colors,
+            label: 'Gêneros'
+          }],
+          labels: allGenresLabels.slice(0, numGenres)
+        },
+        options: {
+        }
+      };
+
+      var ctxGenres = document.getElementById('genres-chart').getContext('2d');
+      window.myGenres = new Chart(ctxGenres, genresConfig);
+    }
+
+    bookChart()
+    genreChart()
+
   </script>
 {% endblock %}

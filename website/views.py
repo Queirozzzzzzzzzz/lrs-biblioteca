@@ -27,19 +27,9 @@ User = get_user_model()
 
 # Páginas
 
-# Página inicial
+# Página inicial bibliotecário
 @staff_member_required(login_url='membros/login')
 def home(request):
-    # Empr´setimos solicitados
-    requested_loans = UserLoan.objects.filter(is_on=False)
-    requested_loans_count = requested_loans.count()
-
-    # Gêneros mais solicitados
-    now = datetime.datetime.now()
-
-    current_week = now.isocalendar()[1]
-    current_month = now.month
-    current_year = now.year
 
     books = Book.objects.all()
 
@@ -48,6 +38,9 @@ def home(request):
         user_loan_count = UserLoan.objects.filter(book=book).count()
         history_user_loan_count = HistoryUserLoan.objects.filter(book=book).count()
         book.total_loan_count = user_loan_count + history_user_loan_count
+
+    # Organiza livros por quantidade de empréstimos solicitados
+    books = sorted(books, key=lambda book: book.total_loan_count, reverse=True)
 
     labels = []
     data = []
@@ -60,11 +53,27 @@ def home(request):
     books_labels = [book.title for book in books]
     books_data = [book.total_loan_count for book in books]
 
+    # Gêneros mais solicitados
+    genres = {}
+
+    # Conta a quantidade de empréstimos cada gênero tem/teve
+    for book in books:
+        if book.genre:
+            genre = book.get_genre_display()
+            genres[genre] = genres.get(genre, 0) + UserLoan.objects.filter(book=book).count()
+
+    # Organiza gêneros por quantidade de empréstimos solicitados
+    genres = sorted(genres.items(), key=lambda item: item[1], reverse=True)
+
+    genres_labels = [genre[0] for genre in genres]
+    genres_data = [genre[1] for genre in genres]
+
     context = {
-        'requested_loans_count':requested_loans_count,
         'books':books,
         'books_labels': books_labels,
-        'books_data': books_data
+        'books_data': books_data,
+        'genres_labels': genres_labels,
+        'genres_data': genres_data
     }
 
     return render(request, 'home.html', context)
