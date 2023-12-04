@@ -346,18 +346,28 @@ nav.menu-lateral {
     box-shadow: 0px 0px 1em black;
 
     width: 80px;
-    height: 100vh;
+    height: 90vh;
 
     /* ajustar o espaçamento dos icones */
     padding: 60px 0 60px 1%;
 
 
     position: fixed;
-    overflow: hidden;
+    overflow: scroll;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;
     transition: .5s;
     z-index: 10;
 
     top: 0px;
+}
+
+.menu-lateral::-webkit-scrollbar {
+    display: none;
+}
+
+.menu-lateral.expandir::-webkit-scrollbar {
+    display: none;
 }
 
 /* largura da barra */
@@ -855,8 +865,16 @@ ul a .icon>i {
     background: var(--primary);
 }
 
-.alert {
+.alerts {
     position: fixed;
+    top: 5px;
+    left: 5px;
+    z-index: 1000;
+    display: block;
+}
+
+.alert {
+    position: relative;
     min-height: 67px;
     display: flex;
     align-items: center;
@@ -866,9 +884,6 @@ ul a .icon>i {
     margin: .3em;
     border-radius: .3em;
     color: white;
-    z-index: 1000;
-    top: 5px;
-    left: 5px;
 }
 
 
@@ -1244,7 +1259,7 @@ input[type="file"] {
 @media (min-width:1280px) {}
 
 
-/* mobile menor */
+/* mobile  */
 
 @media (max-width:480px) {
 
@@ -1264,7 +1279,7 @@ input[type="file"] {
 
     nav.menu-lateral.expandir {
         width: 100%;
-        height: 100%;
+        height: 95vh;
     }
 
     nav.menu-lateral.expandir ul.itens {
@@ -1430,6 +1445,37 @@ input[type="file"] {
 
     .fast-info {
         margin: 25% 5% 0 5%;
+    }
+}
+
+/* mobile menor */ 
+@media (max-width:480px) and (max-height:480px) {
+    nav.menu-lateral.expandir {
+        height: 88vh;
+    }
+}
+
+/* mobile G */
+
+@media (max-width:480px) {
+    .search-box {
+        right: 20.5vw;
+    }
+}
+
+/* mobile M */
+
+@media (max-width:400px) {
+    .search-box {
+        right: 21.5vw;
+    }
+}
+
+/* mobile S */
+
+@media (max-width:320px) {
+    .search-box {
+        right: 26vw;
     }
 }
 
