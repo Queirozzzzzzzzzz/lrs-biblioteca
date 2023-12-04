@@ -1,5 +1,9 @@
 {% extends 'base.html' %} 
 {% block content %}
+  <div class="fast-info">   
+    <h2>Empréstimos Atrasados</h2>
+    <input type="number" readonly value="{{ expired_loans }}">
+  </div>
   <div class="home-charts">
     <h1>Livros mais solicitados</h1>
     <input type="number" id="numBooks" value="5">

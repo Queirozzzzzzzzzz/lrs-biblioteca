@@ -218,7 +218,8 @@ def searchuser(request):
             user = User.objects.get(email=email)
             return redirect('editprofile', user_id=user.id)
         except User.DoesNotExist:
-            return render(request, 'profiles.html', {'error': 'Usuário não existe.'})
+            messages.error(request, "Usuário não existe.")
+            return redirect('profiles')
     else:
         return render(request, 'profiles.html')
 

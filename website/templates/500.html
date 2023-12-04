@@ -1,0 +1,69 @@
+<!-- 404.html template -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Out of Box - Library 500</title>
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+            background-color: #99c28b;
+            overflow: hidden;
+        }
+
+        .container {
+            text-align: center;
+            max-width: 600px;
+        }
+
+        .emoji {
+            font-size: 8rem;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        p {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+
+        button {
+            font-size: 1.25rem;
+            padding: 1em;
+            border: none;
+            border-radius: 1em;
+            width: 50%;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #5ab43c;
+            transition: .5s;
+            width: 75%;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="emoji">😕</div>
+        <h1>Erro de Servidor</h1>
+        <p>Ocorreu um erro interno na sua solicitação.</p>
+        <a class="btn btn-primary" href="/"><button>Voltar</button></a>
+    </div>
+</body>
+</html>

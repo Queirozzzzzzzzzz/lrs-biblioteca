@@ -68,12 +68,18 @@ def home(request):
     genres_labels = [genre[0] for genre in genres]
     genres_data = [genre[1] for genre in genres]
 
+    # Obtém a quantidade de empréstimos expirados
+    all_loans = UserLoan.objects.all()
+    expired_loans = sum(1 for loan in all_loans if check_loan_date_status(loan.id) == False and loan.is_on == True)
+
+
     context = {
         'books':books,
         'books_labels': books_labels,
         'books_data': books_data,
         'genres_labels': genres_labels,
-        'genres_data': genres_data
+        'genres_data': genres_data,
+        'expired_loans':expired_loans
     }
 
     return render(request, 'home.html', context)
@@ -459,6 +465,14 @@ def bookremove(request, book_id):
     book.delete()
 
     return redirect('books')
+
+# Página de código 404 customizada
+def custom404(request, exception):
+    return render(request, '404.html', status=404)
+
+# Página de código 500 customizada
+def custom500(request):
+    return render(request, '500.html', status=500)
 
 # Funções
 

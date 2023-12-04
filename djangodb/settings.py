@@ -70,9 +70,7 @@ WSGI_APPLICATION = 'djangodb.wsgi.application'
 
 SECRET_KEY = os.environ.get("SECRET_KEY")
 
-DEBUG = True
-
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost']
 
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles", "static")
 
