@@ -61,7 +61,7 @@ def userregister(request):
             password = form.cleaned_data['password1']
 
             # Define a foto de perfil padrão
-            user.profile_image.save('default_cover_image.jpg', get_default_image())
+            user.profile_image.save('default_cover_image.jpg', getdefaultimage())
 
             # Salva o usuário
             user.save()
@@ -180,10 +180,10 @@ def editprofile(request, user_id):
                             try:
 
                                 # Valida o tipo da imagem
-                                validate_image_extension(new_image)
+                                validateimageextension(new_image)
 
                                 # Valida o tamanho imagem
-                                validate_image_size(new_image)
+                                validateimagesize(new_image)
 
                                 # Salva a imagem
                                 user.profile_image = new_image
@@ -226,18 +226,18 @@ def searchuser(request):
 # Funções
 
 # Valida tipo da imagem
-def validate_image_extension(img):
+def validateimageextension(img):
     if not img.name[-3:].lower() in ['jpg', 'png', 'gif'] and not img.name[-4:].lower() in ['jpeg', 'jfif']:
             raise ValidationError("Os tipos de arquivos aceitos são jpg, jpeg, jfif, png e gif.")
 
 # Valida tamanho da imagem
-def validate_image_size(img):
+def validateimagesize(img):
    filesize = img.size
    if filesize > 15 * 1024 * 1024:
        raise ValidationError('Arquivo deve ser menor que 15MB')
 
 # Obtem a foto de perfil padrão
-def get_default_image():
+def getdefaultimage():
     # Url da imagem
     default_image_path = settings.STATICFILES_DIRS[0] + '/images/default_profile_image.png'
 

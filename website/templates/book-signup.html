@@ -10,7 +10,7 @@
         <form action="{% url 'booksearch' %}" method="post"> 
             {% csrf_token %}
             <input type="text" name="isbn" placeholder="ISBN">  <!-- Campo de entrada para o título do livro -->
-            <input type="hidden" name="form_action" value="get_book_info">
+            <input type="hidden" name="form_action" value="getbookinfo">
             <button type="submit">Procurar</button>
         </form>
     </div> 

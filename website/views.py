@@ -19,9 +19,7 @@ from io import BytesIO
 from django.http import HttpResponseForbidden
 from xhtml2pdf import pisa
 from members.models import User
-from django.http import JsonResponse
-from django.db.models import Count
-import datetime
+from collections import defaultdict
 
 User = get_user_model()
 
@@ -33,11 +31,16 @@ def home(request):
 
     books = Book.objects.all()
 
+    # Dicionário para armazenar total de empréstimos para cada gênero
+    genre_loan_count = defaultdict(int)
+
     # Conta a quantidade de empréstimos cada livro tem/teve
     for book in books:
         user_loan_count = UserLoan.objects.filter(book=book).count()
         history_user_loan_count = HistoryUserLoan.objects.filter(book=book).count()
         book.total_loan_count = user_loan_count + history_user_loan_count
+        genre = book.get_genre_display()
+        genre_loan_count[genre] += user_loan_count + history_user_loan_count
 
     # Organiza livros por quantidade de empréstimos solicitados
     books = sorted(books, key=lambda book: book.total_loan_count, reverse=True)
@@ -49,24 +52,18 @@ def home(request):
         labels.append(book.title)
         data.append(book.total_loan_count)
 
-
+    # Define as informações
     books_labels = [book.title for book in books]
     books_data = [book.total_loan_count for book in books]
 
-    # Gêneros mais solicitados
-    genres = {}
 
-    # Conta a quantidade de empréstimos cada gênero tem/teve
-    for book in books:
-        if book.genre:
-            genre = book.get_genre_display()
-            genres[genre] = genres.get(genre, 0) + UserLoan.objects.filter(book=book).count()
+    # Converte o dicionário em uma lista de elementos
+    genres_data = list(genre_loan_count.items())
 
-    # Organiza gêneros por quantidade de empréstimos solicitados
-    genres = sorted(genres.items(), key=lambda item: item[1], reverse=True)
+    # Define as informações
+    genres_labels = [genre for genre, _ in genres_data]
+    genres_data = [count for _, count in genres_data]
 
-    genres_labels = [genre[0] for genre in genres]
-    genres_data = [genre[1] for genre in genres]
 
     # Obtém a quantidade de empréstimos expirados
     all_loans = UserLoan.objects.all()
@@ -94,11 +91,11 @@ def bookadd(request):
             if 'front_cover' in request.FILES:
                 book.front_cover = request.FILES['front_cover']
             elif 'image_url' in request.POST and request.POST['image_url']:
-                image_file = download_image(request.POST['image_url'])
+                image_file = downloadimage(request.POST['image_url'])
                 if image_file is not None:
                    book.front_cover.save('cover.jpg', image_file)
             else:
-                book.front_cover.save('default_cover_image.jpg', get_default_image())
+                book.front_cover.save('default_cover_image.jpg', getdefaultimage())
 
             # Se  o estoque for menor ou igual a zero é automaticamente definido como indisponível
             if book.stock <= 0 and book.status != "soon":
@@ -118,7 +115,7 @@ def bookadd(request):
 def booksearch(request):
    if request.method == "POST":
        isbn = request.POST['isbn']
-       book_info = get_book_info(isbn)
+       book_info = getbookinfo(isbn)
        form = BookRegistrationForm()
        return render(request, 'book-signup.html', {'book_info': book_info, 'form':form})
    
@@ -488,7 +485,7 @@ def sendemail(subject, recipient_list, email_template, context,):
     send_mail(subject, email_message, from_email, recipient_list, fail_silently=False)
 
 # Busca informações do livro usando a API do Google Books
-def get_book_info(isbn):
+def getbookinfo(isbn):
     # Define a URL base da API do Google Books
     base_url = 'https://www.googleapis.com/books/v1/volumes'
 
@@ -529,7 +526,7 @@ def get_book_info(isbn):
     return {}
 
 # Retorna um arquivo de imagem a partir de uma url
-def download_image(url):
+def downloadimage(url):
     # Url da imagem
     response = requests.get(url)
 
@@ -540,7 +537,7 @@ def download_image(url):
     return None
 
 # Obtem a capa padrão para os livros
-def get_default_image():
+def getdefaultimage():
     # Url da imagem
     default_image_path = settings.STATICFILES_DIRS[0] + '/images/default_front_cover.png'
 
