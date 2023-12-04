@@ -1242,6 +1242,12 @@ input[type="file"] {
 }
 
 .user-preview img {
+    margin: 0 auto;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background-color: #94cc74;
+    border: 2px #fff solid;
     object-fit: cover;
 }
 
