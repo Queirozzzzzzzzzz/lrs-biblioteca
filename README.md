@@ -18,6 +18,8 @@ Caso apareça o erro " ERROR: Could not build wheels for pycairo, which is requi
 
 Para definir as variáveis de ambiente
 
+    export HOST='variavel_aqui'
+
     export EMAIL_HOST_USER='variavel_aqui'
 
     export EMAIL_HOST_PASSWORD='variavel_aqui'
